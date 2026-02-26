@@ -7,243 +7,237 @@ import { useState } from 'react';
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     fullName: '',
-    organisation: '',
     email: '',
-    designation: '',
-    enquiryType: 'Sales related enquiry',
-    country: 'Singapore',
     message: ''
   });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Form submitted');
-  };
-
-  const inputStyle = {
-    width: '100%',
-    padding: '12px',
-    border: '1px solid rgba(255,255,255,0.4)',
-    borderRadius: '8px',
-    background: 'transparent',
-    color: '#fff',
-    fontSize: '0.95rem'
-  };
-
-  const labelStyle = {
-    color: '#fff',
-    fontSize: '0.9rem',
-    marginBottom: '6px',
-    display: 'block'
-  };
-
-  const linkStyle = {
-    color: '#e6e6e6',
-    textDecoration: 'none',
-    fontSize: '0.95rem',
-    opacity: 0.9
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    setTimeout(() => {
+      setSubmitStatus('success');
+      setIsSubmitting(false);
+      setFormData({ fullName: '', email: '', message: '' });
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setSubmitStatus('idle'), 5000);
+    }, 1500);
   };
 
   return (
     <>
       <Navbar />
-
-      {/* Gradient Background Section */}
-      <main
-        style={{
-          padding: '120px 20px 80px',
-          background: `
-            radial-gradient(circle at 20% 20%, rgba(255, 0, 128, 0.35), transparent 45%),
-            radial-gradient(circle at 80% 0%, rgba(140, 0, 255, 0.45), transparent 50%),
-            linear-gradient(180deg, #1c2b6b 0%, #1a1f4a 100%)
-          `,
-          minHeight: '100vh'
-        }}
-      >
-        <div style={{ maxWidth: '1100px', margin: '0 auto', color: '#fff' }}>
+      
+      <main className="min-h-screen bg-gradient-to-b from-white to-gray-50 py-16 md:py-24">
+        <div className="container-custom max-w-4xl mx-auto px-4 sm:px-6">
           
-          {/* Social Links */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '24px', marginBottom: '40px' }}>
-            {['LinkedIn','Instagram','Twitter','GitHub'].map(item => (
-              <a key={item} href="#" style={{ color:'#fff', opacity:0.85, textDecoration:'none' }}>
-                {item}
+          {/* Social Links - Improved responsive layout */}
+          <div className="flex justify-center flex-wrap gap-6 md:gap-8 mb-12">
+            {[
+              { name: 'LinkedIn', icon: 'fab fa-linkedin', href: '#' },
+              { name: 'Instagram', icon: 'fab fa-instagram', href: '#' },
+              { name: 'Twitter', icon: 'fab fa-twitter', href: '#' },
+              { name: 'GitHub', icon: 'fab fa-github', href: '#' }
+            ].map(item => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="group flex flex-col items-center gap-2 text-gray-500 hover:text-[#0066cc] transition-all duration-300"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className={`${item.icon} text-2xl md:text-3xl group-hover:scale-110 transition-transform`}></i>
+                <span className="text-xs md:text-sm font-medium">{item.name}</span>
               </a>
             ))}
           </div>
 
-          {/* Heading */}
-          <h1 style={{ fontSize: '3rem', marginBottom: '20px', fontWeight: 600 }}>
-            Contact us
-          </h1>
+          {/* Breadcrumb - Improved */}
+          <nav className="flex justify-center md:justify-start items-center gap-2 text-sm mb-8 text-gray-500">
+            <Link href="/" className="hover:text-[#0066cc] transition-colors">
+              Home
+            </Link>
+            <span className="text-gray-300">/</span>
+            <span className="text-[#0066cc] font-medium">Contact</span>
+          </nav>
 
-          <p style={{ opacity: 0.9, maxWidth: '700px', marginBottom: '60px', lineHeight: 1.6 }}>
-            We endeavour to respond to your email as soon as possible. When sending in an enquiry,
-            please fill your contact details and indicate the request purpose for our follow-up.
-          </p>
+          {/* Header Section */}
+          <div className="text-center md:text-left mb-12">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-gray-900 mb-4">
+              Contact us
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto md:mx-0">
+              We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            </p>
+          </div>
 
-          {/* FORM */}
-          <form onSubmit={handleSubmit}>
-            {/* Row 1 */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'30px', marginBottom:'30px' }}>
-              <div>
-                <label style={labelStyle}>Full name</label>
-                <input name="fullName" value={formData.fullName} onChange={handleChange} style={inputStyle}/>
+          {/* Form Section */}
+          <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-10 border border-gray-100">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Full Name Field */}
+              <div className="space-y-2">
+                <label 
+                  htmlFor="fullName" 
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Full name <span className="text-[#0066cc]">*</span>
+                </label>
+                <input
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#0066cc] focus:ring-2 focus:ring-[#0066cc]/20 transition-all outline-none text-base"
+                  placeholder="John Doe"
+                />
               </div>
-              <div>
-                <label style={labelStyle}>Email address</label>
-                <input name="email" value={formData.email} onChange={handleChange} style={inputStyle}/>
+
+              {/* Email Field */}
+              <div className="space-y-2">
+                <label 
+                  htmlFor="email" 
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Email address <span className="text-[#0066cc]">*</span>
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#0066cc] focus:ring-2 focus:ring-[#0066cc]/20 transition-all outline-none text-base"
+                  placeholder="john@example.com"
+                />
               </div>
+
+              {/* Message Field */}
+              <div className="space-y-2">
+                <label 
+                  htmlFor="message" 
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Message <span className="text-[#0066cc]">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows={6}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#0066cc] focus:ring-2 focus:ring-[#0066cc]/20 transition-all outline-none text-base resize-vertical"
+                  placeholder="Tell us about your project..."
+                />
+              </div>
+
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-green-600 text-sm flex items-center gap-2">
+                    <i className="fas fa-check-circle"></i>
+                    Thank you for your message! We'll get back to you soon.
+                  </p>
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-600 text-sm flex items-center gap-2">
+                    <i className="fas fa-exclamation-circle"></i>
+                    Something went wrong. Please try again later.
+                  </p>
+                </div>
+              )}
+
+              {/* Submit Button */}
+              <div className="flex flex-col sm:flex-row gap-4 items-center justify-center sm:justify-start pt-4">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`
+                    w-full sm:w-auto px-8 py-3 rounded-full font-medium text-white
+                    transition-all duration-300 transform hover:scale-105
+                    ${isSubmitting 
+                      ? 'bg-gray-400 cursor-not-allowed' 
+                      : 'bg-[#0066cc] hover:bg-[#004999] shadow-lg hover:shadow-xl'
+                    }
+                  `}
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <i className="fas fa-spinner fa-spin"></i>
+                      Sending...
+                    </span>
+                  ) : (
+                    'Send Message'
+                  )}
+                </button>
+                
+                <Link
+                  href="/"
+                  className="text-gray-500 hover:text-[#0066cc] transition-colors text-sm sm:text-base flex items-center gap-2"
+                >
+                  <i className="fas fa-arrow-left"></i>
+                  Back to Home
+                </Link>
+              </div>
+            </form>
+          </div>
+
+          {/* Contact Info Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-16">
+            {/* Email Card */}
+            <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-md hover:shadow-lg transition-all group">
+              <div className="w-12 h-12 bg-[#0066cc]/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <i className="fas fa-envelope text-[#0066cc] text-xl"></i>
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">Email</h3>
+              <a 
+                href="mailto:hello@purelatency.com" 
+                className="text-[#0066cc] hover:underline break-all"
+              >
+                hello@purelatency.com
+              </a>
             </div>
 
-            {/* Row 2 */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'30px', marginBottom:'30px' }}>
-              <div>
-                <label style={labelStyle}>Organisation</label>
-                <input name="organisation" value={formData.organisation} onChange={handleChange} style={inputStyle}/>
+            {/* Location Card */}
+            <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-md hover:shadow-lg transition-all group">
+              <div className="w-12 h-12 bg-[#0066cc]/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <i className="fas fa-map-marker-alt text-[#0066cc] text-xl"></i>
               </div>
-              <div>
-                <label style={labelStyle}>Designation</label>
-                <input name="designation" value={formData.designation} onChange={handleChange} style={inputStyle}/>
-              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">Location</h3>
+              <p className="text-gray-600">
+                Hyderabad, India
+              </p>
             </div>
 
-            {/* Row 3 */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'30px', marginBottom:'30px' }}>
-              <div>
-                <label style={labelStyle}>Sales related enquiry</label>
-                <select name="enquiryType" value={formData.enquiryType} onChange={handleChange} style={inputStyle}>
-                  <option>Sales related enquiry</option>
-                  <option>Technical support</option>
-                  <option>Partnership</option>
-                </select>
+            {/* Response Time Card */}
+            <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-md hover:shadow-lg transition-all group sm:col-span-2 md:col-span-1">
+              <div className="w-12 h-12 bg-[#0066cc]/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <i className="fas fa-clock text-[#0066cc] text-xl"></i>
               </div>
-              <div>
-                <label style={labelStyle}>Country</label>
-                <select name="country" value={formData.country} onChange={handleChange} style={inputStyle}>
-                  <option>Singapore</option>
-                  <option>India</option>
-                  <option>USA</option>
-                </select>
-              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">Response Time</h3>
+              <p className="text-gray-600">
+                Within 24 hours
+              </p>
             </div>
-
-            {/* Message */}
-            <div style={{ marginBottom:'40px' }}>
-              <label style={labelStyle}>Tell us more about your enquiry</label>
-              <textarea
-                rows={6}
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                style={{...inputStyle, resize:'vertical'}}
-              />
-            </div>
-
-            <button
-              style={{
-                border:'2px solid white',
-                padding:'14px 60px',
-                background:'transparent',
-                color:'#fff',
-                borderRadius:'60px 60px 0 60px',
-                cursor:'pointer'
-              }}
-            >
-              Submit
-            </button>
-          </form>
+          </div>
         </div>
       </main>
-
-      {/* ENTERPRISE FOOTER */}
-      <footer
-        style={{
-          background: '#0b0b0f',
-          color: '#ccc',
-          padding: '80px 20px 40px'
-        }}
-      >
-        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(5, 1fr)',
-              gap: '60px',
-              marginBottom: '60px'
-            }}
-          >
-            {/* Services */}
-            <div>
-              <h4 style={{ color: '#18bfff', marginBottom: '20px' }}>Services</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link href="#" style={linkStyle}>Applications</Link>
-                <Link href="#" style={linkStyle}>Cloud</Link>
-                <Link href="#" style={linkStyle}>Cyber</Link>
-                <Link href="#" style={linkStyle}>Data</Link>
-                <Link href="#" style={linkStyle}>Digital</Link>
-                <Link href="#" style={linkStyle}>Engineering</Link>
-                <Link href="#" style={linkStyle}>Infrastructure</Link>
-                <Link href="#" style={linkStyle}>Platforms</Link>
-              </div>
-            </div>
-
-            {/* Industries */}
-            <div>
-              <h4 style={{ color: '#18bfff', marginBottom: '20px' }}>Industries</h4>
-              <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
-                <Link href="#" style={linkStyle}>Enterprise</Link>
-                <Link href="#" style={linkStyle}>Gov+</Link>
-                <Link href="#" style={linkStyle}>Telco+</Link>
-              </div>
-            </div>
-
-            {/* Knowledge */}
-            <div>
-              <h4 style={{ color: '#18bfff', marginBottom: '20px' }}>Knowledge centre</h4>
-              <Link href="#" style={linkStyle}>Overview</Link>
-            </div>
-
-            {/* Partners */}
-            <div>
-              <h4 style={{ color: '#18bfff', marginBottom: '20px' }}>Partners</h4>
-              <Link href="#" style={linkStyle}>Our partner network</Link>
-            </div>
-
-            {/* About */}
-            <div>
-              <h4 style={{ color: '#18bfff', marginBottom: '20px' }}>About Us</h4>
-              <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
-                <Link href="#" style={linkStyle}>Purpose and beliefs</Link>
-                <Link href="#" style={linkStyle}>Leadership</Link>
-                <Link href="#" style={linkStyle}>Regional presence</Link>
-                <Link href="#" style={linkStyle}>Newsroom</Link>
-                <Link href="#" style={linkStyle}>Code of conduct</Link>
-                <Link href="#" style={linkStyle}>Milestones</Link>
-                <Link href="#" style={linkStyle}>Distinguished engineers</Link>
-                <Link href="#" style={linkStyle}>Sustainability</Link>
-              </div>
-            </div>
-          </div>
-
-          <div
-            style={{
-              borderTop: '1px solid #222',
-              paddingTop: '20px',
-              textAlign: 'center',
-              color: '#777'
-            }}
-          >
-            © 2026 PureLatency. All rights reserved.
-          </div>
-        </div>
-      </footer>
     </>
   );
 }

@@ -913,7 +913,7 @@ export default function GovernmentPage() {
               marginBottom: '20px',
             }}
           >
-            contact us
+            Contact us
           </h2>
 
           <p

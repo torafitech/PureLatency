@@ -324,7 +324,7 @@ export default function WebDevelopmentPage() {
           }}
         >
           <h2 style={{ fontSize: '3.5rem', marginBottom: '25px', fontWeight: 400 }}>
-            contact us
+            Contact us
           </h2>
 
           <p style={{ fontSize: '1.3rem', opacity: 0.9, marginBottom: '50px', maxWidth: '700px', margin: '0 auto 50px' }}>
@@ -345,7 +345,7 @@ export default function WebDevelopmentPage() {
               background: 'rgba(255,255,255,0.1)'
             }}
           >
-            contact us
+            Contact us
           </Link>
         </section>
 

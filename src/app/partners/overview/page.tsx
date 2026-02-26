@@ -688,7 +688,7 @@ export default function PartnersOverviewPage() {
               marginBottom: '20px',
             }}
           >
-            Ready to Join Our Ecosystem?
+            Contact us
           </h2>
 
           <p
@@ -700,7 +700,7 @@ export default function PartnersOverviewPage() {
               margin: '0 auto'
             }}
           >
-            Whether you're a technology provider, consulting firm, or innovator — let's explore how we can grow together.
+             If you're ready to make extraordinary happen, get in touch today.
           </p>
 
           <Link
@@ -717,7 +717,7 @@ export default function PartnersOverviewPage() {
               transition: 'all 0.3s ease',
             }}
           >
-            Start the Conversation
+            Contact us
           </Link>
         </section>
 

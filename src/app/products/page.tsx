@@ -637,7 +637,7 @@ export default function ProductsPage() {
               marginBottom: '20px',
             }}
           >
-            contact us
+            Contact us
           </h2>
 
           <p
@@ -666,7 +666,7 @@ export default function ProductsPage() {
               transition: 'all 0.3s ease',
             }}
           >
-            contact us
+            Contact us
           </Link>
         </section>
 

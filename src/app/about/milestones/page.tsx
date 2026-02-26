@@ -754,7 +754,7 @@ export default function MilestonesPage() {
               marginBottom: '20px',
             }}
           >
-            contact us
+            Contact us
           </h2>
 
           <p
@@ -783,7 +783,7 @@ export default function MilestonesPage() {
               transition: 'all 0.3s ease',
             }}
           >
-            contact us
+            Contact us
           </Link>
         </section>
 
