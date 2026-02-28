@@ -3,86 +3,86 @@
 import Navbar from '@/components/layout/Navbar';
 import Link from 'next/link';
 
-export default function WebDevelopmentPage() {
+export default function QuantumComputerPage() {
   const technologies = [
     {
-      category: 'Frontend',
-      icon: '🎨',
-      items: ['React', 'Next.js', 'TypeScript', 'Vue.js', 'Angular', 'Svelte', 'Tailwind CSS', 'Framer Motion']
+      category: 'Hardware',
+      icon: '🔬',
+      items: ['Superconducting', 'Trapped Ion', 'Photonic', 'Neutral Atoms', 'Spin Qubits', 'Topological', 'Annealing', 'Simulators']
     },
     {
-      category: 'Backend',
-      icon: '⚙️',
-      items: ['Node.js', 'Python', 'Go', 'Ruby on Rails', 'PHP', 'Java', '.NET Core', 'GraphQL']
+      category: 'Software',
+      icon: '💻',
+      items: ['Qiskit', 'Cirq', 'PennyLane', 'Braket SDK', 'Forest (pyQuil)', 'Strawberry Fields', 'Q#', 'Ocean SDK']
     },
     {
-      category: 'Database',
-      icon: '🗄️',
-      items: ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis', 'Elasticsearch', 'DynamoDB', 'Firebase', 'Supabase']
+      category: 'Algorithms',
+      icon: '🧮',
+      items: ['Shor’s', 'Grover’s', 'VQE', 'QAOA', 'HHL', 'Quantum ML', 'Simulation', 'Optimization']
     },
     {
-      category: 'DevOps',
-      icon: '🚀',
-      items: ['Docker', 'Kubernetes', 'AWS', 'Vercel', 'Netlify', 'GitHub Actions', 'Terraform', 'CI/CD']
+      category: 'Infrastructure',
+      icon: '☁️',
+      items: ['Cloud Access', 'Hybrid Classical', 'QPU Integration', 'Real-time Control', 'Error Mitigation', 'Calibration', 'Cooling', 'Control Electronics']
     }
   ];
 
   const features = [
     {
-      title: 'Performance Optimized',
-      desc: 'Lightning-fast load times and smooth interactions',
+      title: 'Exponential Speed',
+      desc: 'Solve complex problems in minutes, not millennia',
       icon: '⚡',
-      metric: '< 1s load time'
+      metric: '100Mx faster'
     },
     {
-      title: 'Mobile Responsive',
-      desc: 'Flawless experience on every device',
-      icon: '📱',
-      metric: '100% responsive'
+      title: 'Quantum Volume',
+      desc: 'High-fidelity qubits with low error rates',
+      icon: '📊',
+      metric: 'QV 512+'
     },
     {
-      title: 'SEO Friendly',
-      desc: 'Built with search engines in mind',
-      icon: '🔍',
-      metric: 'Top rankings'
+      title: 'Entanglement',
+      desc: 'Harness quantum correlation for power',
+      icon: '🔗',
+      metric: 'Full connectivity'
     },
     {
-      title: 'Accessible',
-      desc: 'WCAG 2.1 compliant for all users',
-      icon: '♿',
-      metric: 'AAA standard'
+      title: 'Coherence Time',
+      desc: 'Extended stability for deep circuits',
+      icon: '⏱️',
+      metric: '>100 µs'
     }
   ];
 
   const stats = [
-    { number: '50+', label: 'Websites Delivered' },
-    { number: '100%', label: 'Client Satisfaction' },
-    { number: '24/7', label: 'Support Available' },
-    { number: '5+', label: 'Years Experience' }
+    { number: '20+', label: 'Quantum Processors' },
+    { number: '100%', label: 'Secure & Private' },
+    { number: '24/7', label: 'Quantum Expert Support' },
+    { number: '5+', label: 'Years in Quantum' }
   ];
 
   const process = [
-    { step: '01', title: 'Discovery', desc: 'Understanding your vision and requirements' },
-    { step: '02', title: 'Design', desc: 'Creating intuitive and beautiful interfaces' },
-    { step: '03', title: 'Development', desc: 'Building with modern tech stack' },
-    { step: '04', title: 'Launch', desc: 'Deploying with zero downtime' }
+    { step: '01', title: 'Discovery', desc: 'Identify quantum-advantage problems' },
+    { step: '02', title: 'Algorithm Design', desc: 'Build and test quantum circuits' },
+    { step: '03', title: 'Execution', desc: 'Run on real quantum hardware' },
+    { step: '04', title: 'Analysis', desc: 'Interpret results and refine' }
   ];
 
   const expertise = [
-    'E-commerce Platforms',
-    'SaaS Applications',
-    'Corporate Websites',
-    'Web Portals',
-    'API Development',
-    'Progressive Web Apps',
-    'Real-time Applications',
-    'Content Management Systems'
+    'Drug Discovery',
+    'Financial Modeling',
+    'Logistics Optimization',
+    'Cryptography',
+    'Material Science',
+    'Quantum Machine Learning',
+    'Climate Simulation',
+    'Supply Chain'
   ];
 
   // Define services for footer
   const footerServices = [
     { title: 'Applications', href: '/services/applications' },
-    { title: 'Web Development', href: '/services/web-development' },
+    { title: 'Quantum Computer', href: '/services/quantum-computer' },
     { title: 'Data and AI', href: '/services/data-ai' },
     { title: 'Cloud and DevOps', href: '/services/cloud-devops' },
     { title: 'Infrastructure', href: '/services/infrastructure' }
@@ -118,7 +118,7 @@ export default function WebDevelopmentPage() {
         <div style={{ color: '#86868b', marginBottom: '2rem', fontSize: '0.9rem' }}>
           <Link href="/" style={{ color: '#86868b', textDecoration: 'none' }}>Home</Link> / 
           <Link href="/services" style={{ color: '#86868b', textDecoration: 'none' }}> Services</Link> / 
-          <span style={{ color: '#1d1d1f' }}> Web Development</span>
+          <span style={{ color: '#1d1d1f' }}> Quantum Computer</span>
         </div>
 
         {/* Hero Section */}
@@ -130,26 +130,27 @@ export default function WebDevelopmentPage() {
           alignItems: 'center'
         }}>
           <div>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌐</div>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚛️</div>
             <h1 style={{ fontSize: '3rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '1rem' }}>
-              Web Development
+              Quantum Computer
             </h1>
             <p style={{ color: '#86868b', fontSize: '1.2rem', lineHeight: '1.6' }}>
-              We build modern, performant, and scalable web applications using 
-              cutting-edge technologies. From simple websites to complex enterprise platforms, 
-              we deliver digital experiences that engage and convert.
+              Unlock unprecedented processing power with our quantum computing solutions. 
+              From algorithm development to hardware access, we help you solve the world's 
+              most complex problems — drug discovery, financial modeling, and beyond.
             </p>
           </div>
           <div style={{
-            background: 'linear-gradient(135deg, #f5f5f7 0%, #e6e6e9 100%)',
+            background: 'linear-gradient(135deg, #1a0b2e 0%, #2d1a4a 100%)',
             borderRadius: '24px',
             padding: '2rem',
             textAlign: 'center',
-            border: '1px solid #e6e6e9'
+            border: '1px solid #6b4f9f',
+            color: '#fff'
           }}>
-            <span style={{ fontSize: '5rem', display: 'block', marginBottom: '1rem' }}>⚡</span>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 300, marginBottom: '0.5rem' }}>Next-Gen Web</h3>
-            <p style={{ color: '#86868b' }}>Built with the latest technologies</p>
+            <span style={{ fontSize: '5rem', display: 'block', marginBottom: '1rem' }}>🌀</span>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 300, marginBottom: '0.5rem' }}>Qubit Advantage</h3>
+            <p style={{ color: '#b8a9d4' }}>Superposition · Entanglement · Interference</p>
           </div>
         </div>
 
@@ -165,7 +166,7 @@ export default function WebDevelopmentPage() {
         }}>
           {stats.map(stat => (
             <div key={stat.label} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2rem', fontWeight: 300, color: '#0066cc' }}>{stat.number}</div>
+              <div style={{ fontSize: '2rem', fontWeight: 300, color: '#5f2b9c' }}>{stat.number}</div>
               <div style={{ color: '#86868b', fontSize: '0.85rem' }}>{stat.label}</div>
             </div>
           ))}
@@ -174,7 +175,7 @@ export default function WebDevelopmentPage() {
         {/* Features Grid */}
         <div style={{ marginBottom: '4rem' }}>
           <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
-            Why Choose Our Web Development
+            Why Quantum Computing
           </h2>
           <div style={{ 
             display: 'grid', 
@@ -191,7 +192,7 @@ export default function WebDevelopmentPage() {
                 <span style={{ fontSize: '2rem', display: 'block', marginBottom: '1rem' }}>{feature.icon}</span>
                 <h3 style={{ fontSize: '1.1rem', marginBottom: '0.3rem', color: '#1d1d1f' }}>{feature.title}</h3>
                 <p style={{ color: '#86868b', fontSize: '0.9rem', marginBottom: '0.5rem' }}>{feature.desc}</p>
-                <span style={{ fontSize: '0.8rem', color: '#0066cc', fontWeight: 500 }}>{feature.metric}</span>
+                <span style={{ fontSize: '0.8rem', color: '#5f2b9c', fontWeight: 500 }}>{feature.metric}</span>
               </div>
             ))}
           </div>
@@ -200,7 +201,7 @@ export default function WebDevelopmentPage() {
         {/* Technology Stack */}
         <div style={{ marginBottom: '4rem' }}>
           <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
-            Our Technology Stack
+            Quantum Technology Stack
           </h2>
           <div style={{ 
             display: 'grid',
@@ -237,7 +238,7 @@ export default function WebDevelopmentPage() {
         {/* Expertise Areas */}
         <div style={{ marginBottom: '4rem' }}>
           <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
-            What We Build
+            Key Applications
           </h2>
           <div style={{ 
             display: 'grid',
@@ -252,7 +253,7 @@ export default function WebDevelopmentPage() {
                 textAlign: 'center',
                 background: '#fafafa'
               }}>
-                <span style={{ color: '#0066cc', fontSize: '1rem', marginRight: '0.3rem' }}>✓</span>
+                <span style={{ color: '#5f2b9c', fontSize: '1rem', marginRight: '0.3rem' }}>⚛️</span>
                 <span style={{ color: '#1d1d1f', fontSize: '0.95rem' }}>{item}</span>
               </div>
             ))}
@@ -262,7 +263,7 @@ export default function WebDevelopmentPage() {
         {/* Process */}
         <div style={{ marginBottom: '4rem' }}>
           <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
-            Our Development Process
+            Our Quantum Process
           </h2>
           <div style={{ 
             display: 'grid',
@@ -274,7 +275,7 @@ export default function WebDevelopmentPage() {
                 <div style={{ 
                   fontSize: '2rem', 
                   fontWeight: 300, 
-                  color: '#0066cc',
+                  color: '#5f2b9c',
                   marginBottom: '1rem'
                 }}>
                   {item.step}
@@ -312,7 +313,7 @@ export default function WebDevelopmentPage() {
             </h2>
 
             <p style={{ fontSize: '1.25rem', marginBottom: '2.2rem', opacity: 0.95 }}>
-              Be always in front line, get in touch today.
+               Be always in front line, get in touch today.
             </p>
 
             <Link

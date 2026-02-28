@@ -9,7 +9,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'PureLatency',
+  title: 'Pure Latency',
   description: 'Leading digital and technology services company in Hyderabad, India.',
   icons: {
     icon: '/favicon.png',

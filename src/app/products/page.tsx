@@ -141,10 +141,10 @@ export default function ProductsPage() {
         <section style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '3rem' }}>
           <div style={{ display: 'flex', gap: '24px' }}>
             {[
-              { name: 'LinkedIn', href: '#', color: '#0A66C2' },
-              { name: 'Instagram', href: '#', color: '#E4405F' },
-              { name: 'Twitter', href: '#', color: '#1DA1F2' },
-              { name: 'GitHub', href: '#', color: '#111' }
+             
+              { name: 'Instagram', href: 'https://instagram.com/purelatency', color: '#E4405F' },
+              { name: 'Twitter', href: 'https://twitter.com/purelatency', color: '#1DA1F2' },
+              { name: 'Facebook', href: 'https://facebook.com/purelatency', color: '#111' }
             ].map(social => (
               <a
                 key={social.name}
@@ -616,44 +616,51 @@ export default function ProductsPage() {
         </section>
 
         {/* Contact Section */}
-        <section
-          style={{
-            textAlign: 'center',
-            padding: '140px 20px',
-            marginTop: '40px',
-            borderRadius: '24px',
-            background: `
+       <section
+  style={{
+    marginTop: '4rem',
+    display: 'flex',
+    justifyContent: 'center'
+  }}
+>
+  <div
+    style={{
+      width: '100%',
+      maxWidth: '1200px',
+      padding: '4rem 2rem',   // reduced height
+      borderRadius: '28px',
+      textAlign: 'center',
+       background: `
               radial-gradient(circle at 20% 30%, #7a3cff 0%, transparent 40%),
               radial-gradient(circle at 80% 10%, #ff2e88 0%, transparent 40%),
               linear-gradient(180deg, #0b1c48 0%, #2a1e5c 100%)
             `,
             color: '#ffffff',
-          }}
-        >
-          <h2
-            style={{
-              fontSize: '3.5rem',
-              fontWeight: 400,
-              marginBottom: '20px',
-            }}
-          >
-            Contact us
-          </h2>
+    }}
+  >
+    <h2
+      style={{
+        fontSize: '3rem',
+        fontWeight: 400,
+        marginBottom: '1rem'
+      }}
+    >
+      Contact Us
+    </h2>
 
-          <p
-            style={{
-              fontSize: '1.3rem',
-              opacity: 0.9,
-              marginBottom: '40px',
-              maxWidth: '700px',
-              margin: '0 auto'
-            }}
-          >
-             If you're ready to make extraordinary happen, get in touch today.
-          </p>
+    <p
+      style={{
+        fontSize: '1.25rem',
+        marginBottom: '2.2rem',
+        opacity: 0.95
+      }}
+    >
+      Be always in front line, get in touch today.
+    </p>
 
-          <Link
-            href="/contact"
+    <Link
+     
+                 href="/contact"
             style={{
               display: 'inline-block',
               padding: '18px 60px',
@@ -664,11 +671,20 @@ export default function ProductsPage() {
               fontSize: '1.1rem',
               textDecoration: 'none',
               transition: 'all 0.3s ease',
-            }}
-          >
-            Contact us
-          </Link>
-        </section>
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = '#ffffff';
+        e.currentTarget.style.color = '#111';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'transparent';
+        e.currentTarget.style.color = '#ffffff';
+      }}
+    >
+      Contact Us
+    </Link>
+  </div>
+</section>
 
         {/* Back to Home */}
         <div style={{ 
@@ -736,7 +752,7 @@ export default function ProductsPage() {
             <div>
               <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Connect</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
-                {['LinkedIn', 'Twitter', 'GitHub', 'Instagram'].map(item => (
+                {['Facebook', 'Twitter','Instagram'].map(item => (
                   <li key={item} style={{ marginBottom: '0.5rem' }}>
                     <a href="#" style={{ color: '#aaa', textDecoration: 'none' }}>{item}</a>
                   </li>

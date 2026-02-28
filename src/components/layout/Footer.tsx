@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           <div className="lg:col-span-2">
             <Link href="/" className="text-2xl font-bold text-white mb-4 block">
-              PureLatency
+              Pure Latency
             </Link>
             <p className="text-gray-400 mb-4">
               Leading digital and technology services company in Singapore and Southeast Asia.

@@ -143,25 +143,28 @@ export default function AboutPage() {
 
       <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '6rem 2rem 4rem' }}>
         {/* Social Media */}
-        <section style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '3rem' }}>
+       <section style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '3rem' }}>
           <div style={{ display: 'flex', gap: '24px' }}>
             {[
-              { name: 'LinkedIn', href: '#', color: '#0A66C2' },
-              { name: 'Instagram', href: '#', color: '#E4405F' },
-              { name: 'Twitter', href: '#', color: '#1DA1F2' },
-              { name: 'GitHub', href: '#', color: '#111' }
-            ].map(social => (
+              
+              { name: 'Instagram', href: 'https://instagram.com/purelatency', color: '#E4405F' },
+              { name: 'Twitter', href: 'https://twitter.com/purelatency', color: '#1DA1F2' },
+              { name: 'Facebook', href: 'https://facebook.com/purelatency', color: '#1877F2' }   
+            ].map((social) => (
               <a
                 key={social.name}
                 href={social.href}
-                style={{ color: social.color, textDecoration: 'none', fontWeight: 500 }}
+                style={{
+                  color: social.color,
+                  textDecoration: 'none',
+                  fontWeight: 500
+                }}
               >
                 {social.name}
               </a>
             ))}
           </div>
         </section>
-
         {/* Breadcrumb */}
         <div style={{ color: '#86868b', marginBottom: '2rem', fontSize: '0.9rem' }}>
           <Link href="/" style={{ color: '#86868b', textDecoration: 'none' }}>Home</Link> / 
@@ -319,7 +322,7 @@ export default function AboutPage() {
           borderBottom: '1px solid #e6e6e9',
           paddingBottom: '1rem'
         }}>
-          {['story', 'values', 'team', 'contact'].map(tab => (
+          {['story', 'values', 'team'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -655,110 +658,53 @@ export default function AboutPage() {
           </>
         )}
 
-        {activeTab === 'contact' && (
-          <section style={{ marginBottom: '6rem' }}>
-            <h2 style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: 300, 
-              color: '#1d1d1f', 
-              marginBottom: '1rem',
-              textAlign: 'center'
-            }}>
-              Get in Touch
-            </h2>
-            <p style={{ 
-              color: '#86868b', 
-              fontSize: '1.2rem', 
-              textAlign: 'center',
-              maxWidth: '800px',
-              margin: '0 auto 3rem'
-            }}>
-              Have a project in mind? We'd love to hear from you.
-            </p>
-            <div style={{
-              maxWidth: '600px',
-              margin: '0 auto',
-              padding: '2rem',
-              background: '#fafafa',
-              borderRadius: '20px',
-              border: '1px solid #e6e6e9'
-            }}>
-              <div style={{ marginBottom: '1.5rem' }}>
-                <div style={{ fontSize: '0.9rem', fontWeight: 500, color: '#1d1d1f', marginBottom: '0.3rem' }}>Email</div>
-                <a href="mailto:hello@purelatency.com" style={{ color: '#0066cc', fontSize: '1.2rem', textDecoration: 'none' }}>
-                  hello@purelatency.com
-                </a>
-              </div>
-              <div style={{ marginBottom: '1.5rem' }}>
-                <div style={{ fontSize: '0.9rem', fontWeight: 500, color: '#1d1d1f', marginBottom: '0.3rem' }}>Phone</div>
-                <p style={{ color: '#86868b', fontSize: '1.1rem' }}>+1 (415) 555-0123</p>
-              </div>
-              <div style={{ marginBottom: '1.5rem' }}>
-                <div style={{ fontSize: '0.9rem', fontWeight: 500, color: '#1d1d1f', marginBottom: '0.3rem' }}>HQ</div>
-                <p style={{ color: '#86868b', fontSize: '1rem' }}>548 Market St, San Francisco, CA 94104</p>
-              </div>
-              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2rem' }}>
-                {['LinkedIn', 'Twitter', 'GitHub'].map(social => (
-                  <a
-                    key={social}
-                    href="#"
-                    style={{
-                      padding: '0.5rem 1rem',
-                      background: 'white',
-                      borderRadius: '20px',
-                      color: '#86868b',
-                      textDecoration: 'none',
-                      border: '1px solid #e6e6e9',
-                      fontSize: '0.9rem'
-                    }}
-                  >
-                    {social}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
+        {/* Contact Section - EXACT same background as image */}
         {/* Contact Section */}
-        <section
-          style={{
-            textAlign: 'center',
-            padding: '120px 20px',
-            marginTop: '40px',
-            borderRadius: '24px',
-            background: `
+<section
+  style={{
+    marginTop: '4rem',
+    display: 'flex',
+    justifyContent: 'center'
+  }}
+>
+  <div
+    style={{
+      width: '100%',
+      maxWidth: '1200px',
+      padding: '4rem 2rem',   // reduced height
+      borderRadius: '28px',
+      textAlign: 'center',
+       background: `
               radial-gradient(circle at 20% 30%, #7a3cff 0%, transparent 40%),
               radial-gradient(circle at 80% 10%, #ff2e88 0%, transparent 40%),
               linear-gradient(180deg, #0b1c48 0%, #2a1e5c 100%)
             `,
             color: '#ffffff',
-          }}
-        >
-          <h2
-            style={{
-              fontSize: '3.5rem',
-              fontWeight: 400,
-              marginBottom: '20px',
-            }}
-          >
-            contact us
-          </h2>
+    }}
+  >
+    <h2
+      style={{
+        fontSize: '3rem',
+        fontWeight: 400,
+        marginBottom: '1rem'
+      }}
+    >
+      Contact Us
+    </h2>
 
-          <p
-            style={{
-              fontSize: '1.3rem',
-              opacity: 0.9,
-              marginBottom: '40px',
-              maxWidth: '700px',
-              margin: '0 auto'
-            }}
-          >
-            If you're ready to make extraordinary happen, get in touch today.
-          </p>
+    <p
+      style={{
+        fontSize: '1.25rem',
+        marginBottom: '2.2rem',
+        opacity: 0.95
+      }}
+    >
+      Be always in front line, get in touch today.
+    </p>
 
-          <Link
-            href="/contact"
+    <Link
+     
+                 href="/contact"
             style={{
               display: 'inline-block',
               padding: '18px 60px',
@@ -769,11 +715,20 @@ export default function AboutPage() {
               fontSize: '1.1rem',
               textDecoration: 'none',
               transition: 'all 0.3s ease',
-            }}
-          >
-            contact us
-          </Link>
-        </section>
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = '#ffffff';
+        e.currentTarget.style.color = '#111';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'transparent';
+        e.currentTarget.style.color = '#ffffff';
+      }}
+    >
+      Contact Us
+    </Link>
+  </div>
+</section>
 
         {/* Back to Home */}
         <div style={{ 

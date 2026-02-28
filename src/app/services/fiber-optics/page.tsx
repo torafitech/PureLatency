@@ -3,87 +3,87 @@
 import Navbar from '@/components/layout/Navbar';
 import Link from 'next/link';
 
-export default function WebDevelopmentPage() {
+export default function FiberOpticsPage() {
   const technologies = [
     {
-      category: 'Frontend',
-      icon: '🎨',
-      items: ['React', 'Next.js', 'TypeScript', 'Vue.js', 'Angular', 'Svelte', 'Tailwind CSS', 'Framer Motion']
+      category: 'Cable Types',
+      icon: '🔌',
+      items: ['Single-mode (OS2)', 'Multi-mode (OM3/OM4)', 'Armored', 'Indoor/Outdoor', 'Tight-buffered', 'Loose-tube', 'Ribbon', 'Bend-insensitive']
     },
     {
-      category: 'Backend',
-      icon: '⚙️',
-      items: ['Node.js', 'Python', 'Go', 'Ruby on Rails', 'PHP', 'Java', '.NET Core', 'GraphQL']
+      category: 'Connectors',
+      icon: '🔗',
+      items: ['LC', 'SC', 'ST', 'FC', 'MPO/MTP', 'MT-RJ', 'E2000', 'SMA']
     },
     {
-      category: 'Database',
-      icon: '🗄️',
-      items: ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis', 'Elasticsearch', 'DynamoDB', 'Firebase', 'Supabase']
+      category: 'Testing',
+      icon: '📊',
+      items: ['OTDR', 'Optical Power Meter', 'Visual Fault Locator', 'Insertion Loss', 'Return Loss', 'Endoscopy', 'Chromatic Dispersion', 'PMD']
     },
     {
-      category: 'DevOps',
-      icon: '🚀',
-      items: ['Docker', 'Kubernetes', 'AWS', 'Vercel', 'Netlify', 'GitHub Actions', 'Terraform', 'CI/CD']
+      category: 'Infrastructure',
+      icon: '🏗️',
+      items: ['Fiber Patch Panels', 'Fiber Enclosures', 'Splice Trays', 'Fiber Distribution Hubs', 'WDM/CWDM/DWDM', 'Media Converters', 'SFP Modules', 'Fiber Pigtails']
     }
   ];
 
   const features = [
     {
-      title: 'Performance Optimized',
-      desc: 'Lightning-fast load times and smooth interactions',
+      title: 'Light Speed',
+      desc: 'Data transmission at the speed of light',
       icon: '⚡',
-      metric: '< 1s load time'
+      metric: 'Up to 100 Gbps'
     },
     {
-      title: 'Mobile Responsive',
-      desc: 'Flawless experience on every device',
-      icon: '📱',
-      metric: '100% responsive'
+      title: 'EMI Immunity',
+      desc: 'Completely immune to electromagnetic interference',
+      icon: '🛡️',
+      metric: '100% secure'
     },
     {
-      title: 'SEO Friendly',
-      desc: 'Built with search engines in mind',
-      icon: '🔍',
-      metric: 'Top rankings'
+      title: 'Long Distance',
+      desc: 'Signals travel miles without degradation',
+      icon: '📏',
+      metric: '>40 km'
     },
     {
-      title: 'Accessible',
-      desc: 'WCAG 2.1 compliant for all users',
-      icon: '♿',
-      metric: 'AAA standard'
+      title: 'Future-proof',
+      desc: 'Bandwidth capacity for tomorrow\'s needs',
+      icon: '🔮',
+      metric: 'Scalable'
     }
   ];
 
   const stats = [
-    { number: '50+', label: 'Websites Delivered' },
-    { number: '100%', label: 'Client Satisfaction' },
-    { number: '24/7', label: 'Support Available' },
-    { number: '5+', label: 'Years Experience' }
+    { number: '10k+', label: 'Fiber Miles Deployed' },
+    { number: '99.99%', label: 'Uptime Guarantee' },
+    { number: '24/7', label: 'Network Monitoring' },
+    { number: '15+', label: 'Years Experience' }
   ];
 
   const process = [
-    { step: '01', title: 'Discovery', desc: 'Understanding your vision and requirements' },
-    { step: '02', title: 'Design', desc: 'Creating intuitive and beautiful interfaces' },
-    { step: '03', title: 'Development', desc: 'Building with modern tech stack' },
-    { step: '04', title: 'Launch', desc: 'Deploying with zero downtime' }
+    { step: '01', title: 'Site Survey', desc: 'Assess infrastructure and design pathway' },
+    { step: '02', title: 'Installation', desc: 'Precision cabling and fusion splicing' },
+    { step: '03', title: 'Testing', desc: 'OTDR certification and power validation' },
+    { step: '04', title: 'Maintenance', desc: 'Ongoing support and troubleshooting' }
   ];
 
   const expertise = [
-    'E-commerce Platforms',
-    'SaaS Applications',
-    'Corporate Websites',
-    'Web Portals',
-    'API Development',
-    'Progressive Web Apps',
-    'Real-time Applications',
-    'Content Management Systems'
+    'Data Centers',
+    'Telecommunications',
+    'Enterprise Networks',
+    'FTTH (Fiber to the Home)',
+    'Campus Backbones',
+    'Undersea Cables',
+    'Industrial Networks',
+    'Smart Cities'
   ];
 
   // Define services for footer
   const footerServices = [
     { title: 'Applications', href: '/services/applications' },
-    { title: 'Web Development', href: '/services/web-development' },
-    { title: 'Data and AI', href: '/services/data-ai' },
+    { title: 'Quantum Computer', href: '/services/quantum-computer' },
+    { title: 'Fiber Optics', href: '/services/fiber-optics' },
     { title: 'Cloud and DevOps', href: '/services/cloud-devops' },
     { title: 'Infrastructure', href: '/services/infrastructure' }
   ];
@@ -118,7 +118,7 @@ export default function WebDevelopmentPage() {
         <div style={{ color: '#86868b', marginBottom: '2rem', fontSize: '0.9rem' }}>
           <Link href="/" style={{ color: '#86868b', textDecoration: 'none' }}>Home</Link> / 
           <Link href="/services" style={{ color: '#86868b', textDecoration: 'none' }}> Services</Link> / 
-          <span style={{ color: '#1d1d1f' }}> Web Development</span>
+          <span style={{ color: '#1d1d1f' }}> Fiber Optics</span>
         </div>
 
         {/* Hero Section */}
@@ -130,26 +130,27 @@ export default function WebDevelopmentPage() {
           alignItems: 'center'
         }}>
           <div>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌐</div>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔆</div>
             <h1 style={{ fontSize: '3rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '1rem' }}>
-              Web Development
+              Fiber Optics
             </h1>
             <p style={{ color: '#86868b', fontSize: '1.2rem', lineHeight: '1.6' }}>
-              We build modern, performant, and scalable web applications using 
-              cutting-edge technologies. From simple websites to complex enterprise platforms, 
-              we deliver digital experiences that engage and convert.
+              Experience the speed of light. We provide end-to-end fiber optic solutions 
+              including installation, testing, and maintenance for telecommunications, 
+              data centers, and enterprise networks. The backbone of modern connectivity.
             </p>
           </div>
           <div style={{
-            background: 'linear-gradient(135deg, #f5f5f7 0%, #e6e6e9 100%)',
+            background: 'linear-gradient(135deg, #f0f4fa 0%, #d9e2ef 100%)',
             borderRadius: '24px',
             padding: '2rem',
             textAlign: 'center',
-            border: '1px solid #e6e6e9'
+            border: '1px solid #b0c4de',
+            color: '#1a2b4a'
           }}>
-            <span style={{ fontSize: '5rem', display: 'block', marginBottom: '1rem' }}>⚡</span>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 300, marginBottom: '0.5rem' }}>Next-Gen Web</h3>
-            <p style={{ color: '#86868b' }}>Built with the latest technologies</p>
+            <span style={{ fontSize: '5rem', display: 'block', marginBottom: '1rem' }}>✨</span>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 300, marginBottom: '0.5rem' }}>Speed of Light</h3>
+            <p style={{ color: '#3a5670' }}>Immune to interference · Secure · Long-haul</p>
           </div>
         </div>
 
@@ -174,7 +175,7 @@ export default function WebDevelopmentPage() {
         {/* Features Grid */}
         <div style={{ marginBottom: '4rem' }}>
           <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
-            Why Choose Our Web Development
+            Why Choose Fiber Optics
           </h2>
           <div style={{ 
             display: 'grid', 
@@ -200,7 +201,7 @@ export default function WebDevelopmentPage() {
         {/* Technology Stack */}
         <div style={{ marginBottom: '4rem' }}>
           <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
-            Our Technology Stack
+            Fiber Optics Technology
           </h2>
           <div style={{ 
             display: 'grid',
@@ -237,7 +238,7 @@ export default function WebDevelopmentPage() {
         {/* Expertise Areas */}
         <div style={{ marginBottom: '4rem' }}>
           <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
-            What We Build
+            Our Fiber Solutions
           </h2>
           <div style={{ 
             display: 'grid',
@@ -262,7 +263,7 @@ export default function WebDevelopmentPage() {
         {/* Process */}
         <div style={{ marginBottom: '4rem' }}>
           <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
-            Our Development Process
+            Our Fiber Deployment Process
           </h2>
           <div style={{ 
             display: 'grid',
@@ -312,7 +313,7 @@ export default function WebDevelopmentPage() {
             </h2>
 
             <p style={{ fontSize: '1.25rem', marginBottom: '2.2rem', opacity: 0.95 }}>
-              Be always in front line, get in touch today.
+             Be always in front line, get in touch today.
             </p>
 
             <Link
