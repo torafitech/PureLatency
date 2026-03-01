@@ -2,8 +2,21 @@
 
 import Navbar from '@/components/layout/Navbar';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function FiberOpticsPage() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile on client side
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const technologies = [
     {
       category: 'Cable Types',
@@ -79,62 +92,190 @@ export default function FiberOpticsPage() {
     'Smart Cities'
   ];
 
+  // Social media icons with image URLs
+  const socialMedia = [
+    { 
+      name: 'Instagram', 
+      href: 'https://instagram.com/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg',
+      color: '#E4405F'
+    },
+    { 
+      name: 'Facebook', 
+      href: 'https://facebook.com/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg',
+      color: '#1877F2'
+    },
+    { 
+      name: 'LinkedIn', 
+      href: 'https://linkedin.com/company/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg',
+      color: '#0A66C2'
+    }
+  ];
+
   // Define services for footer
   const footerServices = [
     { title: 'Applications', href: '/services/applications' },
-    { title: 'Quantum Computer', href: '/services/quantum-computer' },
     { title: 'Fiber Optics', href: '/services/fiber-optics' },
     { title: 'Cloud and DevOps', href: '/services/cloud-devops' },
-    { title: 'Infrastructure', href: '/services/infrastructure' }
+    { title: 'Data and AI', href: '/services/data-ai' }
   ];
+
+  // Responsive styles
+  const containerStyle = {
+    maxWidth: '1280px',
+    margin: '0 auto',
+    padding: isMobile ? '5rem 1rem 2rem' : '6rem 2rem 4rem',
+  };
+
+  const heroGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+    gap: isMobile ? '2rem' : '4rem',
+    marginBottom: isMobile ? '3rem' : '4rem',
+    alignItems: 'center',
+  };
+
+  const statsGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+    gap: isMobile ? '1rem' : '2rem',
+    padding: isMobile ? '1.5rem' : '2rem',
+    backgroundColor: '#f5f5f7',
+    borderRadius: '16px',
+    marginBottom: isMobile ? '3rem' : '4rem',
+  };
+
+  const featuresGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+    gap: isMobile ? '1rem' : '1.5rem',
+    marginBottom: isMobile ? '3rem' : '4rem',
+  };
+
+  const technologiesGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)',
+    gap: isMobile ? '1.5rem' : '2rem',
+    marginBottom: isMobile ? '3rem' : '4rem',
+  };
+
+  const expertiseGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+    gap: '1rem',
+    marginBottom: isMobile ? '3rem' : '4rem',
+  };
+
+  const processGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+    gap: isMobile ? '1rem' : '2rem',
+    marginBottom: isMobile ? '3rem' : '4rem',
+  };
+
+  const footerGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr 1fr',
+    gap: isMobile ? '2rem' : '4rem',
+    marginBottom: '4rem',
+    textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+  };
 
   return (
     <>
       <Navbar />
 
-      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '6rem 2rem 4rem' }}>
-        {/* Social Media */}
-        <section style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '3rem' }}>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            {[
-              { name: 'Instagram', href: 'https://instagram.com/purelatency', color: '#E4405F' },
-              { name: 'Twitter', href: 'https://twitter.com/purelatency', color: '#1DA1F2' },
-              { name: 'Facebook', href: 'https://facebook.com/purelatency', color: '#1877F2' }
-            ].map(social => (
+      <main style={containerStyle}>
+        {/* Social Media - With Icons */}
+        <section style={{ 
+          display: 'flex', 
+          justifyContent: isMobile ? 'center' : 'flex-end', 
+          marginBottom: '2rem',
+          flexWrap: 'wrap'
+        }}>
+          <div style={{ 
+            display: 'flex', 
+            gap: isMobile ? '20px' : '24px',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            {socialMedia.map((social) => (
               <a
                 key={social.name}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: social.color, textDecoration: 'none', fontWeight: 500 }}
+                style={{ 
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  transition: 'transform 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
               >
-                {social.name}
+                <img 
+                  src={social.icon} 
+                  alt={social.name}
+                  style={{ 
+                    width: isMobile ? '24px' : '28px', 
+                    height: isMobile ? '24px' : '28px',
+                  }}
+                />
+                {!isMobile && (
+                  <span style={{ 
+                    color: social.color, 
+                    fontWeight: 500,
+                    fontSize: '0.9rem'
+                  }}>
+                    {social.name}
+                  </span>
+                )}
               </a>
             ))}
           </div>
         </section>
 
         {/* Breadcrumb */}
-        <div style={{ color: '#86868b', marginBottom: '2rem', fontSize: '0.9rem' }}>
+        <div style={{ 
+          color: '#86868b', 
+          marginBottom: '2rem', 
+          fontSize: isMobile ? '0.85rem' : '0.9rem',
+          textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+        }}>
           <Link href="/" style={{ color: '#86868b', textDecoration: 'none' }}>Home</Link> / 
           <Link href="/services" style={{ color: '#86868b', textDecoration: 'none' }}> Services</Link> / 
           <span style={{ color: '#1d1d1f' }}> Fiber Optics</span>
         </div>
 
         {/* Hero Section */}
-        <div style={{ 
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '4rem',
-          marginBottom: '4rem',
-          alignItems: 'center'
-        }}>
+        <div style={heroGridStyle}>
           <div>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔆</div>
-            <h1 style={{ fontSize: '3rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '1rem' }}>
+            <div style={{ fontSize: isMobile ? '2.5rem' : '3rem', marginBottom: '1rem' }}>🔆</div>
+            <h1 style={{ 
+              fontSize: isMobile ? '2.5rem' : '3rem', 
+              fontWeight: 300, 
+              color: '#1d1d1f', 
+              marginBottom: '1rem',
+              textAlign: isMobile ? 'center' : 'left'
+            }}>
               Fiber Optics
             </h1>
-            <p style={{ color: '#86868b', fontSize: '1.2rem', lineHeight: '1.6' }}>
+            <p style={{ 
+              color: '#86868b', 
+              fontSize: isMobile ? '1rem' : '1.2rem', 
+              lineHeight: '1.6',
+              textAlign: isMobile ? 'center' : 'left',
+              padding: isMobile ? '0 0.5rem' : '0'
+            }}>
               Experience the speed of light. We provide end-to-end fiber optic solutions 
               including installation, testing, and maintenance for telecommunications, 
               data centers, and enterprise networks. The backbone of modern connectivity.
@@ -143,92 +284,95 @@ export default function FiberOpticsPage() {
           <div style={{
             background: 'linear-gradient(135deg, #f0f4fa 0%, #d9e2ef 100%)',
             borderRadius: '24px',
-            padding: '2rem',
+            padding: isMobile ? '1.5rem' : '2rem',
             textAlign: 'center',
             border: '1px solid #b0c4de',
-            color: '#1a2b4a'
+            color: '#1a2b4a',
+            marginTop: isMobile ? '1rem' : '0'
           }}>
-            <span style={{ fontSize: '5rem', display: 'block', marginBottom: '1rem' }}>✨</span>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 300, marginBottom: '0.5rem' }}>Speed of Light</h3>
-            <p style={{ color: '#3a5670' }}>Immune to interference · Secure · Long-haul</p>
+            <span style={{ fontSize: isMobile ? '4rem' : '5rem', display: 'block', marginBottom: '1rem' }}>✨</span>
+            <h3 style={{ fontSize: isMobile ? '1.3rem' : '1.5rem', fontWeight: 300, marginBottom: '0.5rem' }}>Speed of Light</h3>
+            <p style={{ color: '#3a5670', fontSize: isMobile ? '0.9rem' : '1rem' }}>Immune to interference · Secure · Long-haul</p>
           </div>
         </div>
 
         {/* Stats Section */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '2rem',
-          padding: '2rem',
-          backgroundColor: '#f5f5f7',
-          borderRadius: '16px',
-          marginBottom: '4rem'
-        }}>
+        <div style={statsGridStyle}>
           {stats.map(stat => (
             <div key={stat.label} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2rem', fontWeight: 300, color: '#0066cc' }}>{stat.number}</div>
-              <div style={{ color: '#86868b', fontSize: '0.85rem' }}>{stat.label}</div>
+              <div style={{ fontSize: isMobile ? '1.5rem' : '2rem', fontWeight: 300, color: '#0066cc' }}>{stat.number}</div>
+              <div style={{ color: '#86868b', fontSize: isMobile ? '0.75rem' : '0.85rem' }}>{stat.label}</div>
             </div>
           ))}
         </div>
 
         {/* Features Grid */}
-        <div style={{ marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
+        <div style={{ marginBottom: isMobile ? '3rem' : '4rem' }}>
+          <h2 style={{ 
+            fontSize: isMobile ? '1.8rem' : '2rem', 
+            fontWeight: 300, 
+            color: '#1d1d1f', 
+            marginBottom: '1.5rem',
+            textAlign: 'center'
+          }}>
             Why Choose Fiber Optics
           </h2>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '1.5rem'
-          }}>
+          <div style={featuresGridStyle}>
             {features.map(feature => (
               <div key={feature.title} style={{ 
-                padding: '1.5rem',
+                padding: isMobile ? '1rem' : '1.5rem',
                 border: '1px solid #e6e6e9',
                 borderRadius: '12px',
-                textAlign: 'center'
+                textAlign: 'center',
+                height: '100%'
               }}>
-                <span style={{ fontSize: '2rem', display: 'block', marginBottom: '1rem' }}>{feature.icon}</span>
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.3rem', color: '#1d1d1f' }}>{feature.title}</h3>
-                <p style={{ color: '#86868b', fontSize: '0.9rem', marginBottom: '0.5rem' }}>{feature.desc}</p>
-                <span style={{ fontSize: '0.8rem', color: '#0066cc', fontWeight: 500 }}>{feature.metric}</span>
+                <span style={{ fontSize: isMobile ? '1.8rem' : '2rem', display: 'block', marginBottom: '0.8rem' }}>{feature.icon}</span>
+                <h3 style={{ fontSize: isMobile ? '1rem' : '1.1rem', marginBottom: '0.3rem', color: '#1d1d1f' }}>{feature.title}</h3>
+                <p style={{ color: '#86868b', fontSize: isMobile ? '0.8rem' : '0.9rem', marginBottom: '0.5rem' }}>{feature.desc}</p>
+                <span style={{ fontSize: isMobile ? '0.7rem' : '0.8rem', color: '#0066cc', fontWeight: 500 }}>{feature.metric}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Technology Stack */}
-        <div style={{ marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
+        <div style={{ marginBottom: isMobile ? '3rem' : '4rem' }}>
+          <h2 style={{ 
+            fontSize: isMobile ? '1.8rem' : '2rem', 
+            fontWeight: 300, 
+            color: '#1d1d1f', 
+            marginBottom: '1.5rem',
+            textAlign: 'center'
+          }}>
             Fiber Optics Technology
           </h2>
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '2rem'
-          }}>
+          <div style={technologiesGridStyle}>
             {technologies.map(category => (
               <div key={category.category} style={{
-                padding: '1.5rem',
+                padding: isMobile ? '1.2rem' : '1.5rem',
                 background: '#fafafa',
                 borderRadius: '12px',
                 border: '1px solid #e6e6e9'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-                  <span style={{ fontSize: '1.5rem' }}>{category.icon}</span>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: 500 }}>{category.category}</h3>
+                  <span style={{ fontSize: isMobile ? '1.3rem' : '1.5rem' }}>{category.icon}</span>
+                  <h3 style={{ fontSize: isMobile ? '1rem' : '1.1rem', fontWeight: 500 }}>{category.category}</h3>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  {category.items.map(item => (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                  {category.items.slice(0, isMobile ? 4 : 8).map(item => (
                     <span key={item} style={{ 
                       color: '#86868b',
-                      fontSize: '0.9rem',
-                      padding: '0.2rem 0'
+                      fontSize: isMobile ? '0.8rem' : '0.9rem',
+                      padding: '0.1rem 0'
                     }}>
                       {item}
                     </span>
                   ))}
+                  {isMobile && category.items.length > 4 && (
+                    <span style={{ color: '#0066cc', fontSize: '0.8rem', marginTop: '0.3rem' }}>
+                      +{category.items.length - 4} more
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
@@ -236,52 +380,59 @@ export default function FiberOpticsPage() {
         </div>
 
         {/* Expertise Areas */}
-        <div style={{ marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
+        <div style={{ marginBottom: isMobile ? '3rem' : '4rem' }}>
+          <h2 style={{ 
+            fontSize: isMobile ? '1.8rem' : '2rem', 
+            fontWeight: 300, 
+            color: '#1d1d1f', 
+            marginBottom: '1.5rem',
+            textAlign: 'center'
+          }}>
             Our Fiber Solutions
           </h2>
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '1rem'
-          }}>
+          <div style={expertiseGridStyle}>
             {expertise.map(item => (
               <div key={item} style={{
-                padding: '1rem',
+                padding: '0.8rem',
                 border: '1px solid #e6e6e9',
                 borderRadius: '8px',
                 textAlign: 'center',
                 background: '#fafafa'
               }}>
-                <span style={{ color: '#0066cc', fontSize: '1rem', marginRight: '0.3rem' }}>✓</span>
-                <span style={{ color: '#1d1d1f', fontSize: '0.95rem' }}>{item}</span>
+                <span style={{ color: '#0066cc', fontSize: '0.9rem', marginRight: '0.3rem' }}>✓</span>
+                <span style={{ color: '#1d1d1f', fontSize: isMobile ? '0.8rem' : '0.95rem' }}>{item}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Process */}
-        <div style={{ marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 300, color: '#1d1d1f', marginBottom: '2rem' }}>
+        <div style={{ marginBottom: isMobile ? '3rem' : '4rem' }}>
+          <h2 style={{ 
+            fontSize: isMobile ? '1.8rem' : '2rem', 
+            fontWeight: 300, 
+            color: '#1d1d1f', 
+            marginBottom: '1.5rem',
+            textAlign: 'center'
+          }}>
             Our Fiber Deployment Process
           </h2>
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '2rem'
-          }}>
+          <div style={processGridStyle}>
             {process.map(item => (
-              <div key={item.step} style={{ textAlign: 'center' }}>
+              <div key={item.step} style={{ 
+                textAlign: 'center',
+                padding: isMobile ? '1rem' : '0'
+              }}>
                 <div style={{ 
-                  fontSize: '2rem', 
+                  fontSize: isMobile ? '1.5rem' : '2rem', 
                   fontWeight: 300, 
                   color: '#0066cc',
-                  marginBottom: '1rem'
+                  marginBottom: '0.5rem'
                 }}>
                   {item.step}
                 </div>
-                <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>{item.title}</h3>
-                <p style={{ color: '#86868b', fontSize: '0.9rem' }}>{item.desc}</p>
+                <h3 style={{ fontSize: isMobile ? '1rem' : '1.2rem', marginBottom: '0.3rem' }}>{item.title}</h3>
+                <p style={{ color: '#86868b', fontSize: isMobile ? '0.8rem' : '0.9rem' }}>{item.desc}</p>
               </div>
             ))}
           </div>
@@ -289,15 +440,16 @@ export default function FiberOpticsPage() {
 
         {/* Bottom Gradient Contact Section */}
         <div style={{
-          marginTop: '4rem',
+          marginTop: isMobile ? '2rem' : '4rem',
           display: 'flex',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          padding: isMobile ? '0 1rem' : '0'
         }}>
           <div
             style={{
               width: '100%',
               maxWidth: '1200px',
-              padding: '4rem 2rem',
+              padding: isMobile ? '3rem 1.5rem' : '4rem 2rem',
               borderRadius: '28px',
               textAlign: 'center',
               background: `
@@ -308,27 +460,29 @@ export default function FiberOpticsPage() {
               color: '#ffffff',
             }}
           >
-            <h2 style={{ fontSize: '3rem', fontWeight: 400, marginBottom: '1rem' }}>
+            <h2 style={{ fontSize: isMobile ? '2rem' : '3rem', fontWeight: 400, marginBottom: '1rem' }}>
               Contact Us
             </h2>
 
-            <p style={{ fontSize: '1.25rem', marginBottom: '2.2rem', opacity: 0.95 }}>
-             Be always in front line, get in touch today.
+            <p style={{ fontSize: isMobile ? '1rem' : '1.25rem', marginBottom: '2rem', opacity: 0.95 }}>
+              Be always in front line, get in touch today.
             </p>
 
             <Link
               href="/contact"
               style={{
                 display: 'inline-block',
-                padding: '18px 60px',
+                padding: isMobile ? '14px 40px' : '18px 60px',
                 borderRadius: '70px 70px 0 70px',
                 border: '3px solid #ffffff',
                 color: '#ffffff',
                 fontWeight: 600,
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '1rem' : '1.1rem',
                 textDecoration: 'none',
                 transition: 'all 0.3s ease',
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
+                width: isMobile ? '100%' : 'auto',
+                maxWidth: isMobile ? '300px' : 'none',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#ffffff';
@@ -356,7 +510,7 @@ export default function FiberOpticsPage() {
             style={{ 
               color: '#86868b', 
               textDecoration: 'none', 
-              fontSize: '0.9rem',
+              fontSize: isMobile ? '0.85rem' : '0.9rem',
               display: 'inline-block'
             }}
           >
@@ -370,47 +524,72 @@ export default function FiberOpticsPage() {
         style={{
           background: '#111',
           color: '#aaa',
-          padding: '4rem 2rem',
+          padding: isMobile ? '3rem 1rem' : '4rem 2rem',
           marginTop: '4rem'
         }}
       >
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr 1fr',
-            gap: '4rem',
-            marginBottom: '4rem'
-          }}>
+          <div style={footerGridStyle}>
             <div>
-              <div style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '1rem' }}>PureLatency</div>
-              <p style={{ color: '#666', lineHeight: '1.7' }}>
+              <div style={{ fontSize: isMobile ? '1.3rem' : '1.5rem', color: '#fff', marginBottom: '1rem' }}>PureLatency</div>
+              <p style={{ color: '#666', lineHeight: '1.7', fontSize: isMobile ? '0.9rem' : '1rem' }}>
                 Engineering exceptional digital products that drive real business growth.
               </p>
             </div>
             <div>
-              <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Services</h4>
+              <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: isMobile ? '1.1rem' : '1.2rem' }}>Services</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {footerServices.map(service => (
                   <li key={service.title} style={{ marginBottom: '0.5rem' }}>
-                    <Link href={service.href} style={{ color: '#aaa', textDecoration: 'none' }}>{service.title}</Link>
+                    <Link href={service.href} style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>
+                      {service.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Company</h4>
+              <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: isMobile ? '1.1rem' : '1.2rem' }}>Company</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
-                <li style={{ marginBottom: '0.5rem' }}><Link href="/about" style={{ color: '#aaa', textDecoration: 'none' }}>About</Link></li>
-                <li style={{ marginBottom: '0.5rem' }}><Link href="/careers" style={{ color: '#aaa', textDecoration: 'none' }}>Careers</Link></li>
-                <li style={{ marginBottom: '0.5rem' }}><Link href="/blog" style={{ color: '#aaa', textDecoration: 'none' }}>Blog</Link></li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/about" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>About</Link>
+                </li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/careers" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>Careers</Link>
+                </li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/blog" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>Blog</Link>
+                </li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/contact" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>Contact</Link>
+                </li>
               </ul>
             </div>
             <div>
-              <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Connect</h4>
+              <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: isMobile ? '1.1rem' : '1.2rem' }}>Connect</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
-                {['LinkedIn', 'Twitter', 'GitHub', 'Instagram'].map(item => (
-                  <li key={item} style={{ marginBottom: '0.5rem' }}>
-                    <a href="#" style={{ color: '#aaa', textDecoration: 'none' }}>{item}</a>
+                {socialMedia.map(social => (
+                  <li key={social.name} style={{ marginBottom: '0.5rem' }}>
+                    <a 
+                      href={social.href} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ 
+                        color: '#aaa', 
+                        textDecoration: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        justifyContent: isMobile ? 'center' : 'flex-start',
+                      }}
+                    >
+                      <img 
+                        src={social.icon} 
+                        alt={social.name}
+                        style={{ width: '20px', height: '20px' }}
+                      />
+                      <span style={{ fontSize: isMobile ? '0.9rem' : '1rem' }}>{social.name}</span>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -420,7 +599,8 @@ export default function FiberOpticsPage() {
             borderTop: '1px solid #333', 
             paddingTop: '2rem',
             textAlign: 'center',
-            color: '#666'
+            color: '#666',
+            fontSize: isMobile ? '0.8rem' : '0.9rem'
           }}>
             © 2026 PureLatency. All rights reserved. Crafted with precision in San Francisco.
           </div>

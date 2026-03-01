@@ -19,8 +19,6 @@ export default function ProductsPage() {
   }, []);
 
   // ============ DATA ARRAYS ============
-  // These hold all the content for the page
-  
   const products = [
     {
       id: 'starling-post',
@@ -141,18 +139,35 @@ export default function ProductsPage() {
     }
   ];
 
+  // Social media icons with image URLs - Twitter removed
+  const socialMedia = [
+    { 
+      name: 'Instagram', 
+      href: 'https://instagram.com/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg',
+      color: '#E4405F'
+    },
+    { 
+      name: 'Facebook', 
+      href: 'https://facebook.com/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg',
+      color: '#1877F2'
+    },
+    { 
+      name: 'LinkedIn', 
+      href: 'https://linkedin.com/company/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg',
+      color: '#0A66C2'
+    }
+  ];
+
   // ============ STYLE OBJECTS ============
-  // IMPORTANT: In TypeScript, CSS properties need specific types
-  // We use 'as const' or type assertions to fix TypeScript errors
-  
-  // Container layout
   const containerStyle = {
     maxWidth: '1280px',
     margin: '0 auto',
     padding: isMobile ? '5rem 1rem 2rem' : '6rem 2rem 4rem',
   };
 
-  // Hero section grid
   const heroGridStyle = {
     display: 'grid',
     gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
@@ -161,9 +176,6 @@ export default function ProductsPage() {
     alignItems: 'center',
   };
 
-  // Hero title - FIXED: textAlign needs type assertion
-  // The error was here: TypeScript doesn't know if 'center' or 'left' is valid
-  // We add 'as "center" | "left"' to tell TypeScript these are the only valid values
   const heroTitleStyle = {
     fontSize: isMobile ? '2.5rem' : '4rem',
     fontWeight: 300,
@@ -173,7 +185,6 @@ export default function ProductsPage() {
     textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
   };
 
-  // Hero text - FIXED: textAlign needs type assertion
   const heroTextStyle = {
     color: '#86868b',
     fontSize: isMobile ? '1rem' : '1.2rem',
@@ -183,7 +194,6 @@ export default function ProductsPage() {
     padding: isMobile ? '0 1rem' : '0',
   };
 
-  // Button group - FIXED: flexDirection and justifyContent need type assertions
   const buttonGroupStyle = {
     display: 'flex',
     gap: '1rem',
@@ -191,7 +201,6 @@ export default function ProductsPage() {
     justifyContent: (isMobile ? 'center' : 'flex-start') as 'center' | 'flex-start',
   };
 
-  // Individual button style - FIXED: textAlign uses 'as const' for literal type
   const buttonStyle = (isPrimary: boolean) => ({
     background: isPrimary ? '#0066cc' : 'transparent',
     color: isPrimary ? 'white' : '#1d1d1f',
@@ -199,12 +208,11 @@ export default function ProductsPage() {
     borderRadius: '40px',
     textDecoration: 'none',
     fontWeight: 500,
-    textAlign: 'center' as const, // 'as const' makes this exactly "center" not just string
+    textAlign: 'center' as const,
     border: isPrimary ? 'none' : '1px solid #e6e6e9',
     width: isMobile ? '100%' : 'auto',
   });
 
-  // Stats grid
   const statsGridStyle = {
     display: 'grid',
     gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
@@ -216,7 +224,6 @@ export default function ProductsPage() {
     color: 'white',
   };
 
-  // Products grid
   const productsGridStyle = {
     display: 'grid',
     gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
@@ -224,7 +231,6 @@ export default function ProductsPage() {
     marginBottom: isMobile ? '3rem' : '6rem',
   };
 
-  // Features grid
   const featuresGridStyle = {
     display: 'grid',
     gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)',
@@ -232,16 +238,14 @@ export default function ProductsPage() {
     marginBottom: isMobile ? '3rem' : '6rem',
   };
 
-  // Roadmap grid - FIXED: position needs type assertion
   const roadmapGridStyle = {
     display: 'grid',
     gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)',
     gap: '2rem',
     marginBottom: isMobile ? '3rem' : '6rem',
-    position: 'relative' as const, // 'as const' makes this exactly "relative"
+    position: 'relative' as const,
   };
 
-  // Testimonials grid
   const testimonialsGridStyle = {
     display: 'grid',
     gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
@@ -249,7 +253,6 @@ export default function ProductsPage() {
     marginBottom: isMobile ? '3rem' : '6rem',
   };
 
-  // Footer grid - FIXED: textAlign needs type assertion
   const footerGridStyle = {
     display: 'grid',
     gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr 1fr',
@@ -263,7 +266,7 @@ export default function ProductsPage() {
       <Navbar />
 
       <main style={containerStyle}>
-        {/* ============ SOCIAL MEDIA SECTION ============ */}
+        {/* ============ SOCIAL MEDIA SECTION WITH ICONS ============ */}
         <section style={{ 
           display: 'flex', 
           justifyContent: isMobile ? 'center' : 'flex-end', 
@@ -272,26 +275,48 @@ export default function ProductsPage() {
         }}>
           <div style={{ 
             display: 'flex', 
-            gap: isMobile ? '16px' : '24px',
+            gap: isMobile ? '20px' : '30px',
             flexWrap: 'wrap',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            alignItems: 'center'
           }}>
-            {[
-              { name: 'Instagram', href: 'https://instagram.com/purelatency', color: '#E4405F' },
-              { name: 'Twitter', href: 'https://twitter.com/purelatency', color: '#1DA1F2' },
-              { name: 'Facebook', href: 'https://facebook.com/purelatency', color: '#111' }
-            ].map(social => (
+            {socialMedia.map(social => (
               <a
                 key={social.name}
                 href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{ 
-                  color: social.color, 
-                  textDecoration: 'none', 
-                  fontWeight: 500,
-                  fontSize: isMobile ? '0.85rem' : '0.9rem'
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  transition: 'transform 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
                 }}
               >
-                {social.name}
+                <img 
+                  src={social.icon} 
+                  alt={social.name}
+                  style={{ 
+                    width: isMobile ? '24px' : '28px', 
+                    height: isMobile ? '24px' : '28px',
+                  }}
+                />
+                {!isMobile && (
+                  <span style={{ 
+                    color: social.color, 
+                    fontWeight: 500,
+                    fontSize: '0.95rem'
+                  }}>
+                    {social.name}
+                  </span>
+                )}
               </a>
             ))}
           </div>
@@ -302,7 +327,7 @@ export default function ProductsPage() {
           color: '#86868b', 
           marginBottom: '2rem', 
           fontSize: isMobile ? '0.85rem' : '0.9rem',
-          textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left', // FIXED: type assertion
+          textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
         }}>
           <Link href="/" style={{ color: '#86868b', textDecoration: 'none' }}>Home</Link> / 
           <span style={{ color: '#1d1d1f' }}> Products</span>
@@ -312,7 +337,7 @@ export default function ProductsPage() {
         <div style={heroGridStyle}>
           {/* Left Column - Text */}
           <div>
-            {/* Badge - FIXED: textAlign type assertion */}
+            {/* Badge */}
             <div style={{ 
               display: 'inline-block',
               background: 'rgba(0,102,204,0.1)',
@@ -327,7 +352,7 @@ export default function ProductsPage() {
               ✨ Products Built for Impact
             </div>
             
-            {/* Title - FIXED: Removed redundant ternary */}
+            {/* Title */}
             <h1 style={heroTitleStyle}>
               Software that{!isMobile && <br />}
               <span style={{ 
@@ -336,7 +361,7 @@ export default function ProductsPage() {
                 WebkitTextFillColor: 'transparent',
                 display: 'inline-block'
               }}>
-                solves real problems  {/* FIXED: Removed isMobile ? 'x' : 'x' */}
+                solves real problems
               </span>
             </h1>
             
@@ -396,7 +421,7 @@ export default function ProductsPage() {
                 textAlign: 'center'
               }}>By the Numbers</h3>
               
-              {/* Stats list - FIXED: justifyContent was isMobile ? 'center' : 'center' which is redundant */}
+              {/* Stats list */}
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {[
                   '3 products and counting',
@@ -409,7 +434,7 @@ export default function ProductsPage() {
                     alignItems: 'center',
                     gap: '0.5rem',
                     color: '#86868b',
-                    justifyContent: 'center', // FIXED: Simplified from isMobile ? 'center' : 'center'
+                    justifyContent: 'center',
                     fontSize: isMobile ? '0.95rem' : '1rem',
                   }}>
                     <span style={{ color: '#0066cc' }}>✓</span>
@@ -948,13 +973,43 @@ export default function ProductsPage() {
               </ul>
             </div>
             
-            {/* Social Links */}
+            {/* Social Links - Updated with icons */}
             <div>
               <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: isMobile ? '1.1rem' : '1.2rem' }}>Connect</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
-                {['Facebook', 'Twitter', 'Instagram'].map(item => (
-                  <li key={item} style={{ marginBottom: '0.5rem' }}>
-                    <a href="#" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>{item}</a>
+                {socialMedia.map(social => (
+                  <li key={social.name} style={{ marginBottom: '0.8rem' }}>
+                    <a 
+                      href={social.href} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ 
+                        color: '#aaa', 
+                        textDecoration: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.8rem',
+                        justifyContent: isMobile ? 'center' : 'flex-start',
+                        transition: 'color 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = social.color;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = '#aaa';
+                      }}
+                    >
+                      <img 
+                        src={social.icon} 
+                        alt={social.name}
+                        style={{ 
+                          width: '22px', 
+                          height: '22px',
+                          filter: 'brightness(0.8)',
+                        }}
+                      />
+                      <span style={{ fontSize: isMobile ? '0.95rem' : '1rem' }}>{social.name}</span>
+                    </a>
                   </li>
                 ))}
               </ul>

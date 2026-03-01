@@ -17,10 +17,10 @@ const WhatsAppWidget = () => {
   const handleSend = () => {
     if (!message.trim()) return;
     // Replace with your WhatsApp number (without +)
-    const phoneNumber = '919381234567'; // Example: India number
+    const phoneNumber = '91 9676191370'; // Example: India number
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
-    setMessage('');
+    setMessage('')
     setIsOpen(false);
   };
 

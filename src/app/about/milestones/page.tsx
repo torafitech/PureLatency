@@ -2,10 +2,21 @@
 
 import Link from 'next/link';
 import Navbar from '@/components/layout/Navbar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function MilestonesPage() {
   const [activeTab, setActiveTab] = useState('achieved');
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile on client side
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const stats = [
     { value: '12', label: 'Major Milestones', icon: '🏆' },
@@ -227,64 +238,205 @@ export default function MilestonesPage() {
     }
   ];
 
+  // Social media icons with image URLs
+  const socialMedia = [
+    { 
+      name: 'Instagram', 
+      href: 'https://instagram.com/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg',
+      color: '#E4405F'
+    },
+    { 
+      name: 'Facebook', 
+      href: 'https://facebook.com/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg',
+      color: '#1877F2'
+    },
+    { 
+      name: 'LinkedIn', 
+      href: 'https://linkedin.com/company/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg',
+      color: '#0A66C2'
+    }
+  ];
+
+  // Responsive styles
+  const containerStyle = {
+    maxWidth: '1280px',
+    margin: '0 auto',
+    padding: isMobile ? '5rem 1rem 2rem' : '6rem 2rem 4rem',
+  };
+
+  const heroGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+    gap: isMobile ? '2rem' : '4rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+    alignItems: 'center',
+  };
+
+  const heroTitleStyle = {
+    fontSize: isMobile ? '2.5rem' : '4rem',
+    fontWeight: 300,
+    color: '#1d1d1f',
+    marginBottom: '1.5rem',
+    lineHeight: '1.2',
+    textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+  };
+
+  const statsGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+    gap: isMobile ? '1.5rem' : '2rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+    padding: isMobile ? '2rem' : '3rem',
+    background: 'linear-gradient(135deg, #1d1d1f 0%, #2d2d2f 100%)',
+    borderRadius: '20px',
+    color: 'white',
+  };
+
+  const achievedGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+    gap: '2rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+  };
+
+  const upcomingGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)',
+    gap: isMobile ? '1.5rem' : '2rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+  };
+
+  const storiesGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+    gap: '2rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+  };
+
+  const timelineStyle = {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: isMobile ? '1rem' : '1.5rem',
+  };
+
+  const timelineItemStyle = {
+    display: 'flex',
+    flexDirection: isMobile ? 'column' as const : 'row' as const,
+    alignItems: isMobile ? 'flex-start' as const : 'center' as const,
+    gap: isMobile ? '0.5rem' : '2rem',
+  };
+
+  const footerGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr 1fr',
+    gap: isMobile ? '2rem' : '4rem',
+    marginBottom: '4rem',
+    textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+  };
+
+  const tabsContainerStyle = {
+    display: 'flex',
+    gap: isMobile ? '0.5rem' : '2rem',
+    justifyContent: 'center',
+    marginBottom: '3rem',
+    borderBottom: '1px solid #e6e6e9',
+    paddingBottom: '1rem',
+    flexWrap: 'wrap' as const,
+  };
+
   return (
     <>
       <Navbar />
 
-      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '6rem 2rem 4rem' }}>
-        {/* Social Media */}
-        <section style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '3rem' }}>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            {[
-              { name: 'Instagram', href: 'https://instagram.com/purelatency', color: '#E4405F' },
-              { name: 'Twitter', href: 'https://twitter.com/purelatency', color: '#1DA1F2' },
-              { name: 'Facebook', href: 'https://facebook.com/purelatency', color: '#0A66C2' }
-            ].map(social => (
+      <main style={containerStyle}>
+        {/* Social Media - With Icons */}
+        <section style={{ 
+          display: 'flex', 
+          justifyContent: isMobile ? 'center' : 'flex-end', 
+          marginBottom: '2rem',
+          flexWrap: 'wrap'
+        }}>
+          <div style={{ 
+            display: 'flex', 
+            gap: isMobile ? '20px' : '24px',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            {socialMedia.map((social) => (
               <a
                 key={social.name}
                 href={social.href}
-                style={{ color: social.color, textDecoration: 'none', fontWeight: 500 }}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ 
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  transition: 'transform 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
               >
-                {social.name}
+                <img 
+                  src={social.icon} 
+                  alt={social.name}
+                  style={{ 
+                    width: isMobile ? '24px' : '28px', 
+                    height: isMobile ? '24px' : '28px',
+                  }}
+                />
+                {!isMobile && (
+                  <span style={{ 
+                    color: social.color, 
+                    fontWeight: 500,
+                    fontSize: '0.9rem'
+                  }}>
+                    {social.name}
+                  </span>
+                )}
               </a>
             ))}
           </div>
         </section>
 
         {/* Breadcrumb */}
-        <div style={{ color: '#86868b', marginBottom: '2rem', fontSize: '0.9rem' }}>
+        <div style={{ 
+          color: '#86868b', 
+          marginBottom: '2rem', 
+          fontSize: isMobile ? '0.85rem' : '0.9rem',
+          textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+        }}>
           <Link href="/" style={{ color: '#86868b', textDecoration: 'none' }}>Home</Link> / 
           <Link href="/about" style={{ color: '#86868b', textDecoration: 'none' }}> About</Link> / 
           <span style={{ color: '#1d1d1f' }}> Milestones</span>
         </div>
 
         {/* Hero Section */}
-        <div style={{ 
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '4rem',
-          marginBottom: '6rem',
-          alignItems: 'center'
-        }}>
+        <div style={heroGridStyle}>
           <div>
             <div style={{ 
               display: 'inline-block',
               background: 'rgba(0,102,204,0.1)',
               color: '#0066cc',
-              padding: '0.5rem 1.5rem',
+              padding: isMobile ? '0.4rem 1.2rem' : '0.5rem 1.5rem',
               borderRadius: '30px',
-              fontSize: '0.9rem',
-              marginBottom: '1.5rem'
+              fontSize: isMobile ? '0.85rem' : '0.9rem',
+              marginBottom: '1.5rem',
+              textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+              width: isMobile ? '100%' : 'auto',
             }}>
               📅 The Journey So Far
             </div>
-            <h1 style={{ 
-              fontSize: '4rem', 
-              fontWeight: 300, 
-              color: '#1d1d1f', 
-              marginBottom: '1.5rem',
-              lineHeight: '1.2'
-            }}>
+            <h1 style={heroTitleStyle}>
               Every milestone<br />
               <span style={{ 
                 background: 'linear-gradient(135deg, #0066cc 0%, #7C3AED 100%)',
@@ -294,21 +446,34 @@ export default function MilestonesPage() {
                 has a story behind it
               </span>
             </h1>
-            <p style={{ color: '#86868b', fontSize: '1.2rem', lineHeight: '1.7', marginBottom: '2rem' }}>
+            <p style={{ 
+              color: '#86868b', 
+              fontSize: isMobile ? '1rem' : '1.2rem', 
+              lineHeight: '1.7', 
+              marginBottom: '2rem',
+              textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+            }}>
               We believe in celebrating the journey, not just the destination. Every line of code, 
               every client, every late-night breakthrough — they all matter. Here are the moments 
               that shaped us, the ones we're proud of, and the ones still to come.
             </p>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ 
+              display: 'flex', 
+              gap: '1rem',
+              flexDirection: isMobile ? 'column' : 'row',
+              justifyContent: isMobile ? 'center' : 'flex-start',
+            }}>
               <Link
                 href="#achieved"
                 style={{
                   background: '#0066cc',
                   color: 'white',
-                  padding: '1rem 2rem',
+                  padding: isMobile ? '0.875rem 1.5rem' : '1rem 2rem',
                   borderRadius: '40px',
                   textDecoration: 'none',
-                  fontWeight: 500
+                  fontWeight: 500,
+                  textAlign: 'center' as const,
+                  width: isMobile ? '100%' : 'auto',
                 }}
               >
                 See Our Journey
@@ -318,10 +483,12 @@ export default function MilestonesPage() {
                 style={{
                   background: 'transparent',
                   color: '#1d1d1f',
-                  padding: '1rem 2rem',
+                  padding: isMobile ? '0.875rem 1.5rem' : '1rem 2rem',
                   borderRadius: '40px',
                   textDecoration: 'none',
-                  border: '1px solid #e6e6e9'
+                  border: '1px solid #e6e6e9',
+                  textAlign: 'center' as const,
+                  width: isMobile ? '100%' : 'auto',
                 }}
               >
                 What's Next ↓
@@ -331,16 +498,17 @@ export default function MilestonesPage() {
           <div style={{
             background: 'linear-gradient(135deg, #f5f5f7 0%, #e6e6e9 100%)',
             borderRadius: '30px',
-            padding: '3rem',
+            padding: isMobile ? '2rem' : '3rem',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            marginTop: isMobile ? '1rem' : '0',
           }}>
             <div style={{
               position: 'absolute',
               top: '-50px',
               right: '-50px',
-              width: '200px',
-              height: '200px',
+              width: isMobile ? '150px' : '200px',
+              height: isMobile ? '150px' : '200px',
               background: 'rgba(0,102,204,0.1)',
               borderRadius: '50%'
             }} />
@@ -348,14 +516,19 @@ export default function MilestonesPage() {
               position: 'absolute',
               bottom: '-50px',
               left: '-50px',
-              width: '200px',
-              height: '200px',
+              width: isMobile ? '150px' : '200px',
+              height: isMobile ? '150px' : '200px',
               background: 'rgba(124,58,237,0.1)',
               borderRadius: '50%'
             }} />
             <div style={{ position: 'relative', zIndex: 2 }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>🎯</div>
-              <h3 style={{ fontSize: '1.8rem', fontWeight: 400, marginBottom: '1rem' }}>By the Numbers</h3>
+              <div style={{ fontSize: isMobile ? '2.5rem' : '3rem', marginBottom: '1.5rem', textAlign: 'center' }}>🎯</div>
+              <h3 style={{ 
+                fontSize: isMobile ? '1.5rem' : '1.8rem', 
+                fontWeight: 400, 
+                marginBottom: '1rem',
+                textAlign: 'center'
+              }}>By the Numbers</h3>
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {[
                   '12 major milestones achieved',
@@ -367,7 +540,9 @@ export default function MilestonesPage() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5rem',
-                    color: '#86868b'
+                    color: '#86868b',
+                    justifyContent: 'center',
+                    fontSize: isMobile ? '0.95rem' : '1rem',
                   }}>
                     <span style={{ color: '#0066cc' }}>✓</span>
                     {item}
@@ -379,36 +554,28 @@ export default function MilestonesPage() {
         </div>
 
         {/* Stats Banner */}
-        <section style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '2rem',
-          marginBottom: '6rem',
-          padding: '3rem',
-          background: 'linear-gradient(135deg, #1d1d1f 0%, #2d2d2f 100%)',
-          borderRadius: '20px',
-          color: 'white'
-        }}>
+        <section style={statsGridStyle}>
           {stats.map(stat => (
             <div key={stat.label} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
-              <div style={{ fontSize: '2.5rem', fontWeight: 300, color: '#0066cc', marginBottom: '0.3rem' }}>
+              <div style={{ fontSize: isMobile ? '1.5rem' : '2rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
+              <div style={{ 
+                fontSize: isMobile ? '1.8rem' : '2.5rem', 
+                fontWeight: 300, 
+                color: '#0066cc', 
+                marginBottom: '0.3rem' 
+              }}>
                 {stat.value}
               </div>
-              <div style={{ color: '#aaa', fontSize: '0.9rem' }}>{stat.label}</div>
+              <div style={{ 
+                color: '#aaa', 
+                fontSize: isMobile ? '0.75rem' : '0.9rem' 
+              }}>{stat.label}</div>
             </div>
           ))}
         </section>
 
         {/* Navigation Tabs */}
-        <div style={{
-          display: 'flex',
-          gap: '2rem',
-          justifyContent: 'center',
-          marginBottom: '3rem',
-          borderBottom: '1px solid #e6e6e9',
-          paddingBottom: '1rem'
-        }}>
+        <div style={tabsContainerStyle}>
           {['achieved', 'upcoming', 'stories'].map(tab => (
             <button
               key={tab}
@@ -416,8 +583,8 @@ export default function MilestonesPage() {
               style={{
                 background: 'none',
                 border: 'none',
-                padding: '0.5rem 1rem',
-                fontSize: '1rem',
+                padding: isMobile ? '0.5rem 0.8rem' : '0.5rem 1rem',
+                fontSize: isMobile ? '0.9rem' : '1rem',
                 fontWeight: activeTab === tab ? 600 : 400,
                 color: activeTab === tab ? '#0066cc' : '#86868b',
                 cursor: 'pointer',
@@ -432,9 +599,9 @@ export default function MilestonesPage() {
 
         {/* Tab Content */}
         {activeTab === 'achieved' && (
-          <section id="achieved" style={{ marginBottom: '6rem' }}>
+          <section id="achieved" style={{ marginBottom: isMobile ? '3rem' : '6rem' }}>
             <h2 style={{ 
-              fontSize: '2.5rem', 
+              fontSize: isMobile ? '2rem' : '2.5rem', 
               fontWeight: 300, 
               color: '#1d1d1f', 
               marginBottom: '1rem',
@@ -444,23 +611,20 @@ export default function MilestonesPage() {
             </h2>
             <p style={{ 
               color: '#86868b', 
-              fontSize: '1.2rem', 
+              fontSize: isMobile ? '1rem' : '1.2rem', 
               textAlign: 'center',
               maxWidth: '800px',
-              margin: '0 auto 3rem'
+              margin: '0 auto 2rem',
+              padding: isMobile ? '0 1rem' : '0'
             }}>
               Each one a memory, each one a reason to celebrate
             </p>
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '2rem'
-            }}>
+            <div style={achievedGridStyle}>
               {achievedMilestones.map((milestone, index) => (
                 <div
                   key={milestone.title}
                   style={{
-                    padding: '2rem',
+                    padding: isMobile ? '1.5rem' : '2rem',
                     borderRadius: '20px',
                     background: '#fafafa',
                     border: '1px solid #e6e6e9',
@@ -474,34 +638,36 @@ export default function MilestonesPage() {
                     right: '1rem',
                     background: milestone.color,
                     color: 'white',
-                    padding: '0.2rem 0.8rem',
+                    padding: '0.2rem 0.6rem',
                     borderRadius: '20px',
-                    fontSize: '0.7rem',
+                    fontSize: '0.65rem',
                     fontWeight: 500
                   }}>
                     #{index + 1}
                   </div>
-                  <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{milestone.icon}</div>
+                  <div style={{ fontSize: isMobile ? '2rem' : '2.5rem', marginBottom: '1rem' }}>{milestone.icon}</div>
                   <div style={{ 
-                    fontSize: '0.9rem',
+                    fontSize: '0.8rem',
                     color: milestone.color,
                     fontWeight: 500,
                     marginBottom: '0.5rem'
                   }}>
                     {milestone.date}
                   </div>
-                  <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem', color: '#1d1d1f' }}>
+                  <h3 style={{ fontSize: isMobile ? '1.2rem' : '1.3rem', marginBottom: '0.5rem', color: '#1d1d1f' }}>
                     {milestone.title}
                   </h3>
-                  <p style={{ color: '#86868b', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1rem' }}>
+                  <p style={{ color: '#86868b', fontSize: isMobile ? '0.9rem' : '0.95rem', lineHeight: '1.6', marginBottom: '1rem' }}>
                     {milestone.desc}
                   </p>
                   <div style={{ 
                     display: 'flex',
+                    flexDirection: isMobile ? 'column' : 'row',
                     justifyContent: 'space-between',
                     borderTop: '1px solid #e6e6e9',
-                    paddingTop: '1rem',
-                    fontSize: '0.85rem'
+                    paddingTop: '0.8rem',
+                    gap: '0.5rem',
+                    fontSize: '0.8rem'
                   }}>
                     <span style={{ color: '#86868b' }}>🎯 {milestone.impact}</span>
                     <span style={{ color: '#0066cc' }}>👥 {milestone.people}</span>
@@ -513,9 +679,9 @@ export default function MilestonesPage() {
         )}
 
         {activeTab === 'upcoming' && (
-          <section id="upcoming" style={{ marginBottom: '6rem' }}>
+          <section id="upcoming" style={{ marginBottom: isMobile ? '3rem' : '6rem' }}>
             <h2 style={{ 
-              fontSize: '2.5rem', 
+              fontSize: isMobile ? '2rem' : '2.5rem', 
               fontWeight: 300, 
               color: '#1d1d1f', 
               marginBottom: '1rem',
@@ -525,30 +691,27 @@ export default function MilestonesPage() {
             </h2>
             <p style={{ 
               color: '#86868b', 
-              fontSize: '1.2rem', 
+              fontSize: isMobile ? '1rem' : '1.2rem', 
               textAlign: 'center',
               maxWidth: '800px',
-              margin: '0 auto 3rem'
+              margin: '0 auto 2rem',
+              padding: isMobile ? '0 1rem' : '0'
             }}>
               The journey continues. Here's what we're building toward.
             </p>
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: '2rem'
-            }}>
+            <div style={upcomingGridStyle}>
               {theUpcoming.map((item, index) => (
                 <div
                   key={item.title}
                   style={{
-                    padding: '2rem',
+                    padding: isMobile ? '1.5rem' : '2rem',
                     borderRadius: '20px',
                     background: '#fafafa',
                     border: '1px solid #e6e6e9',
                     position: 'relative'
                   }}
                 >
-                  {index < theUpcoming.length - 4 && (
+                  {!isMobile && index < theUpcoming.length - 4 && (
                     <div style={{
                       position: 'absolute',
                       top: '50%',
@@ -560,39 +723,41 @@ export default function MilestonesPage() {
                       zIndex: 1
                     }} />
                   )}
-                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{item.icon}</div>
+                  <div style={{ fontSize: isMobile ? '1.8rem' : '2rem', marginBottom: '0.5rem' }}>{item.icon}</div>
                   <div style={{ 
-                    fontSize: '0.8rem',
+                    fontSize: '0.75rem',
                     color: item.color,
                     fontWeight: 500,
                     marginBottom: '0.3rem'
                   }}>
                     {item.quarter}
                   </div>
-                  <h3 style={{ fontSize: '1.2rem', marginBottom: '0.3rem', color: '#1d1d1f' }}>
+                  <h3 style={{ fontSize: isMobile ? '1.1rem' : '1.2rem', marginBottom: '0.3rem', color: '#1d1d1f' }}>
                     {item.title}
                   </h3>
-                  <p style={{ color: '#86868b', fontSize: '0.85rem', lineHeight: '1.5', marginBottom: '1rem' }}>
+                  <p style={{ color: '#86868b', fontSize: '0.8rem', lineHeight: '1.5', marginBottom: '1rem' }}>
                     {item.desc}
                   </p>
                   <div style={{ 
                     display: 'flex',
+                    flexDirection: isMobile ? 'column' : 'row',
                     justifyContent: 'space-between',
-                    alignItems: 'center',
+                    alignItems: isMobile ? 'flex-start' : 'center',
                     borderTop: '1px solid #e6e6e9',
-                    paddingTop: '0.8rem'
+                    paddingTop: '0.8rem',
+                    gap: '0.5rem'
                   }}>
                     <span style={{
                       background: `${item.color}20`,
                       color: item.color,
                       padding: '0.2rem 0.6rem',
                       borderRadius: '20px',
-                      fontSize: '0.7rem',
+                      fontSize: '0.65rem',
                       fontWeight: 500
                     }}>
                       {item.status}
                     </span>
-                    <span style={{ color: '#86868b', fontSize: '0.7rem' }}>
+                    <span style={{ color: '#86868b', fontSize: '0.65rem' }}>
                       {item.eta}
                     </span>
                   </div>
@@ -603,9 +768,9 @@ export default function MilestonesPage() {
         )}
 
         {activeTab === 'stories' && (
-          <section style={{ marginBottom: '6rem' }}>
+          <section style={{ marginBottom: isMobile ? '3rem' : '6rem' }}>
             <h2 style={{ 
-              fontSize: '2.5rem', 
+              fontSize: isMobile ? '2rem' : '2.5rem', 
               fontWeight: 300, 
               color: '#1d1d1f', 
               marginBottom: '1rem',
@@ -615,48 +780,45 @@ export default function MilestonesPage() {
             </h2>
             <p style={{ 
               color: '#86868b', 
-              fontSize: '1.2rem', 
+              fontSize: isMobile ? '1rem' : '1.2rem', 
               textAlign: 'center',
               maxWidth: '800px',
-              margin: '0 auto 3rem'
+              margin: '0 auto 2rem',
+              padding: isMobile ? '0 1rem' : '0'
             }}>
               The real stories our team remembers
             </p>
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '2rem'
-            }}>
+            <div style={storiesGridStyle}>
               {theStories.map(story => (
                 <div
                   key={story.milestone}
                   style={{
-                    padding: '2rem',
+                    padding: isMobile ? '1.5rem' : '2rem',
                     borderRadius: '20px',
                     background: '#fafafa',
                     border: '1px solid #e6e6e9',
                     position: 'relative'
                   }}
                 >
-                  <span style={{ fontSize: '3rem', position: 'absolute', top: '1rem', right: '1rem', opacity: 0.2 }}>
+                  <span style={{ fontSize: isMobile ? '2.5rem' : '3rem', position: 'absolute', top: '1rem', right: '1rem', opacity: 0.2 }}>
                     {story.emotion}
                   </span>
-                  <div style={{ marginBottom: '1rem' }}>
+                  <div style={{ marginBottom: '0.8rem' }}>
                     <span style={{
                       background: '#0066cc20',
                       color: '#0066cc',
-                      padding: '0.2rem 1rem',
+                      padding: '0.2rem 0.8rem',
                       borderRadius: '20px',
-                      fontSize: '0.8rem',
+                      fontSize: '0.75rem',
                       fontWeight: 500
                     }}>
                       {story.milestone}
                     </span>
                   </div>
-                  <p style={{ color: '#1d1d1f', fontSize: '1rem', lineHeight: '1.7', fontStyle: 'italic', marginBottom: '1rem' }}>
+                  <p style={{ color: '#1d1d1f', fontSize: isMobile ? '0.95rem' : '1rem', lineHeight: '1.7', fontStyle: 'italic', marginBottom: '1rem' }}>
                     "{story.story}"
                   </p>
-                  <div style={{ color: '#86868b', fontSize: '0.9rem' }}>
+                  <div style={{ color: '#86868b', fontSize: '0.85rem' }}>
                     — {story.author}
                   </div>
                 </div>
@@ -665,62 +827,56 @@ export default function MilestonesPage() {
 
             {/* Timeline Preview */}
             <div style={{ 
-              marginTop: '4rem',
-              padding: '3rem',
+              marginTop: '3rem',
+              padding: isMobile ? '1.5rem' : '3rem',
               background: '#fafafa',
               borderRadius: '20px',
               border: '1px solid #e6e6e9'
             }}>
               <h3 style={{ 
-                fontSize: '1.5rem', 
+                fontSize: isMobile ? '1.3rem' : '1.5rem', 
                 fontWeight: 300, 
                 color: '#1d1d1f', 
-                marginBottom: '2rem',
+                marginBottom: '1.5rem',
                 textAlign: 'center'
               }}>
                 Our Journey Visualized
               </h3>
-              <div style={{ 
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1.5rem'
-              }}>
+              <div style={timelineStyle}>
                 {achievedMilestones.slice(0, 6).map((milestone, i) => (
-                  <div key={i} style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '2rem'
-                  }}>
+                  <div key={i} style={timelineItemStyle}>
                     <div style={{ 
-                      minWidth: '100px',
+                      minWidth: isMobile ? '100%' : '100px',
                       color: milestone.color,
                       fontWeight: 500,
-                      fontSize: '0.9rem'
+                      fontSize: '0.85rem'
                     }}>
                       {milestone.date}
                     </div>
-                    <div style={{ 
-                      width: '12px',
-                      height: '12px',
-                      background: milestone.color,
-                      borderRadius: '50%',
-                      position: 'relative'
-                    }}>
-                      {i < 5 && (
-                        <div style={{
-                          position: 'absolute',
-                          top: '12px',
-                          left: '5px',
-                          width: '2px',
-                          height: '60px',
-                          background: '#e6e6e9',
-                          zIndex: 1
-                        }} />
-                      )}
-                    </div>
+                    {!isMobile && (
+                      <div style={{ 
+                        width: '12px',
+                        height: '12px',
+                        background: milestone.color,
+                        borderRadius: '50%',
+                        position: 'relative'
+                      }}>
+                        {i < 5 && (
+                          <div style={{
+                            position: 'absolute',
+                            top: '12px',
+                            left: '5px',
+                            width: '2px',
+                            height: isMobile ? '30px' : '60px',
+                            background: '#e6e6e9',
+                            zIndex: 1
+                          }} />
+                        )}
+                      </div>
+                    )}
                     <div style={{ flex: 1 }}>
-                      <strong style={{ color: '#1d1d1f' }}>{milestone.title}</strong>
-                      <p style={{ color: '#86868b', fontSize: '0.9rem', margin: '0.2rem 0 0 0' }}>
+                      <strong style={{ color: '#1d1d1f', fontSize: isMobile ? '0.95rem' : '1rem' }}>{milestone.title}</strong>
+                      <p style={{ color: '#86868b', fontSize: '0.85rem', margin: '0.2rem 0 0 0' }}>
                         {milestone.impact}
                       </p>
                     </div>
@@ -732,74 +888,71 @@ export default function MilestonesPage() {
         )}
 
         {/* CTA Section */}
-        <section
-  style={{
-    marginTop: '4rem',
-    display: 'flex',
-    justifyContent: 'center'
-  }}
->
-  <div
-    style={{
-      width: '100%',
-      maxWidth: '1200px',
-      padding: '4rem 2rem',   // reduced height
-      borderRadius: '28px',
-      textAlign: 'center',
-       background: `
-              radial-gradient(circle at 20% 30%, #7a3cff 0%, transparent 40%),
-              radial-gradient(circle at 80% 10%, #ff2e88 0%, transparent 40%),
-              linear-gradient(180deg, #0b1c48 0%, #2a1e5c 100%)
-            `,
-            color: '#ffffff',
-    }}
-  >
-    <h2
-      style={{
-        fontSize: '3rem',
-        fontWeight: 400,
-        marginBottom: '1rem'
-      }}
-    >
-      Contact Us
-    </h2>
-
-    <p
-      style={{
-        fontSize: '1.25rem',
-        marginBottom: '2.2rem',
-        opacity: 0.95
-      }}
-    >
-      Be always in front line, get in touch today.
-    </p>
-
-    <Link
-     href="/contact"
+        <section style={{
+          marginTop: isMobile ? '2rem' : '4rem',
+          display: 'flex',
+          justifyContent: 'center',
+          padding: isMobile ? '0 1rem' : '0'
+        }}>
+          <div
             style={{
-              display: 'inline-block',
-              padding: '18px 60px',
-              borderRadius: '70px 70px 0 70px',
-              border: '3px solid #ffffff',
+              width: '100%',
+              maxWidth: '1200px',
+              padding: isMobile ? '3rem 1.5rem' : '4rem 2rem',
+              borderRadius: '28px',
+              textAlign: 'center',
+              background: `
+                radial-gradient(circle at 20% 30%, #7a3cff 0%, transparent 40%),
+                radial-gradient(circle at 80% 10%, #ff2e88 0%, transparent 40%),
+                linear-gradient(180deg, #0b1c48 0%, #2a1e5c 100%)
+              `,
               color: '#ffffff',
-              fontWeight: 600,
-              fontSize: '1.1rem',
-              textDecoration: 'none',
-              transition: 'all 0.3s ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = '#ffffff';
-        e.currentTarget.style.color = '#111';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'transparent';
-        e.currentTarget.style.color = '#ffffff';
-      }}
-    >
-      Contact Us
-    </Link>
-  </div>
-</section>
+            }}
+          >
+            <h2 style={{
+              fontSize: isMobile ? '2rem' : '3rem',
+              fontWeight: 400,
+              marginBottom: '1rem'
+            }}>
+              Contact Us
+            </h2>
+
+            <p style={{
+              fontSize: isMobile ? '1rem' : '1.25rem',
+              marginBottom: '2rem',
+              opacity: 0.95
+            }}>
+              Be always in front line, get in touch today.
+            </p>
+
+            <Link
+              href="/contact"
+              style={{
+                display: 'inline-block',
+                padding: isMobile ? '14px 40px' : '18px 60px',
+                borderRadius: '70px 70px 0 70px',
+                border: '3px solid #ffffff',
+                color: '#ffffff',
+                fontWeight: 600,
+                fontSize: isMobile ? '1rem' : '1.1rem',
+                textDecoration: 'none',
+                transition: 'all 0.3s ease',
+                width: isMobile ? '100%' : 'auto',
+                maxWidth: isMobile ? '300px' : 'none',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#ffffff';
+                e.currentTarget.style.color = '#111';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#ffffff';
+              }}
+            >
+              Contact Us
+            </Link>
+          </div>
+        </section>
 
         {/* Back to About */}
         <div style={{ 
@@ -813,7 +966,7 @@ export default function MilestonesPage() {
             style={{ 
               color: '#86868b', 
               textDecoration: 'none', 
-              fontSize: '0.9rem',
+              fontSize: isMobile ? '0.85rem' : '0.9rem',
               display: 'inline-block'
             }}
           >
@@ -822,41 +975,57 @@ export default function MilestonesPage() {
         </div>
       </main>
 
-
-       
+      {/* Footer */}
+      <footer
+        style={{
+          background: '#111',
+          color: '#aaa',
+          padding: isMobile ? '3rem 1rem' : '4rem 2rem',
+          marginTop: '4rem'
+        }}
+      >
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr 1fr',
-            gap: '4rem',
-            marginBottom: '4rem'
-          }}>
+          <div style={footerGridStyle}>
             <div>
-              <div style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '1rem' }}>PureLatency</div>
-              <p style={{ color: '#666', lineHeight: '1.7' }}>
+              <div style={{ fontSize: isMobile ? '1.3rem' : '1.5rem', color: '#fff', marginBottom: '1rem' }}>PureLatency</div>
+              <p style={{ color: '#666', lineHeight: '1.7', fontSize: isMobile ? '0.9rem' : '1rem' }}>
                 Celebrating every step of the journey.
               </p>
             </div>
             <div>
-              <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Explore</h4>
+              <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: isMobile ? '1.1rem' : '1.2rem' }}>Explore</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
-                <li style={{ marginBottom: '0.5rem' }}><Link href="/about" style={{ color: '#aaa', textDecoration: 'none' }}>Our Story</Link></li>
-                <li style={{ marginBottom: '0.5rem' }}><Link href="/services" style={{ color: '#aaa', textDecoration: 'none' }}>What We Do</Link></li>
-                <li style={{ marginBottom: '0.5rem' }}><Link href="/products" style={{ color: '#aaa', textDecoration: 'none' }}>What We Built</Link></li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/about" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>Our Story</Link>
+                </li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/services" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>What We Do</Link>
+                </li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/products" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>What We Built</Link>
+                </li>
               </ul>
             </div>
             <div>
-              <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Connect</h4>
+              <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: isMobile ? '1.1rem' : '1.2rem' }}>Connect</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
-                <li style={{ marginBottom: '0.5rem' }}><Link href="/contact" style={{ color: '#aaa', textDecoration: 'none' }}>Say Hi</Link></li>
-                <li style={{ marginBottom: '0.5rem' }}><Link href="/careers" style={{ color: '#aaa', textDecoration: 'none' }}>Join Us</Link></li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/contact" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>Say Hi</Link>
+                </li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/careers" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>Join Us</Link>
+                </li>
               </ul>
             </div>
             <div>
-              <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Legal</h4>
+              <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: isMobile ? '1.1rem' : '1.2rem' }}>Legal</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
-                <li style={{ marginBottom: '0.5rem' }}><Link href="/privacy" style={{ color: '#aaa', textDecoration: 'none' }}>Privacy</Link></li>
-                <li style={{ marginBottom: '0.5rem' }}><Link href="/terms" style={{ color: '#aaa', textDecoration: 'none' }}>Terms</Link></li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/privacy" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>Privacy</Link>
+                </li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <Link href="/terms" style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>Terms</Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -864,12 +1033,13 @@ export default function MilestonesPage() {
             borderTop: '1px solid #333', 
             paddingTop: '2rem',
             textAlign: 'center',
-            color: '#666'
+            color: '#666',
+            fontSize: isMobile ? '0.8rem' : '0.9rem'
           }}>
             © 2026 PureLatency. The best is yet to come.
           </div>
         </div>
-      
+      </footer>
     </>
   );
 }

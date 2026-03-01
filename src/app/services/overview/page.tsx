@@ -1,8 +1,21 @@
 'use client';
 import Navbar from '@/components/layout/Navbar';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Overview() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile on client side
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const coreServices = [
     {
       title: 'Applications',
@@ -43,6 +56,14 @@ export default function Overview() {
       icon: '⚙️',
       color: '#6366F1',
       metrics: ['99.99% uptime', '<50ms latency', '100% compliant']
+    },
+    {
+      title: 'Fiber Optics',
+      href: '/services/fiber-optics',
+      desc: 'High-speed fiber optic solutions for reliable, future-proof connectivity.',
+      icon: '🔆',
+      color: '#F97316',
+      metrics: ['10k+ miles', '99.99% uptime', '40km+ distance']
     }
   ];
 
@@ -123,69 +144,193 @@ export default function Overview() {
     // AI/ML
     'TensorFlow', 'PyTorch', 'OpenAI', 'LangChain',
     // Database
-    'PostgreSQL', 'MongoDB', 'Redis', 'Elasticsearch'
+    'PostgreSQL', 'MongoDB', 'Redis', 'Elasticsearch',
+    // Fiber Optics
+    'OTDR', 'OS2', 'OM4', 'DWDM', 'MPO/MTP'
   ];
+
+  // Social media icons with image URLs
+  const socialMedia = [
+    { 
+      name: 'Instagram', 
+      href: 'https://instagram.com/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg',
+      color: '#E4405F'
+    },
+    { 
+      name: 'Facebook', 
+      href: 'https://facebook.com/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg',
+      color: '#1877F2'
+    },
+    { 
+      name: 'LinkedIn', 
+      href: 'https://linkedin.com/company/purelatency',
+      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg',
+      color: '#0A66C2'
+    }
+  ];
+
+  // Responsive styles
+  const containerStyle = {
+    maxWidth: '1280px',
+    margin: '0 auto',
+    padding: isMobile ? '5rem 1rem 2rem' : '6rem 2rem 4rem',
+  };
+
+  const heroGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+    gap: isMobile ? '2rem' : '4rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+    alignItems: 'center',
+  };
+
+  const heroTitleStyle = {
+    fontSize: isMobile ? '2.5rem' : '4rem',
+    fontWeight: 300,
+    color: '#1d1d1f',
+    marginBottom: '1.5rem',
+    lineHeight: '1.2',
+    textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+  };
+
+  const statsGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+    gap: isMobile ? '1.5rem' : '2rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+    padding: isMobile ? '2rem' : '3rem',
+    background: 'linear-gradient(135deg, #1d1d1f 0%, #2d2d2f 100%)',
+    borderRadius: '20px',
+    color: 'white',
+  };
+
+  const servicesGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+    gap: '2rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+  };
+
+  const approachGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)',
+    gap: isMobile ? '1.5rem' : '2rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+  };
+
+  const differentiatorsGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)',
+    gap: '2rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+  };
+
+  const testimonialsGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+    gap: '2rem',
+    marginBottom: isMobile ? '3rem' : '6rem',
+  };
+
+  const footerGridStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr 1fr',
+    gap: isMobile ? '2rem' : '4rem',
+    marginBottom: '4rem',
+    textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+  };
 
   return (
     <>
       <Navbar />
 
-      <Navbar />
-
-      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '6rem 2rem 4rem' }}>
-        {/* Social Media */}
-        <section style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '3rem' }}>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            {[
-              { name: 'Instagram', href: 'https://instagram.com/purelatency', color: '#E4405F' },
-              { name: 'Twitter', href: 'https://twitter.com/purelatency', color: '#1DA1F2' },
-              { name: 'Facebook', href: 'https://facebook.com/purelatency', color: '#1877F2' }
-            ].map(social => (
+      <main style={containerStyle}>
+        {/* Social Media - With Icons */}
+        <section style={{ 
+          display: 'flex', 
+          justifyContent: isMobile ? 'center' : 'flex-end', 
+          marginBottom: '2rem',
+          flexWrap: 'wrap'
+        }}>
+          <div style={{ 
+            display: 'flex', 
+            gap: isMobile ? '20px' : '24px',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            {socialMedia.map((social) => (
               <a
                 key={social.name}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: social.color, textDecoration: 'none', fontWeight: 500 }}
+                style={{ 
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  transition: 'transform 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
               >
-                {social.name}
+                <img 
+                  src={social.icon} 
+                  alt={social.name}
+                  style={{ 
+                    width: isMobile ? '24px' : '28px', 
+                    height: isMobile ? '24px' : '28px',
+                  }}
+                />
+                {!isMobile && (
+                  <span style={{ 
+                    color: social.color, 
+                    fontWeight: 500,
+                    fontSize: '0.9rem'
+                  }}>
+                    {social.name}
+                  </span>
+                )}
               </a>
             ))}
           </div>
         </section>
+
         {/* Breadcrumb */}
-        <div style={{ color: '#86868b', marginBottom: '2rem', fontSize: '0.9rem' }}>
+        <div style={{ 
+          color: '#86868b', 
+          marginBottom: '2rem', 
+          fontSize: isMobile ? '0.85rem' : '0.9rem',
+          textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+        }}>
           <Link href="/" style={{ color: '#86868b', textDecoration: 'none' }}>Home</Link> / 
           <span style={{ color: '#1d1d1f' }}> Services</span>
         </div>
 
         {/* Hero Section */}
-        <div style={{ 
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '4rem',
-          marginBottom: '6rem',
-          alignItems: 'center'
-        }}>
+        <div style={heroGridStyle}>
           <div>
             <div style={{ 
               display: 'inline-block',
               background: 'rgba(0,102,204,0.1)',
               color: '#0066cc',
-              padding: '0.5rem 1.5rem',
+              padding: isMobile ? '0.4rem 1.2rem' : '0.5rem 1.5rem',
               borderRadius: '30px',
-              fontSize: '0.9rem',
-              marginBottom: '1.5rem'
+              fontSize: isMobile ? '0.85rem' : '0.9rem',
+              marginBottom: '1.5rem',
+              textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+              width: isMobile ? '100%' : 'auto',
             }}>
               🚀 Comprehensive Digital Solutions
             </div>
-            <h1 style={{ 
-              fontSize: '4rem', 
-              fontWeight: 300, 
-              color: '#1d1d1f', 
-              marginBottom: '1.5rem',
-              lineHeight: '1.2'
-            }}>
+            <h1 style={heroTitleStyle}>
               Transform your vision<br />
               <span style={{ 
                 background: 'linear-gradient(135deg, #0066cc 0%, #7C3AED 100%)',
@@ -195,21 +340,35 @@ export default function Overview() {
                 into digital reality
               </span>
             </h1>
-            <p style={{ color: '#86868b', fontSize: '1.2rem', lineHeight: '1.7', marginBottom: '2rem' }}>
+            <p style={{ 
+              color: '#86868b', 
+              fontSize: isMobile ? '1rem' : '1.2rem', 
+              lineHeight: '1.7', 
+              marginBottom: '2rem',
+              textAlign: (isMobile ? 'center' : 'left') as 'center' | 'left',
+              padding: isMobile ? '0 0.5rem' : '0'
+            }}>
               We offer a comprehensive suite of digital services designed to help you build, 
               scale, and optimize your technology. From applications to infrastructure, 
               we deliver solutions that drive real business results.
             </p>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ 
+              display: 'flex', 
+              gap: '1rem',
+              flexDirection: isMobile ? 'column' : 'row',
+              justifyContent: isMobile ? 'center' : 'flex-start',
+            }}>
               <Link
                 href="/contact"
                 style={{
                   background: '#0066cc',
                   color: 'white',
-                  padding: '1rem 2rem',
+                  padding: isMobile ? '0.875rem 1.5rem' : '1rem 2rem',
                   borderRadius: '40px',
                   textDecoration: 'none',
-                  fontWeight: 500
+                  fontWeight: 500,
+                  textAlign: 'center' as const,
+                  width: isMobile ? '100%' : 'auto',
                 }}
               >
                 Start Your Project
@@ -219,10 +378,12 @@ export default function Overview() {
                 style={{
                   background: 'transparent',
                   color: '#1d1d1f',
-                  padding: '1rem 2rem',
+                  padding: isMobile ? '0.875rem 1.5rem' : '1rem 2rem',
                   borderRadius: '40px',
                   textDecoration: 'none',
-                  border: '1px solid #e6e6e9'
+                  border: '1px solid #e6e6e9',
+                  textAlign: 'center' as const,
+                  width: isMobile ? '100%' : 'auto',
                 }}
               >
                 Explore Services ↓
@@ -232,16 +393,17 @@ export default function Overview() {
           <div style={{
             background: 'linear-gradient(135deg, #f5f5f7 0%, #e6e6e9 100%)',
             borderRadius: '30px',
-            padding: '3rem',
+            padding: isMobile ? '2rem' : '3rem',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            marginTop: isMobile ? '1rem' : '0',
           }}>
             <div style={{
               position: 'absolute',
               top: '-50px',
               right: '-50px',
-              width: '200px',
-              height: '200px',
+              width: isMobile ? '150px' : '200px',
+              height: isMobile ? '150px' : '200px',
               background: 'rgba(0,102,204,0.1)',
               borderRadius: '50%'
             }} />
@@ -249,14 +411,19 @@ export default function Overview() {
               position: 'absolute',
               bottom: '-50px',
               left: '-50px',
-              width: '200px',
-              height: '200px',
+              width: isMobile ? '150px' : '200px',
+              height: isMobile ? '150px' : '200px',
               background: 'rgba(124,58,237,0.1)',
               borderRadius: '50%'
             }} />
             <div style={{ position: 'relative', zIndex: 2 }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>⚡</div>
-              <h3 style={{ fontSize: '1.8rem', fontWeight: 400, marginBottom: '1rem' }}>The PureLatency Advantage</h3>
+              <div style={{ fontSize: isMobile ? '2.5rem' : '3rem', marginBottom: '1.5rem', textAlign: 'center' }}>⚡</div>
+              <h3 style={{ 
+                fontSize: isMobile ? '1.5rem' : '1.8rem', 
+                fontWeight: 400, 
+                marginBottom: '1rem',
+                textAlign: 'center'
+              }}>The PureLatency Advantage</h3>
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {[
                   '50+ successful projects',
@@ -268,7 +435,9 @@ export default function Overview() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5rem',
-                    color: '#86868b'
+                    color: '#86868b',
+                    justifyContent: 'center',
+                    fontSize: isMobile ? '0.95rem' : '1rem',
                   }}>
                     <span style={{ color: '#0066cc' }}>✓</span>
                     {item}
@@ -280,52 +449,49 @@ export default function Overview() {
         </div>
 
         {/* Stats Banner */}
-        <section style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '2rem',
-          marginBottom: '6rem',
-          padding: '3rem',
-          background: 'linear-gradient(135deg, #1d1d1f 0%, #2d2d2f 100%)',
-          borderRadius: '20px',
-          color: 'white'
-        }}>
+        <section style={statsGridStyle}>
           {stats.map(stat => (
             <div key={stat.label} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
-              <div style={{ fontSize: '2.5rem', fontWeight: 300, color: '#0066cc', marginBottom: '0.3rem' }}>
+              <div style={{ fontSize: isMobile ? '1.5rem' : '2rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
+              <div style={{ 
+                fontSize: isMobile ? '1.8rem' : '2.5rem', 
+                fontWeight: 300, 
+                color: '#0066cc', 
+                marginBottom: '0.3rem' 
+              }}>
                 {stat.value}
               </div>
-              <div style={{ color: '#aaa', fontSize: '0.9rem' }}>{stat.label}</div>
+              <div style={{ 
+                color: '#aaa', 
+                fontSize: isMobile ? '0.75rem' : '0.9rem' 
+              }}>{stat.label}</div>
             </div>
           ))}
         </section>
 
         {/* Core Services */}
-        <section id="services" style={{ marginBottom: '6rem' }}>
+        <section id="services" style={{ marginBottom: isMobile ? '3rem' : '6rem' }}>
           <h2 style={{ 
-            fontSize: '2.5rem', 
+            fontSize: isMobile ? '2rem' : '2.5rem', 
             fontWeight: 300, 
             color: '#1d1d1f', 
             marginBottom: '1rem',
-            textAlign: 'center'
+            textAlign: 'center',
+            padding: isMobile ? '0 1rem' : '0'
           }}>
             Our Core Services
           </h2>
           <p style={{ 
             color: '#86868b', 
-            fontSize: '1.2rem', 
+            fontSize: isMobile ? '1rem' : '1.2rem', 
             textAlign: 'center',
             maxWidth: '800px',
-            margin: '0 auto 3rem'
+            margin: '0 auto 2rem',
+            padding: isMobile ? '0 1rem' : '0'
           }}>
             Comprehensive digital solutions tailored to your unique business needs
           </p>
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '2rem'
-          }}>
+          <div style={servicesGridStyle}>
             {coreServices.map(service => (
               <Link
                 key={service.title}
@@ -334,7 +500,7 @@ export default function Overview() {
               >
                 <div
                   style={{
-                    padding: '2rem',
+                    padding: isMobile ? '1.5rem' : '2rem',
                     borderRadius: '20px',
                     background: 'white',
                     border: '1px solid #e6e6e9',
@@ -343,19 +509,23 @@ export default function Overview() {
                     height: '100%'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = service.color;
-                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    if (!isMobile) {
+                      e.currentTarget.style.borderColor = service.color;
+                      e.currentTarget.style.transform = 'translateY(-4px)';
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = '#e6e6e9';
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    if (!isMobile) {
+                      e.currentTarget.style.borderColor = '#e6e6e9';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }
                   }}
                 >
-                  <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{service.icon}</div>
-                  <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem', color: '#1d1d1f' }}>
+                  <div style={{ fontSize: isMobile ? '2rem' : '2.5rem', marginBottom: '1rem' }}>{service.icon}</div>
+                  <h3 style={{ fontSize: isMobile ? '1.2rem' : '1.3rem', marginBottom: '0.5rem', color: '#1d1d1f' }}>
                     {service.title}
                   </h3>
-                  <p style={{ color: '#86868b', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1rem' }}>
+                  <p style={{ color: '#86868b', fontSize: isMobile ? '0.85rem' : '0.95rem', lineHeight: '1.6', marginBottom: '1rem' }}>
                     {service.desc}
                   </p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
@@ -365,16 +535,16 @@ export default function Overview() {
                         style={{
                           background: '#f5f5f7',
                           color: '#666',
-                          padding: '0.2rem 0.8rem',
+                          padding: '0.2rem 0.6rem',
                           borderRadius: '20px',
-                          fontSize: '0.8rem'
+                          fontSize: '0.7rem'
                         }}
                       >
                         {metric}
                       </span>
                     ))}
                   </div>
-                  <div style={{ color: service.color, fontWeight: 500, fontSize: '0.95rem' }}>
+                  <div style={{ color: service.color, fontWeight: 500, fontSize: '0.9rem' }}>
                     Learn more →
                   </div>
                 </div>
@@ -384,40 +554,38 @@ export default function Overview() {
         </section>
 
         {/* Our Approach */}
-        <section style={{ marginBottom: '6rem' }}>
+        <section style={{ marginBottom: isMobile ? '3rem' : '6rem' }}>
           <h2 style={{ 
-            fontSize: '2.5rem', 
+            fontSize: isMobile ? '2rem' : '2.5rem', 
             fontWeight: 300, 
             color: '#1d1d1f', 
             marginBottom: '1rem',
-            textAlign: 'center'
+            textAlign: 'center',
+            padding: isMobile ? '0 1rem' : '0'
           }}>
             Our Approach
           </h2>
           <p style={{ 
             color: '#86868b', 
-            fontSize: '1.2rem', 
+            fontSize: isMobile ? '1rem' : '1.2rem', 
             textAlign: 'center',
             maxWidth: '800px',
-            margin: '0 auto 3rem'
+            margin: '0 auto 2rem',
+            padding: isMobile ? '0 1rem' : '0'
           }}>
             A proven methodology that ensures successful project delivery
           </p>
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '2rem'
-          }}>
+          <div style={approachGridStyle}>
             {approach.map((phase, index) => (
               <div key={phase.phase} style={{ 
                 textAlign: 'center',
-                padding: '2rem',
+                padding: isMobile ? '1.5rem' : '2rem',
                 borderRadius: '20px',
                 background: '#fafafa',
                 border: '1px solid #e6e6e9',
                 position: 'relative'
               }}>
-                {index < approach.length - 1 && (
+                {!isMobile && index < approach.length - 1 && (
                   <div style={{
                     position: 'absolute',
                     top: '50%',
@@ -429,19 +597,19 @@ export default function Overview() {
                     zIndex: 1
                   }} />
                 )}
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{phase.icon}</div>
+                <div style={{ fontSize: isMobile ? '2rem' : '2.5rem', marginBottom: '1rem' }}>{phase.icon}</div>
                 <div style={{ 
-                  fontSize: '1.2rem',
+                  fontSize: '1rem',
                   color: phase.color,
                   fontWeight: 500,
                   marginBottom: '0.5rem'
                 }}>
                   Phase {index + 1}
                 </div>
-                <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', color: '#1d1d1f' }}>
+                <h3 style={{ fontSize: isMobile ? '1.2rem' : '1.3rem', marginBottom: '0.8rem', color: '#1d1d1f' }}>
                   {phase.phase}
                 </h3>
-                <p style={{ color: '#86868b', fontSize: '0.95rem', lineHeight: '1.6' }}>
+                <p style={{ color: '#86868b', fontSize: isMobile ? '0.85rem' : '0.95rem', lineHeight: '1.6' }}>
                   {phase.desc}
                 </p>
               </div>
@@ -450,53 +618,51 @@ export default function Overview() {
         </section>
 
         {/* What Sets Us Apart */}
-        <section style={{ marginBottom: '6rem' }}>
+        <section style={{ marginBottom: isMobile ? '3rem' : '6rem' }}>
           <h2 style={{ 
-            fontSize: '2.5rem', 
+            fontSize: isMobile ? '2rem' : '2.5rem', 
             fontWeight: 300, 
             color: '#1d1d1f', 
             marginBottom: '1rem',
-            textAlign: 'center'
+            textAlign: 'center',
+            padding: isMobile ? '0 1rem' : '0'
           }}>
             What Sets Us Apart
           </h2>
           <p style={{ 
             color: '#86868b', 
-            fontSize: '1.2rem', 
+            fontSize: isMobile ? '1rem' : '1.2rem', 
             textAlign: 'center',
             maxWidth: '800px',
-            margin: '0 auto 3rem'
+            margin: '0 auto 2rem',
+            padding: isMobile ? '0 1rem' : '0'
           }}>
             Why clients choose PureLatency for their most important projects
           </p>
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '2rem'
-          }}>
+          <div style={differentiatorsGridStyle}>
             {differentiators.map(diff => (
               <div
                 key={diff.title}
                 style={{
-                  padding: '2rem',
+                  padding: isMobile ? '1.5rem' : '2rem',
                   borderRadius: '20px',
                   background: '#fafafa',
                   border: '1px solid #e6e6e9',
                   textAlign: 'center'
                 }}
               >
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{diff.icon}</div>
-                <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: '#1d1d1f' }}>
+                <div style={{ fontSize: isMobile ? '2rem' : '2.5rem', marginBottom: '1rem' }}>{diff.icon}</div>
+                <h3 style={{ fontSize: isMobile ? '1.1rem' : '1.2rem', marginBottom: '0.5rem', color: '#1d1d1f' }}>
                   {diff.title}
                 </h3>
-                <p style={{ color: '#86868b', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
+                <p style={{ color: '#86868b', fontSize: isMobile ? '0.85rem' : '0.95rem', lineHeight: '1.6', marginBottom: '1rem' }}>
                   {diff.desc}
                 </p>
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.8rem', fontWeight: 300, color: '#0066cc' }}>
+                  <div style={{ fontSize: isMobile ? '1.5rem' : '1.8rem', fontWeight: 300, color: '#0066cc' }}>
                     {diff.stat}
                   </div>
-                  <div style={{ color: '#86868b', fontSize: '0.85rem' }}>{diff.statDesc}</div>
+                  <div style={{ color: '#86868b', fontSize: isMobile ? '0.75rem' : '0.85rem' }}>{diff.statDesc}</div>
                 </div>
               </div>
             ))}
@@ -504,22 +670,24 @@ export default function Overview() {
         </section>
 
         {/* Technology Stack */}
-        <section style={{ marginBottom: '6rem' }}>
+        <section style={{ marginBottom: isMobile ? '3rem' : '6rem' }}>
           <h2 style={{ 
-            fontSize: '2.5rem', 
+            fontSize: isMobile ? '2rem' : '2.5rem', 
             fontWeight: 300, 
             color: '#1d1d1f', 
-            marginBottom: '2rem',
-            textAlign: 'center'
+            marginBottom: '1.5rem',
+            textAlign: 'center',
+            padding: isMobile ? '0 1rem' : '0'
           }}>
             Our Technology Ecosystem
           </h2>
           <p style={{ 
             color: '#86868b', 
-            fontSize: '1.2rem', 
+            fontSize: isMobile ? '1rem' : '1.2rem', 
             textAlign: 'center',
             maxWidth: '800px',
-            margin: '0 auto 3rem'
+            margin: '0 auto 2rem',
+            padding: isMobile ? '0 1rem' : '0'
           }}>
             We leverage the best tools and frameworks to build exceptional solutions
           </p>
@@ -527,8 +695,8 @@ export default function Overview() {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            gap: '1rem',
-            padding: '2rem',
+            gap: isMobile ? '0.5rem' : '1rem',
+            padding: isMobile ? '1.5rem' : '2rem',
             background: '#fafafa',
             borderRadius: '20px'
           }}>
@@ -538,9 +706,9 @@ export default function Overview() {
                 style={{
                   background: 'white',
                   color: '#1d1d1f',
-                  padding: '0.6rem 1.2rem',
+                  padding: isMobile ? '0.4rem 0.8rem' : '0.6rem 1.2rem',
                   borderRadius: '30px',
-                  fontSize: '0.9rem',
+                  fontSize: isMobile ? '0.8rem' : '0.9rem',
                   border: '1px solid #e6e6e9',
                   boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
                 }}
@@ -552,68 +720,65 @@ export default function Overview() {
         </section>
 
         {/* Testimonials */}
-        <section style={{ marginBottom: '6rem' }}>
+        <section style={{ marginBottom: isMobile ? '3rem' : '6rem' }}>
           <h2 style={{ 
-            fontSize: '2.5rem', 
+            fontSize: isMobile ? '2rem' : '2.5rem', 
             fontWeight: 300, 
             color: '#1d1d1f', 
-            marginBottom: '2rem',
-            textAlign: 'center'
+            marginBottom: '1.5rem',
+            textAlign: 'center',
+            padding: isMobile ? '0 1rem' : '0'
           }}>
             What Our Clients Say
           </h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '2rem'
-          }}>
+          <div style={testimonialsGridStyle}>
             <div style={{
-              padding: '2rem',
+              padding: isMobile ? '1.5rem' : '2rem',
               background: '#fafafa',
               borderRadius: '20px',
               border: '1px solid #e6e6e9',
               position: 'relative'
             }}>
-              <span style={{ fontSize: '4rem', color: '#0066cc', opacity: 0.2, position: 'absolute', top: '10px', left: '20px' }}>"</span>
-              <p style={{ color: '#1d1d1f', fontSize: '1rem', lineHeight: '1.8', marginBottom: '1.5rem', position: 'relative', zIndex: 2 }}>
+              <span style={{ fontSize: isMobile ? '3rem' : '4rem', color: '#0066cc', opacity: 0.2, position: 'absolute', top: '10px', left: '20px' }}>"</span>
+              <p style={{ color: '#1d1d1f', fontSize: isMobile ? '0.95rem' : '1rem', lineHeight: '1.8', marginBottom: '1.5rem', position: 'relative', zIndex: 2 }}>
                 PureLatency transformed our digital presence with a beautiful, high-performance web application. Their team's expertise and collaborative approach made all the difference.
               </p>
               <div>
-                <strong style={{ color: '#1d1d1f' }}>Sarah Chen</strong>
-                <p style={{ color: '#86868b', fontSize: '0.9rem', margin: '0.2rem 0 0 0' }}>Product Lead, InnovateTech</p>
+                <strong style={{ color: '#1d1d1f', fontSize: isMobile ? '0.95rem' : '1rem' }}>Sarah Chen</strong>
+                <p style={{ color: '#86868b', fontSize: isMobile ? '0.85rem' : '0.9rem', margin: '0.2rem 0 0 0' }}>Product Lead, InnovateTech</p>
               </div>
             </div>
             <div style={{
-              padding: '2rem',
+              padding: isMobile ? '1.5rem' : '2rem',
               background: '#fafafa',
               borderRadius: '20px',
               border: '1px solid #e6e6e9',
               position: 'relative'
             }}>
-              <span style={{ fontSize: '4rem', color: '#0066cc', opacity: 0.2, position: 'absolute', top: '10px', left: '20px' }}>"</span>
-              <p style={{ color: '#1d1d1f', fontSize: '1rem', lineHeight: '1.8', marginBottom: '1.5rem', position: 'relative', zIndex: 2 }}>
+              <span style={{ fontSize: isMobile ? '3rem' : '4rem', color: '#0066cc', opacity: 0.2, position: 'absolute', top: '10px', left: '20px' }}>"</span>
+              <p style={{ color: '#1d1d1f', fontSize: isMobile ? '0.95rem' : '1rem', lineHeight: '1.8', marginBottom: '1.5rem', position: 'relative', zIndex: 2 }}>
                 The infrastructure PureLatency built for us is rock-solid. We've seen zero downtime and 40% cost savings since migrating to their cloud architecture.
               </p>
               <div>
-                <strong style={{ color: '#1d1d1f' }}>Michael Rodriguez</strong>
-                <p style={{ color: '#86868b', fontSize: '0.9rem', margin: '0.2rem 0 0 0' }}>CTO, FinScale</p>
+                <strong style={{ color: '#1d1d1f', fontSize: isMobile ? '0.95rem' : '1rem' }}>Michael Rodriguez</strong>
+                <p style={{ color: '#86868b', fontSize: isMobile ? '0.85rem' : '0.9rem', margin: '0.2rem 0 0 0' }}>CTO, FinScale</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* Contact Section */}
-         {/* Bottom Gradient Contact Section */}
         <div style={{
-          marginTop: '4rem',
+          marginTop: isMobile ? '2rem' : '4rem',
           display: 'flex',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          padding: isMobile ? '0 1rem' : '0'
         }}>
           <div
             style={{
               width: '100%',
               maxWidth: '1200px',
-              padding: '4rem 2rem',
+              padding: isMobile ? '3rem 1.5rem' : '4rem 2rem',
               borderRadius: '28px',
               textAlign: 'center',
               background: `
@@ -624,11 +789,11 @@ export default function Overview() {
               color: '#ffffff',
             }}
           >
-            <h2 style={{ fontSize: '3rem', fontWeight: 400, marginBottom: '1rem' }}>
+            <h2 style={{ fontSize: isMobile ? '2rem' : '3rem', fontWeight: 400, marginBottom: '1rem' }}>
               Contact Us
             </h2>
 
-            <p style={{ fontSize: '1.25rem', marginBottom: '2.2rem', opacity: 0.95 }}>
+            <p style={{ fontSize: isMobile ? '1rem' : '1.25rem', marginBottom: '2rem', opacity: 0.95 }}>
               Be always in front line, get in touch today.
             </p>
 
@@ -636,15 +801,17 @@ export default function Overview() {
               href="/contact"
               style={{
                 display: 'inline-block',
-                padding: '18px 60px',
+                padding: isMobile ? '14px 40px' : '18px 60px',
                 borderRadius: '70px 70px 0 70px',
                 border: '3px solid #ffffff',
                 color: '#ffffff',
                 fontWeight: 600,
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '1rem' : '1.1rem',
                 textDecoration: 'none',
                 transition: 'all 0.3s ease',
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
+                width: isMobile ? '100%' : 'auto',
+                maxWidth: isMobile ? '300px' : 'none',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#ffffff';
@@ -659,6 +826,7 @@ export default function Overview() {
             </Link>
           </div>
         </div>
+
         {/* Back to Home */}
         <div style={{ 
           borderTop: '1px solid #e6e6e9',
@@ -671,7 +839,7 @@ export default function Overview() {
             style={{ 
               color: '#86868b', 
               textDecoration: 'none', 
-              fontSize: '0.9rem',
+              fontSize: isMobile ? '0.85rem' : '0.9rem',
               display: 'inline-block'
             }}
           >
@@ -685,50 +853,68 @@ export default function Overview() {
         style={{
           background: '#111',
           color: '#aaa',
-          padding: '4rem 2rem',
+          padding: isMobile ? '3rem 1rem' : '4rem 2rem',
           marginTop: '4rem'
         }}
       >
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr 1fr',
-            gap: '4rem',
-            marginBottom: '4rem'
-          }}>
+          <div style={footerGridStyle}>
             <div>
-              <div style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '1rem' }}>PureLatency</div>
-              <p style={{ color: '#666', lineHeight: '1.7' }}>
+              <div style={{ fontSize: isMobile ? '1.3rem' : '1.5rem', color: '#fff', marginBottom: '1rem' }}>PureLatency</div>
+              <p style={{ color: '#666', lineHeight: '1.7', fontSize: isMobile ? '0.9rem' : '1rem' }}>
                 Transforming businesses through intelligent technology. 
                 We build solutions that drive real results.
               </p>
             </div>
             <div>
-              <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Services</h4>
+              <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: isMobile ? '1.1rem' : '1.2rem' }}>Services</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
-                {coreServices.map(service => (
+                {coreServices.slice(0, 5).map(service => (
                   <li key={service.title} style={{ marginBottom: '0.5rem' }}>
-                    <Link href={service.href} style={{ color: '#aaa', textDecoration: 'none' }}>{service.title}</Link>
+                    <Link href={service.href} style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>
+                      {service.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Company</h4>
+              <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: isMobile ? '1.1rem' : '1.2rem' }}>Company</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {['About', 'Careers', 'Blog', 'Contact'].map(item => (
                   <li key={item} style={{ marginBottom: '0.5rem' }}>
-                    <Link href={`/${item.toLowerCase()}`} style={{ color: '#aaa', textDecoration: 'none' }}>{item}</Link>
+                    <Link href={`/${item.toLowerCase()}`} style={{ color: '#aaa', textDecoration: 'none', fontSize: isMobile ? '0.9rem' : '1rem' }}>
+                      {item}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Connect</h4>
+              <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: isMobile ? '1.1rem' : '1.2rem' }}>Connect</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
-                {['LinkedIn', 'Twitter', 'GitHub', 'Instagram'].map(item => (
-                  <li key={item} style={{ marginBottom: '0.5rem' }}>
-                    <a href="#" style={{ color: '#aaa', textDecoration: 'none' }}>{item}</a>
+                {socialMedia.map(social => (
+                  <li key={social.name} style={{ marginBottom: '0.5rem' }}>
+                    <a 
+                      href={social.href} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ 
+                        color: '#aaa', 
+                        textDecoration: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        justifyContent: isMobile ? 'center' : 'flex-start',
+                      }}
+                    >
+                      <img 
+                        src={social.icon} 
+                        alt={social.name}
+                        style={{ width: '20px', height: '20px' }}
+                      />
+                      <span style={{ fontSize: isMobile ? '0.9rem' : '1rem' }}>{social.name}</span>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -738,7 +924,8 @@ export default function Overview() {
             borderTop: '1px solid #333', 
             paddingTop: '2rem',
             textAlign: 'center',
-            color: '#666'
+            color: '#666',
+            fontSize: isMobile ? '0.8rem' : '0.9rem'
           }}>
             © 2026 PureLatency. All rights reserved. Crafted with precision in San Francisco.
           </div>
