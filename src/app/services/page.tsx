@@ -56,7 +56,7 @@ export default function ServicesPage() {
     },
     {
       title: 'Quantum Compute',
-      href: '/services/quantum-computer',
+      href: '/services/quantum-compute',
       desc: 'Cutting-edge quantum computing solutions for complex problem-solving, from drug discovery to financial modeling.',
       icon: '⚛️',
       color: '#5f2b9c',
