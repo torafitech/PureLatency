@@ -122,12 +122,12 @@ const Navbar: React.FC = () => {
     }, 150);
   };
 
-  // Styles (unchanged except where noted)
+  // ✅ FIXED: Nav z-index set to 50 (standard)
   const navStyle: React.CSSProperties = {
     position: 'fixed',
     top: 0,
     width: '100%',
-    zIndex: 50,
+    zIndex: 50,  // Explicitly set
     transition: 'all 0.3s',
     background: isScrolled ? 'rgba(255,255,255,0.95)' : 'transparent',
     backdropFilter: isScrolled ? 'blur(8px)' : 'none',
@@ -186,7 +186,7 @@ const Navbar: React.FC = () => {
 
   const mobileMenuButtonStyle: React.CSSProperties = {
     display: !mounted || isMobile ? 'block' : 'none',
-    fontSize  : '1.5rem',
+    fontSize: '1.5rem',
     padding: '0.5rem',
     borderRadius: '8px',
     border: 'none',
@@ -195,16 +195,15 @@ const Navbar: React.FC = () => {
     color: '#374151',
   };
 
-  // 🔧 FIX: Add isolation and higher z-index to the overlay (optional) and panel
   const overlayStyle: React.CSSProperties = {
     position: 'fixed',
     inset: 0,
     background: 'rgba(0,0,0,0.2)',
     backdropFilter: 'blur(4px)',
-    zIndex: 40,          // stays below panel
+    zIndex: 40,  // Below panel (60)
   };
 
-  // 🔧 FIX: Create a new stacking context and ensure panel is above everything
+  // ✅ FIXED: Reduced z-index to 60 (above nav/overlay), keeps isolation
   const mobileMenuPanelStyle: React.CSSProperties = {
     position: 'fixed',
     top: 0,
@@ -214,11 +213,11 @@ const Navbar: React.FC = () => {
     background: 'white',
     boxShadow:
       '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)',
-    zIndex: 9999,        // temporarily raised to be safe
-    isolation: 'isolate', // creates new stacking context
+    zIndex: 60,  // Reduced from 9999, still highest
+    isolation: 'isolate',
     overflowY: 'auto',
     animation: 'slideIn 0.3s ease-out forwards',
-    pointerEvents: 'auto', // ensure clicks are captured
+    pointerEvents: 'auto',
   };
 
   const mobileHeaderStyle: React.CSSProperties = {
@@ -257,15 +256,16 @@ const Navbar: React.FC = () => {
     marginBottom: '0.5rem',
   });
 
+  // ✅ FIXED: Smaller button size (both desktop/mobile)
   const mobileContactButtonStyle: React.CSSProperties = {
     display: 'inline-block',
     background: '#0066cc',
     color: '#ffffff',
-    padding: '10px 24px',
+    padding: '8px 20px',  // Reduced: was '10px 24px'
     borderRadius: '999px',
     textDecoration: 'none',
     fontWeight: 500,
-    fontSize: '1rem',
+    fontSize: '0.9375rem',  // Reduced: was '1rem'
     letterSpacing: '0.5px',
     textAlign: 'center',
   };
@@ -388,7 +388,6 @@ const Navbar: React.FC = () => {
               role="dialog"
               aria-modal="true"
               aria-label="Mobile navigation menu"
-              // 🔧 FIX: ensure clicks inside panel don't propagate to overlay
               onClick={(e) => e.stopPropagation()}
             >
               <div style={mobileHeaderStyle}>

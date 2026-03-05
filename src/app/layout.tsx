@@ -15,11 +15,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={inter.variable}>
       <head>
-        {/* 🚨 MUST HAVE – this makes mobile scaling work */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
       </head>
-      <body className="font-sans">
+      {/* ✅ Make body the main stacking context for content */}
+      <body
+        className="font-sans"
+        style={{
+          position: 'relative', // creates stacking context
+          zIndex: 10,           // below navbar/drawer (50/60) but above background
+        }}
+      >
         {children}
         <WhatsAppWidget />
       </body>

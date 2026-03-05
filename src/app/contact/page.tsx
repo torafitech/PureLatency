@@ -4,7 +4,6 @@ import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-
 import styles from "./Contact.module.css";
 import { db } from "@/firebase";
 
@@ -403,7 +402,6 @@ export default function ContactPage() {
     setIsSubmitting(false);
   }
 };
-
 
   return (
     <>
