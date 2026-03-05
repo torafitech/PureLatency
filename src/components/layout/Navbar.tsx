@@ -163,8 +163,12 @@ const Navbar: React.FC = () => {
               ))}
             </div>
 
-            {/* Desktop Contact Button (small) */}
-            <Link href="/contact" className={styles.desktopContactButton}>
+            {/* Desktop Contact Button - reduced height */}
+            <Link
+              href="/contact"
+              className={styles.desktopContactButton}
+              style={{ height: '32px', padding: '4px 12px', lineHeight: '1.2' }}
+            >
               Contact Us
             </Link>
 
@@ -231,11 +235,12 @@ const Navbar: React.FC = () => {
                 </div>
               ))}
 
-              {/* Mobile Contact Button (small) */}
+              {/* Mobile Contact Button - reduced height */}
               <Link
                 href="/contact"
                 className={styles.mobileContactButton}
                 onClick={() => setIsMobileMenuOpen(false)}
+                style={{ height: '32px', padding: '4px 12px', lineHeight: '1.2' }}
               >
                 Contact Us
               </Link>

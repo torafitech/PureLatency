@@ -3,7 +3,6 @@ import Footer from '@/components/layout/Footer';
 import Hero from '../components/layout/sections/Hero';
 import Stats from '../components/layout/sections/Stats';
 import Accreditations from '../components/layout/sections/Accreditations';
-import CTASection from '../components/layout/sections/CTABanner';
 import Contact from '../components/layout/sections/Contact';
 export default function Home() {
   return (
@@ -13,7 +12,6 @@ export default function Home() {
         <Hero />
         <Stats />
         <Accreditations />
-        <CTASection />
         <Contact />
       </main>
       <Footer />
