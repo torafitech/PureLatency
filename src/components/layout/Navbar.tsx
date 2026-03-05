@@ -4,12 +4,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import styles from './Navbar.module.css'; // adjust path as needed
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
@@ -17,13 +17,6 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   useEffect(() => {
@@ -96,17 +89,13 @@ const Navbar: React.FC = () => {
         { label: 'Purpose and Beliefs', href: '/about/beliefs' },
         { label: 'Milestones', href: '/about/milestones' },
       ],
-    }
+    },
   ];
 
   const socialMedia = [
     { name: 'Instagram', href: 'https://instagram.com/purelatency', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg' },
     { name: 'Facebook', href: 'https://facebook.com/purelatency', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg' },
-    { name: 'Twitter',
-      href: 'https://twitter.com/purelatency',
-      icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg',
-      color: '#000000'
-    }
+    { name: 'Twitter', href: 'https://twitter.com/purelatency', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg' },
   ];
 
   const handleMouseEnter = (label: string) => {
@@ -120,221 +109,50 @@ const Navbar: React.FC = () => {
     }, 150);
   };
 
-  const navStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: 0,
-    width: '100%',
-    zIndex: 50,
-    transition: 'all 0.3s',
-    background: isScrolled ? 'rgba(255,255,255,0.95)' : 'transparent',
-    backdropFilter: isScrolled ? 'blur(8px)' : 'none',
-    boxShadow: isScrolled ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
-  };
-
-  const containerStyle: React.CSSProperties = {
-    maxWidth: '1280px',
-    margin: '0 auto',
-    padding: '0 2rem',
-  };
-
-  const headerStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: '80px',
-  };
-
-  const desktopNavStyle: React.CSSProperties = {
-    display: !mounted || isMobile ? 'none' : 'flex',
-    alignItems: 'center',
-    gap: '2rem',
-  };
-
-  const navLinkStyle = (active: boolean): React.CSSProperties => ({
-    fontSize: '0.875rem',
-    fontWeight: 500,
-    color: active ? '#0066cc' : '#374151',
-    textDecoration: 'none',
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '0.25rem',
-  });
-
-  const dropdownStyle: React.CSSProperties = {
-    position: 'absolute',
-    left: 0,
-    top: '100%',
-    width: '224px',
-    background: 'white',
-    borderRadius: '12px',
-    boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-    padding: '0.5rem 0',
-    zIndex: 50,
-  };
-
-  const dropdownItemStyle = (active: boolean): React.CSSProperties => ({
-    display: 'block',
-    padding: '0.5rem 1rem',
-    fontSize: '0.875rem',
-    color: active ? '#0066cc' : '#374151',
-    textDecoration: 'none',
-    background: active ? '#f9fafb' : 'transparent',
-  });
-
-  const mobileMenuButtonStyle: React.CSSProperties = {
-    display: !mounted || isMobile ? 'block' : 'none',
-    fontSize: '1.5rem',
-    padding: '0.5rem',
-    borderRadius: '8px',
-    border: 'none',
-    background: 'transparent',
-    cursor: 'pointer',
-    color: '#374151',
-  };
-
-  const overlayStyle: React.CSSProperties = {
-    position: 'fixed',
-    inset: 0,
-    background: 'rgba(0,0,0,0.2)',
-    backdropFilter: 'blur(4px)',
-    zIndex: 40,
-  };
-
-  const mobileMenuPanelStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: 0,
-    right: 0,
-    width: '300px',
-    height: '100%',
-    background: 'white',
-    boxShadow:
-      '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)',
-    zIndex: 60,
-    isolation: 'isolate',
-    overflowY: 'auto',
-    animation: 'slideIn 0.3s ease-out forwards',
-    pointerEvents: 'auto',
-  };
-
-  const mobileHeaderStyle: React.CSSProperties = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '1.5rem',
-    borderBottom: '1px solid #e6e6e9',
-  };
-
-  const mobileNavStyle: React.CSSProperties = {
-    padding: '1.5rem',
-  };
-
-  const mobileNavItemStyle: React.CSSProperties = {
-    borderBottom: '1px solid #e6e6e9',
-    paddingBottom: '1rem',
-    marginBottom: '1rem',
-  };
-
-  const mobileNavLinkStyle = (active: boolean): React.CSSProperties => ({
-    display: 'block',
-    fontWeight: 500,
-    fontSize: '1.125rem',
-    color: active ? '#0066cc' : '#1d1d1f',
-    textDecoration: 'none',
-    marginBottom: '0.5rem',
-  });
-
-  const mobileDropdownItemStyle = (active: boolean): React.CSSProperties => ({
-    display: 'block',
-    paddingLeft: '1rem',
-    fontSize: '0.875rem',
-    color: active ? '#0066cc' : '#86868b',
-    textDecoration: 'none',
-    marginBottom: '0.5rem',
-  });
-
-  /* ✅ Desktop Contact Button */
-  const desktopContactButtonStyle: React.CSSProperties = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: '#0066cc',
-    color: '#ffffff',
-    padding: '10px 22px',
-    borderRadius: '999px',
-    textDecoration: 'none',
-    fontWeight: 500,
-    fontSize: '0.9rem',
-    letterSpacing: '0.3px',
-  };
-
-  /* ✅ Mobile Contact Button */
-  const mobileContactButtonStyle: React.CSSProperties = {
-    display: 'block',
-    background: '#0066cc',
-    color: '#ffffff',
-    padding: '8px 18px',
-    borderRadius: '999px',
-    textDecoration: 'none',
-    fontWeight: 500,
-    fontSize: '0.875rem',
-    textAlign: 'center',
-  };
-
-  const mobileSocialStyle: React.CSSProperties = {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '1.5rem',
-    marginTop: '2rem',
-    padding: '0 1.5rem',
-  };
-
-  const mobileSocialImgStyle: React.CSSProperties = {
-    width: '24px',
-    height: '24px',
-    filter: 'brightness(0.8)',
-    transition: 'filter 0.2s',
-  };
-
   return (
     <>
-      <nav style={navStyle} aria-label="Main navigation">
-        <div style={containerStyle}>
-          <div style={headerStyle}>
-            
-            <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
+      <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`} aria-label="Main navigation">
+        <div className={styles.container}>
+          <div className={styles.header}>
+            {/* Logo */}
+            <Link href="/" className={styles.logo}>
               <Image
                 src="/images/logo.png"
                 alt="Pure Latency Logo"
                 width={80}
                 height={32}
                 priority
-                style={{
-                  objectFit: 'contain',
-                  width: 'auto',
-                  height: mounted && isMobile ? '28px' : '40px',
-                }}
+                className={styles.logoImage}
               />
             </Link>
 
-            <div style={desktopNavStyle}>
+            {/* Desktop Navigation */}
+            <div className={styles.desktopNav}>
               {navItems.map((item) => (
                 <div
                   key={item.label}
-                  style={{ position: 'relative' }}
+                  className={styles.navItem}
                   onMouseEnter={() => handleMouseEnter(item.label)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <Link href={item.href} style={navLinkStyle(isParentActive(item))}>
+                  <Link
+                    href={item.href}
+                    className={`${styles.navLink} ${
+                      isParentActive(item) ? styles.active : ''
+                    }`}
+                  >
                     {item.label}
                   </Link>
 
                   {item.dropdown && activeDropdown === item.label && (
-                    <div style={dropdownStyle}>
+                    <div className={styles.dropdown}>
                       {item.dropdown.map((drop) => (
                         <Link
                           key={drop.label}
                           href={drop.href}
-                          style={dropdownItemStyle(isActive(drop.href))}
+                          className={`${styles.dropdownItem} ${
+                            isActive(drop.href) ? styles.active : ''
+                          }`}
                         >
                           {drop.label}
                         </Link>
@@ -345,21 +163,103 @@ const Navbar: React.FC = () => {
               ))}
             </div>
 
-            {/* ✅ Desktop Contact Button */}
-            <Link href="/contact" style={desktopContactButtonStyle}>
+            {/* Desktop Contact Button */}
+            <Link href="/contact" className={styles.desktopContactButton}>
               Contact Us
             </Link>
 
+            {/* Mobile Menu Button */}
             <button
-              style={mobileMenuButtonStyle}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={styles.mobileMenuButton}
+              onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Open menu"
             >
               ☰
             </button>
-
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu Overlay & Panel */}
+      {isMobileMenuOpen && (
+        <>
+          <div className={styles.overlay} onClick={() => setIsMobileMenuOpen(false)} />
+          <div className={styles.mobileMenuPanel}>
+            <div className={styles.mobileHeader}>
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
+                <Image
+                  src="/images/logo.png"
+                  alt="Pure Latency Logo"
+                  width={60}
+                  height={24}
+                  className={styles.logoImage}
+                />
+              </Link>
+              <button
+                className={styles.mobileCloseButton}
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Close menu"
+              >
+                ✕
+              </button>
+            </div>
+
+            <nav className={styles.mobileNav}>
+              {navItems.map((item) => (
+                <div key={item.label} className={styles.mobileNavItem}>
+                  <Link
+                    href={item.href}
+                    className={`${styles.mobileNavLink} ${
+                      isParentActive(item) ? styles.active : ''
+                    }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                  {item.dropdown?.map((drop) => (
+                    <Link
+                      key={drop.label}
+                      href={drop.href}
+                      className={`${styles.mobileDropdownItem} ${
+                        isActive(drop.href) ? styles.active : ''
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {drop.label}
+                    </Link>
+                  ))}
+                </div>
+              ))}
+
+              <Link
+                href="/contact"
+                className={styles.mobileContactButton}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact Us
+              </Link>
+
+              <div className={styles.mobileSocial}>
+                {socialMedia.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.name}
+                  >
+                    <img
+                      src={social.icon}
+                      alt={social.name}
+                      className={styles.mobileSocialIcon}
+                    />
+                  </a>
+                ))}
+              </div>
+            </nav>
+          </div>
+        </>
+      )}
     </>
   );
 };
