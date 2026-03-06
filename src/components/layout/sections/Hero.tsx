@@ -3,12 +3,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import Container from '../ui/Container';
 
 const Hero: React.FC = () => {
   return (
     <section className="relative pt-32 pb-40 overflow-hidden min-h-screen flex items-center">
-      {/* Exact Vercel screenshot background replication - NO TRIANGLE/LOGO */}
+
+      {/* Exact Vercel screenshot background replication */}
       <div 
         className="fixed inset-0 -z-10"
         style={{
@@ -22,7 +24,18 @@ const Hero: React.FC = () => {
         }}
       />
 
-      {/* Grid overlay - exact match */}
+      {/* Wave Image Layer */}
+      <div className="absolute inset-0 opacity-40 pointer-events-none">
+        <Image
+          src="/hero.png"
+          alt="wave lines"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+
+      {/* Grid overlay */}
       <div 
         className="absolute inset-0"
         style={{
@@ -99,6 +112,7 @@ const Hero: React.FC = () => {
                 Explore Services
               </motion.button>
             </Link>
+
             <Link href="/contact">
               <motion.button
                 className="px-10 py-4 bg-white text-black rounded-full font-semibold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 backdrop-blur-sm border border-black/10 flex items-center gap-3 hover:scale-[1.02] active:scale-[0.98]"
@@ -113,6 +127,7 @@ const Hero: React.FC = () => {
               </motion.button>
             </Link>
           </motion.div>
+
         </motion.div>
       </Container>
     </section>
