@@ -180,8 +180,13 @@ export default function ContactPage() {
 
       console.log("Submitting to Firestore:", submissionData);
 
-      const docRef = await addDoc(collection(db, "contacts"), submissionData);
-      console.log("Document written with ID:", docRef.id);
+      // Replace the addDoc line
+const docRef = await Promise.race([
+  addDoc(collection(db, "contacts"), submissionData),
+  new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout: Check rules/Firebase status')), 15000))
+]);
+
+      
 
       setSubmitStatus({
         type: "success",
