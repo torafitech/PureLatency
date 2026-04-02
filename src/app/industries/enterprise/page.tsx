@@ -17,10 +17,10 @@ export default function EnterprisePage() {
     icon: '🏢',
     color: '#0066cc',
     stats: [
-      { value: '50+', label: 'Enterprise Clients', icon: '🏢' },
+      { value: '2+', label: 'Enterprise Clients', icon: '🏢' },
       { value: '99.99%', label: 'Average Uptime', icon: '📊' },
       { value: '40%', label: 'Cost Reduction', icon: '💰' },
-      { value: '1+', label: 'Years Experience', icon: '⏳' }
+      { value: '10+', label: 'Years Experience', icon: '⏳' }
     ]
   };
 
@@ -126,38 +126,38 @@ export default function EnterprisePage() {
     }
   ];
 
-  const successStories = [
-    {
-      client: 'Global Manufacturing Corp',
-      industry: 'Manufacturing',
-      challenge: 'Legacy ERP system causing inefficiencies and limiting growth',
-      solution: 'Modernized core systems with cloud-native architecture',
-      result: '40% cost reduction, 99.99% uptime, 3x faster deployments',
-      metrics: ['$5M annual savings', '60% faster processes', 'Zero downtime'],
-      icon: '🏭',
-      color: '#0066cc'
-    },
-    {
-      client: 'Fortune 500 Retailer',
-      industry: 'Retail',
-      challenge: 'Disconnected systems leading to poor customer experience',
-      solution: 'Unified commerce platform with real-time inventory',
-      result: '45% increase in online sales, 30% faster checkout',
-      metrics: ['45% revenue growth', '30% faster checkout', '98% satisfaction'],
-      icon: '🛍️',
-      color: '#10B981'
-    },
-    {
-      client: 'International Bank',
-      industry: 'Finance',
-      challenge: 'Security concerns and slow transaction processing',
-      solution: 'Modern banking platform with real-time processing',
-      result: '99.99% security compliance, 50% faster transactions',
-      metrics: ['Zero breaches', '50% faster', '$2M saved'],
-      icon: '💰',
-      color: '#7C3AED'
-    }
-  ];
+  // const successStories = [
+  //   {
+  //     client: 'Global Manufacturing Corp',
+  //     industry: 'Manufacturing',
+  //     challenge: 'Legacy ERP system causing inefficiencies and limiting growth',
+  //     solution: 'Modernized core systems with cloud-native architecture',
+  //     result: '40% cost reduction, 99.99% uptime, 3x faster deployments',
+  //     metrics: ['$5M annual savings', '60% faster processes', 'Zero downtime'],
+  //     icon: '🏭',
+  //     color: '#0066cc'
+  //   },
+  //   {
+  //     client: 'Fortune 500 Retailer',
+  //     industry: 'Retail',
+  //     challenge: 'Disconnected systems leading to poor customer experience',
+  //     solution: 'Unified commerce platform with real-time inventory',
+  //     result: '45% increase in online sales, 30% faster checkout',
+  //     metrics: ['45% revenue growth', '30% faster checkout', '98% satisfaction'],
+  //     icon: '🛍️',
+  //     color: '#10B981'
+  //   },
+  //   {
+  //     client: 'International Bank',
+  //     industry: 'Finance',
+  //     challenge: 'Security concerns and slow transaction processing',
+  //     solution: 'Modern banking platform with real-time processing',
+  //     result: '99.99% security compliance, 50% faster transactions',
+  //     metrics: ['Zero breaches', '50% faster', '$2M saved'],
+  //     icon: '💰',
+  //     color: '#7C3AED'
+  //   }
+  // ];
 
   const capabilities = [
     {
@@ -314,7 +314,7 @@ export default function EnterprisePage() {
               <h3 className={styles.heroCardTitle}>Enterprise Impact</h3>
               <ul className={styles.heroCardList}>
                 {[
-                  '50+ enterprise clients served',
+                  '2+ enterprise clients served',
                   '40% average cost reduction',
                   '99.99% uptime guaranteed'
                 ].map((item, i) => (
@@ -341,7 +341,7 @@ export default function EnterprisePage() {
 
         {/* Navigation Tabs */}
         <div className={styles.tabsContainer}>
-          {['overview', 'solutions', 'success', 'faq'].map(tab => (
+          {['overview', 'solutions',  'faq'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -467,7 +467,7 @@ export default function EnterprisePage() {
           </section>
         )}
 
-        {activeTab === 'success' && (
+        {/* {activeTab === 'success' && (
           <section style={{ marginBottom: '6rem' }}>
             <h2 className={styles.sectionTitle}>Enterprise Success Stories</h2>
             <p className={styles.sectionSubtitle}>
@@ -513,7 +513,7 @@ export default function EnterprisePage() {
               ))}
             </div>
           </section>
-        )}
+        )} */}
 
         {activeTab === 'faq' && (
           <section style={{ marginBottom: '6rem' }}>
@@ -544,19 +544,6 @@ export default function EnterprisePage() {
           </div>
         </section>
 
-        {/* Partners */}
-        <section style={{ marginBottom: '6rem' }}>
-          <h2 className={styles.sectionTitle}>Enterprise Partners</h2>
-          <div className={styles.partnersGrid}>
-            {partners.map(partner => (
-              <div key={partner.name} className={styles.partnerItem}>
-                <div className={styles.partnerLogo}>{partner.logo}</div>
-                <div className={styles.partnerName}>{partner.name}</div>
-                <div className={styles.partnerType}>{partner.type}</div>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* CTA Section */}
         <section className={styles.ctaSection}>

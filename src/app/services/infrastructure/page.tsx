@@ -302,7 +302,7 @@ export default function InfrastructurePage() {
         </section>
 
         {/* Industry Solutions */}
-        <section style={{ marginBottom: '6rem' }}>
+        {/* <section style={{ marginBottom: '6rem' }}>
           <h2 className={styles.sectionTitle}>Industry-Specific Infrastructure</h2>
           <p className={styles.sectionSubtitle}>
             Tailored infrastructure solutions for your industry's unique requirements
@@ -331,7 +331,7 @@ export default function InfrastructurePage() {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Innovative Technologies */}
         <section style={{ marginBottom: '6rem' }}>

@@ -279,7 +279,7 @@ export default function DataAIPage() {
         </section>
 
         {/* Industry Solutions */}
-        <section style={{ marginBottom: '6rem' }}>
+        {/* <section style={{ marginBottom: '6rem' }}>
           <h2 className={styles.sectionTitle}>Industry-Specific Solutions</h2>
           <p className={styles.sectionSubtitle}>
             Tailored AI solutions that address the unique challenges of your industry
@@ -308,7 +308,7 @@ export default function DataAIPage() {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Innovative Technologies */}
         <section style={{ marginBottom: '6rem' }}>

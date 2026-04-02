@@ -68,7 +68,7 @@ export default function ServicesPage() {
   const stats = [
     { value: '2+', label: 'Successful Projects', icon: '🏆' },
     { value: '98%', label: 'Client Retention Rate', icon: '🤝' },
-    { value: '1+', label: 'Years of Innovation', icon: '⏳' },
+    { value: '10+', label: 'Years of Innovation', icon: '⏳' },
     { value: '24/7', label: 'Expert Support', icon: '🌙' }
   ];
 
@@ -129,7 +129,7 @@ export default function ServicesPage() {
       title: 'Future-Ready Solutions',
       desc: 'We build with tomorrow in mind, ensuring your technology evolves with you.',
       icon: '🔮',
-      stat: '5+ years',
+      stat: '10+ years',
       statDesc: 'forward compatibility'
     }
   ];
@@ -251,7 +251,7 @@ export default function ServicesPage() {
                 {[
                   '2+ successful projects delivered',
                   '98% client retention rate',
-                  '1+ years of innovation'
+                  '10+ years of innovation'
                 ].map((item, i) => (
                   <li key={i} className={styles.heroCardItem}>
                     <span className={styles.heroCardCheck}>✓</span>
@@ -370,7 +370,7 @@ export default function ServicesPage() {
         </section>
 
         {/* Trusted By */}
-        <section style={{ marginBottom: '6rem' }}>
+        {/* <section style={{ marginBottom: '6rem' }}>
           <h2 className={styles.sectionTitle}>Trusted By Industry Leaders</h2>
           <div className={styles.clientsGrid}>
             {clients.map(client => (
@@ -381,7 +381,7 @@ export default function ServicesPage() {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* CTA Section */}
         <section className={styles.ctaSection}>

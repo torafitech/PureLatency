@@ -1,10 +1,10 @@
 'use client';
 
+import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import Link from 'next/link';
 import { useState } from 'react';
 import styles from './StarlingPost.module.css'; // adjust path as needed
-import Footer from '@/components/layout/Footer';
 
 export default function StarlingPostPage() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -22,7 +22,7 @@ export default function StarlingPostPage() {
 
   const stats = [
     { value: '50k+', label: 'Active Users', icon: '👥' },
-    { value: '4.9', label: 'App Store Rating', icon: '⭐' },
+    // { value: '4.9', label: 'App Store Rating', icon: '⭐' },
     { value: '99.9%', label: 'Uptime SLA', icon: '📊' },
     { value: '10+', label: 'Integrations', icon: '🔗' }
   ];
@@ -164,14 +164,14 @@ export default function StarlingPostPage() {
   ];
 
   const socialMedia = [
-    { 
-      name: 'Instagram', 
+    {
+      name: 'Instagram',
       href: 'https://instagram.com/purelatency',
       icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg',
       color: '#E4405F'
     },
-    { 
-      name: 'Facebook', 
+    {
+      name: 'Facebook',
       href: 'https://facebook.com/purelatency',
       icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg',
       color: '#1877F2'
@@ -201,8 +201,8 @@ export default function StarlingPostPage() {
                 className={styles.socialLink}
                 style={{ '--social-color': social.color } as React.CSSProperties}
               >
-                <img 
-                  src={social.icon} 
+                <img
+                  src={social.icon}
                   alt={social.name}
                   className={styles.socialIcon}
                 />
@@ -214,8 +214,8 @@ export default function StarlingPostPage() {
 
         {/* Breadcrumb */}
         <div className={styles.breadcrumb}>
-          <Link href="/" className={styles.breadcrumbLink}>Home</Link> / 
-          <Link href="/products" className={styles.breadcrumbLink}> Products</Link> / 
+          <Link href="/" className={styles.breadcrumbLink}>Home</Link> /
+          <Link href="/products" className={styles.breadcrumbLink}> Products</Link> /
           <span className={styles.breadcrumbCurrent}> Starling Post</span>
         </div>
 
@@ -235,12 +235,9 @@ export default function StarlingPostPage() {
               {product.longDescription}
             </p>
             <div className={styles.buttonGroup}>
-              <Link href="/contact" className={styles.buttonPrimary}>
-                Get Started Free
-              </Link>
-              <Link href="#demo" className={styles.buttonSecondary}>
-                Watch Demo →
-              </Link>
+              <span className={styles.buttonDisabled}>
+                Coming Soon
+              </span>
             </div>
           </div>
 
@@ -424,8 +421,8 @@ export default function StarlingPostPage() {
             {integrations.map(integration => (
               <div key={integration.name} className={styles.integrationItem}>
                 {integration.logo.startsWith('http') ? (
-                  <img 
-                    src={integration.logo} 
+                  <img
+                    src={integration.logo}
                     alt={integration.name}
                     className={styles.integrationLogo}
                   />
@@ -489,7 +486,7 @@ export default function StarlingPostPage() {
       </main>
 
       {/* Footer */}
-      <Footer/>
+      <Footer />
     </>
   );
 }

@@ -22,7 +22,7 @@ const HomePage: NextPage = () => {
       
       <main>
         <Hero />
-        <Services />
+        {/* <Services /> */}
         <WhyUs />
         <Process />
       </main>

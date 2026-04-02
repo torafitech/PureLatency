@@ -43,7 +43,7 @@ export default function WebDevelopmentPage() {
       metric: '100% responsive'
     },
     {
-      title: 'SEO Friendly',
+      title: 'SEO/GEO Friendly',
       desc: 'Built with search engines in mind',
       icon: '🔍',
       metric: 'Top rankings'
@@ -60,7 +60,7 @@ export default function WebDevelopmentPage() {
     { number: '50+', label: 'Websites Delivered' },
     { number: '100%', label: 'Client Satisfaction' },
     { number: '24/7', label: 'Support Available' },
-    { number: '1+', label: 'Years Experience' }
+    { number: '10+', label: 'Years Experience' }
   ];
 
   const process = [

@@ -300,7 +300,7 @@ export default function GovernmentPage() {
             </p>
             <div className={styles.buttonGroup}>
               <Link href="/contact" className={styles.buttonPrimary}>
-                Contact Government Team
+                Talk to Our Team
               </Link>
               <Link href="#solutions" className={styles.buttonSecondary}>
                 Explore Solutions ↓

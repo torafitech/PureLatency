@@ -229,9 +229,8 @@ export default function AboutPage() {
               <h3 className={styles.heroCardTitle}>By the Numbers</h3>
               <ul className={styles.heroCardList}>
                 {[
-                  'Founded 2026 in San Francisco',
-                  '5 passionate founders',
-                  '50+ team members globally'
+                  'Founded 2026',
+                  '2 passionate founders',
                 ].map((item, i) => (
                   <li key={i} className={styles.heroCardItem}>
                     <span className={styles.heroCardCheck}>✓</span>
@@ -243,20 +242,11 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Stats Banner */}
-        <section className={styles.statsBanner}>
-          {stats.map(stat => (
-            <div key={stat.label} className={styles.statItem}>
-              <div className={styles.statIcon}>{stat.icon}</div>
-              <div className={styles.statValue}>{stat.value}</div>
-              <div className={styles.statLabel}>{stat.label}</div>
-            </div>
-          ))}
-        </section>
+
 
         {/* Navigation Tabs */}
         <div className={styles.tabsContainer}>
-          {['story', 'values', 'team'].map(tab => (
+          {['story', 'values'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -292,23 +282,6 @@ export default function AboutPage() {
               </div>
             </section>
 
-            {/* Timeline */}
-            <section style={{ marginBottom: '6rem' }}>
-              <h2 className={styles.sectionTitle}>Our Journey</h2>
-              <div className={styles.timelineGrid}>
-                {timeline.map((item, index) => (
-                  <div key={item.title} className={styles.timelineCard}>
-                    {index < timeline.length - 1 && <div className={styles.timelineConnector} />}
-                    <div className={styles.timelineIcon}>{item.icon}</div>
-                    <div className={styles.timelineYear} style={{ color: item.color }}>
-                      {item.year}
-                    </div>
-                    <h3 className={styles.timelineTitle}>{item.title}</h3>
-                    <p className={styles.timelineDesc}>{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
           </>
         )}
 
@@ -352,35 +325,6 @@ export default function AboutPage() {
                       {leader.role}
                     </p>
                     <p className={styles.leaderBio}>{leader.bio}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Global Offices */}
-            <section style={{ marginBottom: '6rem' }}>
-              <h2 className={styles.sectionTitle}>Global Presence</h2>
-              <div className={styles.officesGrid}>
-                {offices.map(office => (
-                  <div key={office.city} className={styles.officeCard}>
-                    <div className={styles.officeIcon}>{office.icon}</div>
-                    <h3 className={styles.officeCity}>{office.city}</h3>
-                    <p className={styles.officeCountry}>{office.country}</p>
-                    <p className={styles.officeAddress}>{office.address}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Trusted By */}
-            <section style={{ marginBottom: '6rem' }}>
-              <h2 className={styles.sectionTitle}>Trusted By Industry Leaders</h2>
-              <div className={styles.clientsGrid}>
-                {clients.map(client => (
-                  <div key={client.name} className={styles.clientItem}>
-                    <div className={styles.clientLogo}>{client.logo}</div>
-                    <div className={styles.clientName}>{client.name}</div>
-                    <div className={styles.clientIndustry}>{client.industry}</div>
                   </div>
                 ))}
               </div>

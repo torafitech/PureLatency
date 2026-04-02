@@ -278,7 +278,7 @@ export default function CloudDevOpsPage() {
         </section>
 
         {/* Industry Solutions */}
-        <section style={{ marginBottom: '6rem' }}>
+        {/* <section style={{ marginBottom: '6rem' }}>
           <h2 className={styles.sectionTitle}>Industry-Specific Solutions</h2>
           <p className={styles.sectionSubtitle}>
             Tailored cloud infrastructure that addresses the unique challenges of your industry
@@ -307,7 +307,7 @@ export default function CloudDevOpsPage() {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Innovative Technologies */}
         <section style={{ marginBottom: '6rem' }}>

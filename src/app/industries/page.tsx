@@ -47,7 +47,7 @@ export default function IndustriesPage() {
 
   // Updated stats to reflect actual experience
   const stats = [
-    { value: '1+', label: 'Year Experience', icon: '⏳' },
+    { value: '10+', label: 'Year Experience', icon: '⏳' },
     { value: '2+', label: 'Industry Projects', icon: '🏆' },
     { value: '100%', label: 'Compliance Success', icon: '✓' },
     { value: '24/7', label: 'Dedicated Support', icon: '🌙' }
@@ -259,7 +259,7 @@ export default function IndustriesPage() {
               <ul className={styles.heroCardList}>
                 {[
                   '2+ industry projects delivered',
-                  '1+ year combined experience',
+                  '10+ year combined experience',
                   '100% compliance success rate'
                 ].map((item, i) => (
                   <li key={i} className={styles.heroCardItem}>

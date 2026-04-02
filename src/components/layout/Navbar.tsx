@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
       href: '/services',
       dropdown: [
         { label: 'Overview', href: '/services' },
-        { label: 'Applications', href: '/services/applications' },
+        // { label: 'Applications', href: '/services/applications' },
         { label: 'Web Development', href: '/services/web-development' },
         { label: 'Data and AI', href: '/services/data-ai' },
         { label: 'Cloud and DevOps', href: '/services/cloud-devops' },
@@ -77,7 +77,7 @@ const Navbar: React.FC = () => {
       href: '/industries',
       dropdown: [
         { label: 'Enterprise', href: '/industries/enterprise' },
-        { label: 'Government', href: '/industries/government' },
+        // { label: 'Government', href: '/industries/government' },
         { label: 'Telco and Space', href: '/industries/telco-space' },
       ],
     },
@@ -87,7 +87,7 @@ const Navbar: React.FC = () => {
       dropdown: [
         { label: 'Overview', href: '/about' },
         { label: 'Purpose and Beliefs', href: '/about/beliefs' },
-        { label: 'Milestones', href: '/about/milestones' },
+        // { label: 'Milestones', href: '/about/milestones' },
       ],
     },
   ];

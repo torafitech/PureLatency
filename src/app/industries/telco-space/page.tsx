@@ -345,7 +345,7 @@ export default function TelcoSpacePage() {
 
         {/* Navigation Tabs */}
         <div className={styles.tabsContainer}>
-          {['overview', 'solutions', 'success', 'faq'].map(tab => (
+          {['overview', 'solutions',  'faq'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -533,22 +533,7 @@ export default function TelcoSpacePage() {
           </section>
         )}
 
-        {/* Industry Partners */}
-        <section style={{ marginBottom: '6rem' }}>
-          <h2 className={styles.sectionTitle}>Industry Partners</h2>
-          <p className={styles.sectionSubtitle}>
-            Collaborating with leaders in connectivity and aerospace
-          </p>
-          <div className={styles.partnersGrid}>
-            {partners.map(partner => (
-              <div key={partner.name} className={styles.partnerItem}>
-                <div className={styles.partnerLogo}>{partner.logo}</div>
-                <div className={styles.partnerName}>{partner.name}</div>
-                <div className={styles.partnerType}>{partner.type}</div>
-              </div>
-            ))}
-          </div>
-        </section>
+ 
 
         {/* Technology Stack */}
         <section style={{ marginBottom: '6rem' }}>

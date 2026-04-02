@@ -1,62 +1,87 @@
-'use client'
+"use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import Container from '../ui/Container';
+import Link from "next/link";
+import React from "react";
+import styles from "../../../app/services/Services.module.css";
 
 const Stats: React.FC = () => {
-  const stats = [
-    {
-      number: "#1",
-      label: "in IT services in Singapore and Southeast Asia*",
-      description: "*For 2023. Source: IDC's Worldwide Semiannual Services Tracker (2023H2 release). NCS ranks no. 1 in market share based on vendor revenue. SEA (Southeast Asia) = Singapore, Malaysia, Thailand, Indonesia, Philippines and Vietnam."
-    },
-    {
-      number: "> 14,000",
-      label: "talents across Singapore, Australia, China and India"
-    },
-    {
-      number: "4000+",
-      label: "active projects"
-    },
-    {
-      number: "55",
-      label: "areas of specialisations"
-    },
-    {
-      number: "> 20",
-      label: "cities we operate in within Asia Pacific"
-    },
-    {
-      number: "3",
-      label: "innovation centres in Singapore, Melbourne and Shenzhen"
-    }
-  ];
+const coreServices = [
+  {
+    title: "Applications",
+    href: "/services/applications",
+    desc: "Custom web and mobile apps engineered for performance, scalability, and exceptional user experiences.",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Web Development",
+    href: "/services/web-development",
+    desc: "Modern, lightning-fast websites and web applications built with the latest frameworks and best practices.",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Data and AI",
+    href: "/services/data-ai",
+    desc: "Intelligent systems that transform raw data into actionable insights and competitive advantage.",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Cloud and DevOps",
+    href: "/services/cloud-devops",
+    desc: "Streamlined infrastructure and automated pipelines that accelerate delivery and reduce costs.",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Infrastructure",
+    href: "/services/infrastructure",
+    desc: "Rock-solid, secure infrastructure designed to grow with your business and handle any load.",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Fiber Optics",
+    href: "/services/fiber-optics",
+    desc: "High-speed, reliable fiber optic solutions for telecommunications, data centers, and enterprise networks.",
+    image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Quantum Compute",
+    href: "/services/quantum-compute",
+    desc: "Cutting-edge quantum computing solutions for complex problem-solving.",
+    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=80",
+  },
+];
 
   return (
-    <section className="section-padding bg-white">
-      <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="stat-card"
-            >
-              <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
-                {stat.number}
+    <section id="services" className={styles.section}>
+      <div className={styles.container}>
+        <h2 className={styles.title}>What We Offer</h2>
+        <p className={styles.subtitle}>
+          Comprehensive technology services tailored to your unique challenges
+        </p>
+
+        <div className={styles.list}>
+          {coreServices.map((service) => (
+            <div key={service.title} className={styles.item}>
+              {/* Image */}
+              <div className={styles.imageWrapper}>
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className={styles.image}
+                />
               </div>
-              <p className="text-gray-600 mb-2">{stat.label}</p>
-              {stat.description && (
-                <p className="text-sm text-gray-400 mt-2">{stat.description}</p>
-              )}
-            </motion.div>
+
+              {/* Content */}
+              <div className={styles.content}>
+                <Link href={service.href} className={styles.link}>
+                  <h3 className={styles.itemTitle}>{service.title}</h3>
+                  <p className={styles.desc}>{service.desc}</p>
+                  <span className={styles.cta}>Learn more →</span>
+                </Link>
+              </div>
+            </div>
           ))}
         </div>
-      </Container>
+      </div>
     </section>
   );
 };

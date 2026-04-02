@@ -133,7 +133,7 @@ export default function ApplicationsPage() {
   const stats = [
     { value: '50+', label: 'Apps Delivered', icon: '📱' },
     { value: '10M+', label: 'Users Served', icon: '👥' },
-    { value: '4.9', label: 'App Store Rating', icon: '⭐' },
+    // { value: '4.9', label: 'App Store Rating', icon: '⭐' },
     { value: '24/7', label: 'Support', icon: '🆘' }
   ];
 
