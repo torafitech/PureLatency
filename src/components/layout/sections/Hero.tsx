@@ -2,529 +2,368 @@
 
 import { motion, type Transition } from 'framer-motion'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
 
-/* ─── Three.js Globe ─────────────────────────────────────── */
-function GlobeScene() {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const container = ref.current
-    if (!container) return
-    let frame: number
-    let cleanup = () => {}
-
-    import('three').then((THREE) => {
-      if (!ref.current) return
-
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-      renderer.setSize(container.clientWidth, container.clientHeight)
-      renderer.setClearColor(0x000000, 0)
-      container.appendChild(renderer.domElement)
-
-      const scene = new THREE.Scene()
-      const camera = new THREE.PerspectiveCamera(
-        44,
-        container.clientWidth / container.clientHeight,
-        0.1,
-        100
-      )
-      camera.position.set(0, 0, 3.8)
-      camera.lookAt(0, 0, 0)
-
-      scene.add(new THREE.AmbientLight(0xffffff, 0.85))
-      const key = new THREE.DirectionalLight(0x4477ff, 2.4)
-      key.position.set(-4, 3, 2)
-      scene.add(key)
-      const fill = new THREE.DirectionalLight(0xffffff, 0.9)
-      fill.position.set(4, 0, 2)
-      scene.add(fill)
-      const rim = new THREE.DirectionalLight(0x88aaff, 0.4)
-      rim.position.set(0, -4, -1)
-      scene.add(rim)
-
-      const loader = new THREE.TextureLoader()
-      const earth = new THREE.Mesh(
-        new THREE.SphereGeometry(1, 96, 96),
-        new THREE.MeshStandardMaterial({
-          map: loader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg'),
-          normalMap: loader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg'),
-          roughness: 0.72,
-          metalness: 0.08,
-        })
-      )
-      scene.add(earth)
-
-      scene.add(new THREE.Mesh(
-        new THREE.SphereGeometry(1.08, 48, 48),
-        new THREE.MeshStandardMaterial({
-          color: 0x1a44bb, transparent: true, opacity: 0.045, side: THREE.BackSide,
-        })
-      ))
-
-      const ring = (r: number, rx: number, rz: number, op: number) => {
-        const pts = Array.from({ length: 129 }, (_, i) => {
-          const a = (i / 128) * Math.PI * 2
-          return new THREE.Vector3(Math.cos(a) * r, 0, Math.sin(a) * r)
-        })
-        const l = new THREE.Line(
-          new THREE.BufferGeometry().setFromPoints(pts),
-          new THREE.LineBasicMaterial({ color: 0x2563eb, transparent: true, opacity: op })
-        )
-        l.rotation.x = rx; l.rotation.z = rz
-        return l
-      }
-      const r1 = ring(1.35, Math.PI / 2, 0, 0.25)
-      const r2 = ring(1.58, Math.PI / 2 + 0.38, 0.42, 0.15)
-      const r3 = ring(1.82, Math.PI / 2 - 0.22, -0.52, 0.09)
-      scene.add(r1, r2, r3)
-
-      const onResize = () => {
-        camera.aspect = container.clientWidth / container.clientHeight
-        camera.updateProjectionMatrix()
-        renderer.setSize(container.clientWidth, container.clientHeight)
-      }
-      window.addEventListener('resize', onResize)
-
-      const animate = () => {
-        frame = requestAnimationFrame(animate)
-        earth.rotation.y += 0.0006
-        r1.rotation.z += 0.0004
-        r2.rotation.z -= 0.0003
-        r3.rotation.z += 0.0002
-        renderer.render(scene, camera)
-      }
-      animate()
-
-      cleanup = () => {
-        cancelAnimationFrame(frame)
-        window.removeEventListener('resize', onResize)
-        renderer.dispose()
-        if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement)
-      }
-    })
-
-    return () => cleanup()
-  }, [])
-
-  return <div ref={ref} className="absolute inset-0" />
-}
-
-/* ─── Signal Wave Canvas ─────────────────────────────────── */
-function WaveCanvas() {
-  const ref = useRef<HTMLCanvasElement>(null)
-
-  useEffect(() => {
-    const canvas = ref.current!
-    const ctx = canvas.getContext('2d')!
-    let frame: number
-    let t = 0
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
-    }
-    resize()
-    const ro = new ResizeObserver(resize)
-    ro.observe(canvas)
-
-    const WAVES = [
-      { dy:   0, amp: 18, freq: 0.011, op: 0.30, spd: 1.0 },
-      { dy: -30, amp: 14, freq: 0.013, op: 0.18, spd: 0.8 },
-      { dy:  30, amp: 14, freq: 0.009, op: 0.18, spd: 1.2 },
-      { dy: -58, amp: 10, freq: 0.015, op: 0.10, spd: 0.6 },
-      { dy:  58, amp: 10, freq: 0.008, op: 0.10, spd: 1.4 },
-    ]
-    const C = '37,99,235'
-
-    const draw = () => {
-      const w = canvas.width, h = canvas.height
-      ctx.clearRect(0, 0, w, h)
-      t += 0.009
-      const cx = w / 2, cy = h / 2
-      const gr = Math.min(w, h) * 0.32
-
-      WAVES.forEach(wv => {
-        ctx.beginPath(); ctx.lineWidth = 1.0
-        let first = true
-        for (let x = 0; x <= w; x += 3) {
-          const y = cy + wv.dy + Math.sin(x * wv.freq + t * wv.spd) * wv.amp
-          first ? ctx.moveTo(x, y) : ctx.lineTo(x, y); first = false
-        }
-        ctx.strokeStyle = `rgba(${C},${wv.op})`; ctx.stroke()
-      })
-
-      const ov = ctx.createRadialGradient(cx, cy, 0, cx, cy, gr)
-      ov.addColorStop(0, 'rgba(255,255,255,0.75)')
-      ov.addColorStop(0.62, 'rgba(255,255,255,0.52)')
-      ov.addColorStop(1, 'rgba(255,255,255,0)')
-      ctx.fillStyle = ov; ctx.fillRect(0, 0, w, h)
-
-      ctx.save()
-      ctx.beginPath(); ctx.arc(cx, cy, gr, 0, Math.PI * 2); ctx.clip()
-      WAVES.forEach(wv => {
-        ctx.beginPath(); ctx.lineWidth = 0.55
-        let first = true
-        for (let x = 0; x <= w; x += 3) {
-          const y = cy + wv.dy + Math.sin(x * wv.freq + t * wv.spd) * wv.amp
-          first ? ctx.moveTo(x, y) : ctx.lineTo(x, y); first = false
-        }
-        ctx.strokeStyle = `rgba(${C},${wv.op * 0.2})`; ctx.stroke()
-      })
-      ctx.restore()
-
-      frame = requestAnimationFrame(draw)
-    }
-    draw()
-
-    return () => { cancelAnimationFrame(frame); ro.disconnect() }
-  }, [])
-
-  return (
-    <canvas
-      ref={ref}
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ zIndex: 15 }}
-    />
-  )
-}
-
-/* ─── Hero ───────────────────────────────────────────────── */
 const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 16 },
+  initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] } as Transition,
+  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] } as Transition,
 })
 
 const STATS = [
   { value: '200+',  label: 'Projects Delivered' },
-  { value: '50+',   label: 'Enterprise Clients'  },
-  { value: '99.9%', label: 'Platform Uptime'     },
+  { value: '50+',   label: 'Enterprise Clients' },
+  { value: '99.9%', label: 'Platform Uptime' },
 ]
 
 export default function Hero() {
   return (
     <>
-      {/* ── Responsive styles ─────────────────────────── */}
       <style>{`
-        .hero-section {
+        .hero {
+          position: relative;
           min-height: 100vh;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          background: #ffffff;
+          background: #000000;
+          color: #ffffff;
           overflow: hidden;
-          position: relative;
-        }
-
-        /* ── Text column ── */
-        .hero-text {
           display: flex;
-          flex-direction: column;
+          align-items: center;
           justify-content: center;
-          padding: 7rem 3rem 4rem 7rem;
-          position: relative;
-          z-index: 30;
+          padding: 8rem 1.5rem 6rem;
+          isolation: isolate;
         }
 
-        /* ── Globe column ── */
-        .hero-globe {
-          position: relative;
-          overflow: hidden;
+        /* Grid */
+        .hero-grid {
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+          background-size: 56px 56px;
+          mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 25%, transparent 85%);
+          -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 25%, transparent 85%);
+          pointer-events: none;
+          z-index: 1;
         }
 
-        /* ── Headline ── */
+        /* Gradient orbs */
+        .hero-orb-center {
+          position: absolute;
+          width: 900px; height: 900px;
+          left: 50%; top: 50%;
+          transform: translate(-50%, -50%);
+          background: radial-gradient(circle, rgba(56,128,255,0.22) 0%, transparent 60%);
+          filter: blur(40px);
+          pointer-events: none;
+          z-index: 2;
+        }
+        .hero-orb-left {
+          position: absolute;
+          width: 520px; height: 520px;
+          left: 12%; top: 28%;
+          background: radial-gradient(circle, rgba(168,85,247,0.16) 0%, transparent 60%);
+          filter: blur(60px);
+          pointer-events: none;
+          z-index: 2;
+        }
+        .hero-orb-right {
+          position: absolute;
+          width: 520px; height: 520px;
+          right: 10%; bottom: 18%;
+          background: radial-gradient(circle, rgba(6,182,212,0.16) 0%, transparent 60%);
+          filter: blur(60px);
+          pointer-events: none;
+          z-index: 2;
+        }
+
+        /* Triangle motif */
+        .hero-triangle {
+          position: absolute;
+          left: 50%; top: 38%;
+          transform: translate(-50%, -50%);
+          width: 720px; max-width: 95vw;
+          opacity: 0.18;
+          pointer-events: none;
+          z-index: 3;
+        }
+        .hero-triangle-2 {
+          position: absolute;
+          left: 50%; top: 38%;
+          transform: translate(-50%, -50%) scale(0.55);
+          width: 720px; max-width: 95vw;
+          opacity: 0.10;
+          pointer-events: none;
+          z-index: 3;
+        }
+
+        /* Bottom fade to white */
+        .hero-fade {
+          position: absolute;
+          left: 0; right: 0; bottom: 0;
+          height: 180px;
+          background: linear-gradient(to bottom, transparent, #ffffff);
+          pointer-events: none;
+          z-index: 4;
+        }
+
+        /* Content */
+        .hero-content {
+          position: relative;
+          z-index: 10;
+          text-align: center;
+          max-width: 920px;
+          width: 100%;
+        }
+
+        .hero-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.55rem;
+          padding: 0.45rem 1.1rem;
+          border-radius: 9999px;
+          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(255,255,255,0.04);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          font-family: var(--font-dm-sans), DM Sans, sans-serif;
+          font-size: 0.7rem;
+          font-weight: 500;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #d4d4d8;
+          margin-bottom: 2rem;
+        }
+        .hero-badge-dot {
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: #06b6d4;
+          box-shadow: 0 0 10px rgba(6,182,212,0.8);
+        }
+
         .hero-h1 {
           font-family: var(--font-syne), Syne, sans-serif;
-          font-size: clamp(3.8rem, 6.5vw, 7rem);
+          font-size: clamp(3rem, 9.5vw, 7.2rem);
           font-weight: 800;
-          letter-spacing: -0.04em;
-          line-height: 0.9;
-          margin: 0 0 1.5rem 0;
+          letter-spacing: -0.045em;
+          line-height: 0.95;
+          margin: 0 0 1.4rem;
+          background: linear-gradient(180deg, #ffffff 0%, #9ca3af 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .hero-h1 .accent {
+          background: linear-gradient(135deg, #60a5fa 0%, #06b6d4 45%, #a78bfa 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
 
-        /* ── Pillars ── */
         .hero-pillars {
           font-family: var(--font-dm-sans), DM Sans, sans-serif;
-          color: #374151;
-          font-size: clamp(0.8rem, 1.1vw, 0.92rem);
-          letter-spacing: 0.1em;
+          color: #71717a;
+          font-size: clamp(0.78rem, 1vw, 0.9rem);
+          letter-spacing: 0.22em;
           text-transform: uppercase;
           font-weight: 500;
-          margin-bottom: 0.75rem;
+          margin-bottom: 1.5rem;
         }
 
-        /* ── Description ── */
         .hero-desc {
           font-family: var(--font-dm-sans), DM Sans, sans-serif;
-          color: #6e6e73;
-          font-size: clamp(0.92rem, 1.2vw, 1.05rem);
-          line-height: 1.75;
-          max-width: 440px;
-          margin-bottom: 2.5rem;
+          color: #a1a1aa;
+          font-size: clamp(1rem, 1.45vw, 1.18rem);
+          line-height: 1.65;
+          max-width: 620px;
+          margin: 0 auto 2.5rem;
         }
 
-        /* ── CTAs ── */
         .hero-ctas {
           display: flex;
           gap: 0.75rem;
+          justify-content: center;
+          margin-bottom: 4rem;
           flex-wrap: wrap;
-          margin-bottom: 3rem;
         }
         .hero-btn-primary {
           font-family: var(--font-dm-sans), DM Sans, sans-serif;
           font-weight: 600;
-          font-size: 0.88rem;
-          padding: 0.75rem 2rem;
+          font-size: 0.92rem;
+          padding: 0.85rem 1.75rem;
           border-radius: 9999px;
-          background: #0a0f1e;
-          color: #ffffff;
+          background: #ffffff;
+          color: #000000;
           text-decoration: none;
-          letter-spacing: 0.01em;
-          transition: background 0.18s, box-shadow 0.18s;
-          white-space: nowrap;
-          text-align: center;
+          transition: transform 0.18s, box-shadow 0.18s;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
         }
         .hero-btn-primary:hover {
-          background: #1e3a8a;
-          box-shadow: 0 4px 20px rgba(37,99,235,0.28);
+          transform: translateY(-1px);
+          box-shadow: 0 10px 32px rgba(255,255,255,0.2);
         }
         .hero-btn-secondary {
           font-family: var(--font-dm-sans), DM Sans, sans-serif;
-          font-weight: 400;
-          font-size: 0.88rem;
-          padding: 0.75rem 2rem;
+          font-weight: 500;
+          font-size: 0.92rem;
+          padding: 0.85rem 1.75rem;
           border-radius: 9999px;
-          border: 1px solid rgba(0,0,0,0.14);
-          color: #374151;
+          border: 1px solid rgba(255,255,255,0.2);
+          background: rgba(255,255,255,0.02);
+          color: #ffffff;
           text-decoration: none;
-          letter-spacing: 0.01em;
-          transition: border-color 0.18s, color 0.18s;
-          white-space: nowrap;
-          text-align: center;
+          backdrop-filter: blur(6px);
+          -webkit-backdrop-filter: blur(6px);
+          transition: background 0.18s, border-color 0.18s;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
         }
         .hero-btn-secondary:hover {
-          border-color: rgba(37,99,235,0.5);
-          color: #2563eb;
+          background: rgba(255,255,255,0.06);
+          border-color: rgba(255,255,255,0.32);
         }
 
-        /* ── Stats ── */
         .hero-stats {
           display: flex;
-          gap: 2.5rem;
+          gap: 3rem;
+          justify-content: center;
           padding-top: 2rem;
-          border-top: 1px solid #f0f0f0;
+          border-top: 1px solid rgba(255,255,255,0.08);
+          max-width: 640px;
+          margin: 0 auto;
         }
         .hero-stat-value {
           font-family: var(--font-syne), Syne, sans-serif;
-          font-size: clamp(1.5rem, 2.2vw, 2rem);
+          font-size: clamp(1.4rem, 2.2vw, 1.95rem);
           font-weight: 700;
-          color: #0a0f1e;
+          color: #ffffff;
           line-height: 1;
-          margin-bottom: 0.3rem;
+          margin-bottom: 0.4rem;
         }
         .hero-stat-label {
           font-family: var(--font-dm-sans), DM Sans, sans-serif;
           font-size: 0.68rem;
-          color: #aeaeb2;
-          letter-spacing: 0.08em;
+          color: #71717a;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
         }
 
-        /* ── Scroll button ── */
-        .hero-scroll {
-          position: absolute;
-          bottom: 28px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 40;
-        }
-        .hero-scroll a {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-family: var(--font-dm-sans), DM Sans, sans-serif;
-          font-size: 0.78rem;
-          font-weight: 500;
-          color: #374151;
-          padding: 0.5rem 1.25rem;
-          border-radius: 9999px;
-          border: 1px solid rgba(0,0,0,0.12);
-          background: rgba(255,255,255,0.9);
-          backdrop-filter: blur(8px);
-          box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-          text-decoration: none;
-          transition: box-shadow 0.2s, color 0.2s;
-        }
-        .hero-scroll a:hover {
-          box-shadow: 0 4px 24px rgba(37,99,235,0.18);
-          color: #2563eb;
-        }
-
-        /* ══════════════════════════════
-           TABLET  (≤ 900px)
-        ══════════════════════════════ */
+        /* TABLET ≤ 900 */
         @media (max-width: 900px) {
-          .hero-text {
-            padding: 6.5rem 2.5rem 3rem 3rem;
-          }
+          .hero-orb-left, .hero-orb-right { width: 360px; height: 360px; }
+          .hero-triangle { width: 540px; }
         }
 
-        /* ══════════════════════════════
-           MOBILE  (≤ 768px)
-        ══════════════════════════════ */
+        /* MOBILE ≤ 768 */
         @media (max-width: 768px) {
-          .hero-section {
-            grid-template-columns: 1fr;
-            grid-template-rows: auto minmax(72vw, 360px);
-            min-height: 100svh;
-          }
-
-          .hero-text {
-            padding: 6rem 1.5rem 2rem;
-            align-items: center;
-            text-align: center;
-            order: 1;
-          }
-
-          .hero-globe {
-            order: 2;
-          }
-
-          .hero-h1 {
-            font-size: clamp(3rem, 14vw, 4.5rem);
-            margin-bottom: 1.2rem;
-          }
-
-          .hero-desc {
-            max-width: 100%;
-            margin-bottom: 2rem;
-          }
-
+          .hero { padding: 6.5rem 1.25rem 4rem; min-height: 100svh; }
+          .hero-grid { background-size: 36px 36px; }
+          .hero-orb-center { width: 600px; height: 600px; }
+          .hero-orb-left { width: 280px; height: 280px; left: 5%; top: 22%; }
+          .hero-orb-right { width: 280px; height: 280px; right: 5%; bottom: 22%; }
+          .hero-triangle { width: 380px; opacity: 0.14; }
+          .hero-triangle-2 { width: 380px; }
           .hero-ctas {
             flex-direction: column;
             width: 100%;
             max-width: 320px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto 3rem;
           }
-
-          .hero-btn-primary,
-          .hero-btn-secondary {
-            width: 100%;
-            padding: 0.85rem 1.5rem;
-          }
-
-          .hero-stats {
+          .hero-btn-primary, .hero-btn-secondary {
             justify-content: center;
-            gap: 1.75rem;
+            padding: 0.9rem 1.5rem;
+            width: 100%;
           }
-
-          .hero-stat-value {
-            font-size: 1.5rem;
+          .hero-stats {
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding-top: 1.5rem;
           }
-
-          .hero-scroll {
-            display: none;
-          }
+          .hero-stats > div { flex: 1 1 30%; min-width: 90px; }
+          .hero-fade { height: 120px; }
         }
 
-        /* ══════════════════════════════
-           SMALL MOBILE  (≤ 480px)
-        ══════════════════════════════ */
+        /* SMALL MOBILE ≤ 480 */
         @media (max-width: 480px) {
-          .hero-text {
-            padding: 5.5rem 1.25rem 1.75rem;
-          }
-
-          .hero-h1 {
-            font-size: clamp(2.6rem, 16vw, 3.8rem);
-          }
-
-          .hero-stats {
-            gap: 1.25rem;
-          }
-
-          .hero-stat-label {
+          .hero { padding: 6rem 1rem 3rem; }
+          .hero-badge {
             font-size: 0.6rem;
+            padding: 0.32rem 0.8rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.1em;
           }
+          .hero-h1 {
+            font-size: clamp(2.4rem, 13vw, 4rem);
+            margin-bottom: 1rem;
+          }
+          .hero-pillars {
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            margin-bottom: 1.2rem;
+          }
+          .hero-desc {
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+          }
+          .hero-stats { gap: 1rem; }
+          .hero-stat-value { font-size: 1.4rem; }
+          .hero-stat-label { font-size: 0.58rem; }
         }
       `}</style>
 
-      <section className="hero-section">
+      <section className="hero">
+        {/* Backdrop layers */}
+        <div className="hero-grid" />
+        <div className="hero-orb-center" />
+        <div className="hero-orb-left" />
+        <div className="hero-orb-right" />
 
-        {/* ── LEFT: Text ── */}
-        <div className="hero-text">
+        {/* Vercel-style triangle motif */}
+        <svg className="hero-triangle" viewBox="0 0 600 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="triGrad" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stopColor="#60a5fa" />
+              <stop offset="0.5" stopColor="#06b6d4" />
+              <stop offset="1" stopColor="#a78bfa" />
+            </linearGradient>
+          </defs>
+          <path d="M300 20 L580 500 L20 500 Z" stroke="url(#triGrad)" strokeWidth="1.2" fill="none" />
+        </svg>
+        <svg className="hero-triangle-2" viewBox="0 0 600 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M300 20 L580 500 L20 500 Z" stroke="url(#triGrad)" strokeWidth="1.5" fill="none" />
+        </svg>
 
-          {/* Badge */}
-          <motion.div
-            {...fadeUp(0.1)}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              padding: '0.38rem 1rem', borderRadius: '9999px',
-              border: '1px solid rgba(37,99,235,0.22)',
-              background: 'rgba(37,99,235,0.05)',
-              marginBottom: '1.75rem', width: 'fit-content',
-            }}
-          >
-            <span style={{
-              width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
-              background: '#2563eb', boxShadow: '0 0 6px rgba(37,99,235,0.6)',
-            }} />
-            <span style={{
-              fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif',
-              fontSize: '0.68rem', fontWeight: 500,
-              letterSpacing: '0.12em', textTransform: 'uppercase', color: '#2563eb',
-            }}>
-              Next-Gen Technology Platform
-            </span>
+        {/* Content */}
+        <div className="hero-content">
+          <motion.div {...fadeUp(0.05)} className="hero-badge">
+            <span className="hero-badge-dot" />
+            Next-Gen Technology Platform
           </motion.div>
 
-          {/* Headline */}
-          <motion.h1 {...fadeUp(0.2)} className="hero-h1">
-            <span style={{ display: 'block', color: '#0a0f1e' }}>Pure</span>
-            <span style={{
-              display: 'block',
-              background: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
-              Latency
-            </span>
+          <motion.h1 {...fadeUp(0.15)} className="hero-h1">
+            Pure <span className="accent">Latency</span>
           </motion.h1>
 
-          {/* Accent rule */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.5, delay: 0.35, ease: 'easeOut', originX: 0 } as Transition}
-            style={{
-              width: 52, height: 2,
-              background: 'linear-gradient(90deg, #2563eb, #06b6d4)',
-              borderRadius: 2, marginBottom: '1.5rem',
-            }}
-          />
-
-          {/* Pillars */}
-          <motion.p {...fadeUp(0.38)} className="hero-pillars">
+          <motion.p {...fadeUp(0.28)} className="hero-pillars">
             AI &nbsp;·&nbsp; Infrastructure &nbsp;·&nbsp; Products
           </motion.p>
 
-          {/* Description */}
-          <motion.p {...fadeUp(0.45)} className="hero-desc">
-            We design, build, and operate high-performance technology systems —
-            AI-native, infrastructure-grade, built for the next generation of enterprise.
+          <motion.p {...fadeUp(0.4)} className="hero-desc">
+            We design, build, and operate AI-native systems and infrastructure —
+            engineered for the next generation of enterprise.
           </motion.p>
 
-          {/* CTAs */}
           <motion.div {...fadeUp(0.52)} className="hero-ctas">
-            <Link href="/services" className="hero-btn-primary">Explore Services</Link>
+            <Link href="/services" className="hero-btn-primary">
+              Explore Services
+              <span aria-hidden="true">→</span>
+            </Link>
             <Link href="/contact" className="hero-btn-secondary">Get a Demo</Link>
           </motion.div>
 
-          {/* Stats */}
-          <motion.div {...fadeUp(0.62)} className="hero-stats">
+          <motion.div {...fadeUp(0.65)} className="hero-stats">
             {STATS.map(s => (
               <div key={s.label}>
                 <div className="hero-stat-value">{s.value}</div>
@@ -534,43 +373,8 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* ── RIGHT: Globe ── */}
-        <div className="hero-globe">
-          <div style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none',
-            background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(37,99,235,0.05) 0%, transparent 70%)',
-          }} />
-
-          <div className="absolute inset-0 z-10"><GlobeScene /></div>
-          <WaveCanvas />
-
-          {/* Edge fades */}
-          <div style={{ position:'absolute', left:0, top:0, bottom:0, width:90, background:'linear-gradient(to right,#fff,transparent)', zIndex:25, pointerEvents:'none' }} />
-          <div style={{ position:'absolute', top:0, left:0, right:0, height:100, background:'linear-gradient(to bottom,#fff,transparent)', zIndex:25, pointerEvents:'none' }} />
-          <div style={{ position:'absolute', bottom:0, left:0, right:0, height:120, background:'linear-gradient(to bottom,transparent,#fff)', zIndex:25, pointerEvents:'none' }} />
-        </div>
-
-        {/* ── Scroll CTA ── */}
-        <div className="hero-scroll">
-          <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 0.5 }}
-          >
-            <a href="#services">
-              View Our Services
-              <motion.svg
-                width="14" height="14" viewBox="0 0 24 24" fill="none"
-                animate={{ y: [0, 4, 0] }}
-                transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-                style={{ display: 'inline-block', verticalAlign: 'middle', marginLeft: 4 }}
-              >
-                <path d="M12 5v14M12 19l6-6M12 19l-6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </motion.svg>
-            </a>
-          </motion.div>
-        </div>
-
+        {/* Fade to white for next section */}
+        <div className="hero-fade" />
       </section>
     </>
   )
