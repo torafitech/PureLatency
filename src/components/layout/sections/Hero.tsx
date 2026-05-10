@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, type Transition } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 
@@ -219,7 +219,7 @@ function WaveCanvas() {
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 18 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] } as Transition,
 })
 
 const STATS = [
