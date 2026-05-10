@@ -1,7 +1,6 @@
 'use client'
 
 import { motion, type Transition } from 'framer-motion'
-import Image from 'next/image'
 import Link from 'next/link'
 
 const fadeUp = (delay: number) => ({
@@ -20,292 +19,268 @@ export default function Hero() {
   return (
     <>
       <style>{`
+        /* ─── Hero ─────────────────────────────────────────── */
         .hero {
-          position: relative;
-          min-height: 100vh;
-          background: #06091a;
-          color: #ffffff;
-          overflow: hidden;
+          background: #ffffff;
+          /* Clear fixed navbar (80px) + breathable top space */
+          padding: calc(80px + 5.5rem) 1.5rem 5rem;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 9rem 1.5rem 7rem;
-          isolation: isolate;
-        }
-
-        /* Single subtle ambient glow — minimal, not decorative */
-        .hero-glow {
-          position: absolute;
-          width: 700px;
-          height: 700px;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -55%);
-          background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 65%);
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        /* Bottom fade to white body */
-        .hero-fade {
-          position: absolute;
-          left: 0; right: 0; bottom: 0;
-          height: 160px;
-          background: linear-gradient(to bottom, transparent, #ffffff);
-          pointer-events: none;
-          z-index: 4;
-        }
-
-        .hero-content {
-          position: relative;
-          z-index: 10;
+          min-height: 100vh;
+          box-sizing: border-box;
           text-align: center;
-          max-width: 760px;
+        }
+
+        .hero-inner {
+          max-width: 820px;
           width: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
 
-        /* Logo */
-        .hero-logo {
-          margin-bottom: 2.5rem;
-          opacity: 0.95;
-        }
-
-        /* Badge */
-        .hero-badge {
+        /* ── Label ─ */
+        .hero-label {
           display: inline-flex;
           align-items: center;
-          gap: 0.55rem;
-          padding: 0.42rem 1rem;
-          border-radius: 9999px;
-          border: 1px solid rgba(255,255,255,0.1);
-          background: rgba(255,255,255,0.04);
-          font-family: var(--font-dm-sans), DM Sans, sans-serif;
-          font-size: 0.68rem;
+          gap: 0.5rem;
+          font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+          font-size: 0.7rem;
           font-weight: 500;
-          letter-spacing: 0.14em;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: #7a90b8;
-          margin-bottom: 2rem;
+          color: #9ca3af;
+          margin-bottom: 2.25rem;
         }
-        .hero-badge-dot {
+        .hero-label-dot {
           width: 5px;
           height: 5px;
           border-radius: 50%;
           background: #00d4ff;
-          box-shadow: 0 0 8px rgba(0,212,255,0.9);
+          box-shadow: 0 0 7px rgba(0, 212, 255, 0.8);
           flex-shrink: 0;
         }
 
-        /* Headline */
+        /* ── Headline ─ */
         .hero-h1 {
-          font-family: var(--font-syne), Syne, sans-serif;
-          font-size: clamp(2.8rem, 8vw, 6rem);
+          font-family: var(--font-syne), 'Syne', sans-serif;
+          font-size: clamp(3.2rem, 9vw, 6.8rem);
           font-weight: 800;
-          letter-spacing: -0.04em;
-          line-height: 1;
-          margin: 0 0 1.2rem;
-          color: #ffffff;
+          letter-spacing: -0.045em;
+          line-height: 1.0;
+          color: #06091a;
+          margin: 0 0 0.2rem;
         }
-        .hero-h1 .accent {
-          color: #00d4ff;
+        /* "Latency" — only decoration: single cyan underline */
+        .hero-h1 .word-latency {
+          position: relative;
+          display: inline-block;
+        }
+        .hero-h1 .word-latency::after {
+          content: '';
+          position: absolute;
+          left: 0; right: 0;
+          bottom: -4px;
+          height: 3px;
+          background: #00d4ff;
+          border-radius: 2px;
+          transform-origin: left;
+          animation: underline-grow 0.6s 0.7s both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes underline-grow {
+          from { transform: scaleX(0); opacity: 0; }
+          to   { transform: scaleX(1); opacity: 1; }
         }
 
-        /* Pillars */
+        /* ── Pillars ─ */
         .hero-pillars {
-          font-family: var(--font-dm-sans), DM Sans, sans-serif;
-          color: #4a5878;
-          font-size: 0.75rem;
+          font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+          font-size: 0.72rem;
+          font-weight: 500;
           letter-spacing: 0.22em;
           text-transform: uppercase;
-          font-weight: 500;
-          margin-bottom: 1.75rem;
+          color: #d1d5db;
+          margin: 1.8rem 0 0;
         }
 
-        /* Description */
+        /* ── Description ─ */
         .hero-desc {
-          font-family: var(--font-dm-sans), DM Sans, sans-serif;
-          color: #7a90b8;
+          font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
           font-size: clamp(1rem, 1.4vw, 1.12rem);
+          color: #6b7280;
           line-height: 1.7;
-          max-width: 540px;
-          margin: 0 auto 2.75rem;
+          max-width: 520px;
+          margin: 1.75rem auto 2.75rem;
         }
 
-        /* CTAs */
+        /* ── CTAs ─ */
         .hero-ctas {
           display: flex;
-          gap: 0.75rem;
+          gap: 0.7rem;
           justify-content: center;
-          margin-bottom: 4.5rem;
           flex-wrap: wrap;
+          margin-bottom: 5rem;
         }
         .hero-btn-primary {
-          font-family: var(--font-dm-sans), DM Sans, sans-serif;
-          font-weight: 600;
+          font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
           font-size: 0.88rem;
-          padding: 0.8rem 1.75rem;
+          font-weight: 600;
+          padding: 0.78rem 1.8rem;
           border-radius: 9999px;
-          background: #ffffff;
-          color: #06091a;
+          background: #06091a;
+          color: #ffffff;
           text-decoration: none;
-          transition: opacity 0.15s, transform 0.15s;
           display: inline-flex;
           align-items: center;
-          gap: 0.4rem;
+          gap: 0.38rem;
+          transition: opacity 0.15s, transform 0.15s;
           letter-spacing: 0.01em;
         }
         .hero-btn-primary:hover {
-          opacity: 0.88;
+          opacity: 0.8;
           transform: translateY(-1px);
         }
-        .hero-btn-secondary {
-          font-family: var(--font-dm-sans), DM Sans, sans-serif;
-          font-weight: 500;
+        .hero-btn-ghost {
+          font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
           font-size: 0.88rem;
-          padding: 0.8rem 1.75rem;
+          font-weight: 500;
+          padding: 0.78rem 1.8rem;
           border-radius: 9999px;
-          border: 1px solid rgba(255,255,255,0.18);
           background: transparent;
-          color: #ffffff;
+          color: #06091a;
+          border: 1px solid rgba(6, 9, 26, 0.18);
           text-decoration: none;
-          transition: border-color 0.15s, background 0.15s;
           display: inline-flex;
           align-items: center;
-          gap: 0.4rem;
+          gap: 0.38rem;
+          transition: border-color 0.15s, background 0.15s;
         }
-        .hero-btn-secondary:hover {
-          border-color: rgba(255,255,255,0.35);
-          background: rgba(255,255,255,0.04);
+        .hero-btn-ghost:hover {
+          border-color: rgba(6, 9, 26, 0.38);
+          background: rgba(6, 9, 26, 0.03);
         }
 
-        /* Stats */
-        .hero-divider {
-          width: 100%;
-          max-width: 520px;
-          height: 1px;
-          background: rgba(255,255,255,0.06);
-          margin-bottom: 2rem;
-        }
+        /* ── Stats ─ */
         .hero-stats {
+          width: 100%;
+          max-width: 540px;
+          border-top: 1px solid rgba(6, 9, 26, 0.07);
+          padding-top: 2.25rem;
           display: flex;
-          gap: 3.5rem;
-          justify-content: center;
+        }
+        .hero-stat {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative;
+        }
+        .hero-stat + .hero-stat::before {
+          content: '';
+          position: absolute;
+          left: 0; top: 15%; bottom: 15%;
+          width: 1px;
+          background: rgba(6, 9, 26, 0.07);
         }
         .hero-stat-value {
-          font-family: var(--font-syne), Syne, sans-serif;
-          font-size: clamp(1.4rem, 2vw, 1.8rem);
+          font-family: var(--font-syne), 'Syne', sans-serif;
+          font-size: clamp(1.6rem, 2.5vw, 2.1rem);
           font-weight: 700;
-          color: #ffffff;
+          color: #06091a;
           line-height: 1;
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.35rem;
         }
         .hero-stat-label {
-          font-family: var(--font-dm-sans), DM Sans, sans-serif;
-          font-size: 0.65rem;
-          color: #4a5878;
-          letter-spacing: 0.12em;
+          font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+          font-size: 0.63rem;
+          color: #9ca3af;
+          letter-spacing: 0.14em;
           text-transform: uppercase;
         }
 
-        /* TABLET ≤ 900 */
+        /* ── Responsive ─────────────────────────────────────── */
         @media (max-width: 900px) {
-          .hero { padding: 8rem 1.5rem 6rem; }
+          .hero { padding: calc(80px + 4rem) 1.5rem 4rem; }
         }
 
-        /* MOBILE ≤ 768 */
         @media (max-width: 768px) {
-          .hero { padding: 7rem 1.25rem 5rem; min-height: 100svh; }
-          .hero-glow { width: 480px; height: 480px; }
+          .hero {
+            padding: calc(80px + 3rem) 1.25rem 3.5rem;
+            min-height: 100svh;
+          }
           .hero-ctas {
             flex-direction: column;
             width: 100%;
-            max-width: 300px;
+            max-width: 290px;
             margin-bottom: 3.5rem;
           }
-          .hero-btn-primary, .hero-btn-secondary {
+          .hero-btn-primary,
+          .hero-btn-ghost {
             justify-content: center;
             width: 100%;
-            padding: 0.85rem 1.5rem;
           }
-          .hero-stats { gap: 2rem; flex-wrap: wrap; }
-          .hero-stats > div { flex: 1 1 30%; min-width: 80px; }
-          .hero-fade { height: 100px; }
+          .hero-stats { max-width: 100%; }
         }
 
-        /* SMALL MOBILE ≤ 480 */
         @media (max-width: 480px) {
-          .hero { padding: 6rem 1rem 4rem; }
-          .hero-logo { margin-bottom: 2rem; }
-          .hero-h1 { font-size: clamp(2.4rem, 12vw, 3.6rem); }
-          .hero-pillars { font-size: 0.62rem; letter-spacing: 0.18em; margin-bottom: 1.4rem; }
-          .hero-desc { font-size: 0.95rem; margin-bottom: 2.25rem; }
-          .hero-stats { gap: 1.5rem; }
+          .hero { padding: calc(80px + 2.5rem) 1rem 3rem; }
+          .hero-label { font-size: 0.6rem; letter-spacing: 0.14em; margin-bottom: 1.75rem; }
+          .hero-h1 { font-size: clamp(2.6rem, 13vw, 3.8rem); }
+          .hero-pillars { font-size: 0.6rem; letter-spacing: 0.18em; }
+          .hero-desc { font-size: 0.95rem; margin-bottom: 2rem; }
+          .hero-ctas { max-width: 100%; }
+          .hero-stats { padding-top: 1.75rem; }
           .hero-stat-value { font-size: 1.4rem; }
           .hero-stat-label { font-size: 0.58rem; }
         }
       `}</style>
 
       <section className="hero">
-        <div className="hero-glow" />
+        <div className="hero-inner">
 
-        <div className="hero-content">
-          {/* Logo */}
-          <motion.div {...fadeUp(0)} className="hero-logo">
-            <Image
-              src="/images/logo.png"
-              alt="Pure Latency"
-              width={110}
-              height={44}
-              priority
-            />
-          </motion.div>
-
-          {/* Badge */}
-          <motion.div {...fadeUp(0.1)} className="hero-badge">
-            <span className="hero-badge-dot" />
+          {/* Label */}
+          <motion.div {...fadeUp(0.0)} className="hero-label">
+            <span className="hero-label-dot" />
             Next-Gen Technology Platform
           </motion.div>
 
           {/* Headline */}
-          <motion.h1 {...fadeUp(0.2)} className="hero-h1">
-            Pure <span className="accent">Latency</span>
+          <motion.h1 {...fadeUp(0.12)} className="hero-h1">
+            Pure{' '}
+            <span className="word-latency">Latency</span>
           </motion.h1>
 
           {/* Pillars */}
-          <motion.p {...fadeUp(0.3)} className="hero-pillars">
+          <motion.p {...fadeUp(0.22)} className="hero-pillars">
             AI &nbsp;·&nbsp; Infrastructure &nbsp;·&nbsp; Products
           </motion.p>
 
           {/* Description */}
-          <motion.p {...fadeUp(0.4)} className="hero-desc">
+          <motion.p {...fadeUp(0.34)} className="hero-desc">
             We design, build, and operate AI-native systems and infrastructure —
             engineered for the next generation of enterprise.
           </motion.p>
 
           {/* CTAs */}
-          <motion.div {...fadeUp(0.5)} className="hero-ctas">
+          <motion.div {...fadeUp(0.46)} className="hero-ctas">
             <Link href="/services" className="hero-btn-primary">
               Explore Services <span aria-hidden="true">→</span>
             </Link>
-            <Link href="/contact" className="hero-btn-secondary">Get a Demo</Link>
+            <Link href="/contact" className="hero-btn-ghost">Get a Demo</Link>
           </motion.div>
 
           {/* Stats */}
-          <motion.div {...fadeUp(0.62)} className="hero-divider" />
-          <motion.div {...fadeUp(0.68)} className="hero-stats">
+          <motion.div {...fadeUp(0.6)} className="hero-stats">
             {STATS.map(s => (
-              <div key={s.label}>
-                <div className="hero-stat-value">{s.value}</div>
-                <div className="hero-stat-label">{s.label}</div>
+              <div key={s.label} className="hero-stat">
+                <span className="hero-stat-value">{s.value}</span>
+                <span className="hero-stat-label">{s.label}</span>
               </div>
             ))}
           </motion.div>
-        </div>
 
-        <div className="hero-fade" />
+        </div>
       </section>
     </>
   )
