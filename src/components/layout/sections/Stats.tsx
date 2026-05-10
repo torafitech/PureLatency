@@ -22,7 +22,7 @@ const coreServices = [
     title: "Data and AI",
     href: "/services/data-ai",
     desc: "Intelligent systems that transform raw data into actionable insights and competitive advantage.",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
   },
   {
     title: "Cloud and DevOps",
@@ -34,19 +34,19 @@ const coreServices = [
     title: "Infrastructure",
     href: "/services/infrastructure",
     desc: "Rock-solid, secure infrastructure designed to grow with your business and handle any load.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80",
   },
   {
     title: "Fiber Optics",
     href: "/services/fiber-optics",
     desc: "High-speed, reliable fiber optic solutions for telecommunications, data centers, and enterprise networks.",
-    image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1629752187687-3b0d4deb9e44?auto=format&fit=crop&w=1200&q=80",
   },
   {
     title: "Quantum Compute",
     href: "/services/quantum-compute",
-    desc: "Cutting-edge quantum computing solutions for complex problem-solving.",
-    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=80",
+    desc: "Cutting-edge quantum computing solutions for solving complex enterprise-scale problems.",
+    image: "https://images.unsplash.com/photo-1635070041078-c3adbfce6070?auto=format&fit=crop&w=1200&q=80",
   },
 ];
 
