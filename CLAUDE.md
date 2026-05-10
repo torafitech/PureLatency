@@ -41,9 +41,11 @@ It provides AI, IT, and infrastructure services, and also ships its own propriet
 - **Body font (legacy)**: `Inter` (variable: `--font-inter`) — used site-wide outside hero
 
 ### Design Principles
-- Minimalistic, premium, enterprise feel
+- **Apple.com-style minimalism**: generous whitespace, restrained decoration, content-first. No heavy geometric motifs, gradient orbs, or decorative triangles.
 - Dark hero → white body sections (gradient transition at bottom of hero)
-- Globe with animated signal/EM waves as the visual centrepiece of the hero
+- Logo (`/images/logo.png`) must appear in the hero section, centered, above the headline
+- One very subtle ambient glow maximum — no stacked orbs, no grid overlays, no triangle motifs
+- Solid white headlines on dark bg; accent (`#00d4ff`) only for badge dot and inline highlights
 - No purple-gradient-on-white clichés
 - Avoid Inter, Roboto, Arial for display text
 
@@ -75,7 +77,7 @@ src/
       Navbar.tsx          — Top navigation with dropdowns (CSS Modules)
       Footer.tsx
       sections/
-        Hero.tsx          — Dark hero: Three.js globe + canvas wave animation
+        Hero.tsx          — Dark hero: logo + centered minimal layout, apple.com style
         Stats.tsx         — "What We Offer" services grid (white bg)
         ContactBanner.tsx — CTA banner (dark gradient card on white bg)
       ui/
@@ -88,22 +90,6 @@ src/
 ```
 
 ---
-
-## Globe Implementation (Hero)
-Three.js renders into a full-viewport container (`inset-0`).
-- Camera: `position (0, 0, 4.5)`, `lookAt(0, 0.5, 0)` → globe center appears at ~65% viewport height
-- Globe radius: 1 world unit, SphereGeometry 96×96
-- Textures: threejs.org CDN (earth_atmos, earth_normal)
-- Orbit rings: 3 `THREE.Line` cyan rings at 1.38, 1.62, 1.88 radii
-- Atmosphere: BackSide sphere at 1.09 radius, `#0033cc`, opacity 0.07
-- Lighting: AmbientLight + 3 DirectionalLights (key=blue, rim=cyan, top=light-blue)
-
-## Wave Animation (Hero)
-Canvas2D overlay (`position: absolute, inset: 0, z-index: 15`).
-- 9 sine waves, centered at `cy = h * 0.655` (globe equator estimate)
-- Waves spaced ±28px apart, amplitudes 7–20px, frequencies 0.007–0.015
-- 3-pass render: (1) full waves, (2) radial gradient overlay dims globe interior, (3) clipped dim waves inside globe for refraction effect
-- Globe radius estimate: `Math.min(w,h) * 0.245`
 
 ---
 
