@@ -37,7 +37,6 @@
   object-fit: contain;
   width: auto;
   height: 40px;
-  mix-blend-mode: multiply;
 }
 
 @media (max-width: 768px) {
