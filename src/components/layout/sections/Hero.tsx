@@ -71,7 +71,7 @@ function GlobeScene() {
 
       const scene  = new THREE.Scene()
       const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100)
-      camera.position.set(0, 0, 4.8)
+      camera.position.set(0, 0, 5.8)
 
       /* ── Lighting ── */
       scene.add(new THREE.AmbientLight(0xffffff, 0.55))
@@ -344,7 +344,7 @@ export default function Hero() {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: 4rem clamp(2rem, 4vw, 4rem) 4rem clamp(2.5rem, 7vw, 7rem);
+          padding: 3rem clamp(2rem, 3.5vw, 3.5rem) 3rem clamp(2.5rem, 5.5vw, 5.5rem);
           position: relative;
           z-index: 10;
         }
@@ -359,7 +359,7 @@ export default function Hero() {
           letter-spacing: 0.18em;
           text-transform: uppercase;
           color: #9ca3af;
-          margin-bottom: 2rem;
+          margin-bottom: 1.5rem;
         }
         .hero-label-dot {
           width: 5px; height: 5px;
@@ -371,12 +371,13 @@ export default function Hero() {
 
         .hero-h1 {
           font-family: var(--font-syne), 'Syne', sans-serif;
-          font-size: clamp(3rem, 5.5vw, 5.2rem);
-          font-weight: 800;
-          letter-spacing: -0.045em;
-          line-height: 1.0;
+          font-size: clamp(2.6rem, 3.8vw, 3.8rem);
+          font-weight: 700;
+          letter-spacing: -0.035em;
+          line-height: 1.08;
           color: #06091a;
-          margin: 0 0 0.15rem;
+          margin: 0;
+          white-space: nowrap;
         }
         .hero-h1 .word-latency {
           position: relative;
@@ -401,26 +402,26 @@ export default function Hero() {
           font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
           font-size: 0.7rem;
           font-weight: 500;
-          letter-spacing: 0.22em;
+          letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: #d1d5db;
-          margin: 1.6rem 0 0;
+          color: #a0aec0;
+          margin: 1.25rem 0 0;
         }
 
         .hero-desc {
           font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
-          font-size: clamp(0.95rem, 1.3vw, 1.08rem);
+          font-size: clamp(0.92rem, 1.15vw, 1.02rem);
           color: #6b7280;
           line-height: 1.72;
-          max-width: 440px;
-          margin: 1.6rem 0 2.5rem;
+          max-width: 400px;
+          margin: 1.3rem 0 2rem;
         }
 
         .hero-ctas {
           display: flex;
           gap: 0.7rem;
           flex-wrap: wrap;
-          margin-bottom: 3.5rem;
+          margin-bottom: 2.5rem;
         }
         .hero-btn-primary {
           font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
@@ -446,8 +447,8 @@ export default function Hero() {
           padding: 0.76rem 1.75rem;
           border-radius: 9999px;
           background: transparent;
-          color: #06091a;
-          border: 1px solid rgba(6,9,26,0.18);
+          color: #374151;
+          border: 1.5px solid rgba(6,9,26,0.3);
           text-decoration: none;
           display: inline-flex;
           align-items: center;
@@ -455,8 +456,8 @@ export default function Hero() {
           transition: border-color 0.15s, background 0.15s;
         }
         .hero-btn-ghost:hover {
-          border-color: rgba(6,9,26,0.36);
-          background: rgba(6,9,26,0.03);
+          border-color: rgba(6,9,26,0.5);
+          background: rgba(6,9,26,0.04);
         }
 
         .hero-stats {
@@ -523,9 +524,9 @@ export default function Hero() {
         /* ══ Responsive ═══════════════════════════════════════ */
         @media (max-width: 1024px) {
           .hero-text {
-            padding: 3.5rem clamp(1.5rem,3vw,3rem) 3.5rem clamp(2rem,5vw,4rem);
+            padding: 2.5rem clamp(1.5rem,3vw,3rem) 2.5rem clamp(2rem,4.5vw,4rem);
           }
-          .hero-h1 { font-size: clamp(2.8rem,5vw,4.5rem); }
+          .hero-h1 { font-size: clamp(2.4rem,3.6vw,3.6rem); }
         }
 
         @media (max-width: 768px) {
@@ -535,12 +536,12 @@ export default function Hero() {
             min-height: 100svh;
           }
           .hero-text {
-            padding: 3.5rem 1.5rem 2rem;
+            padding: 3rem 1.5rem 2rem;
             order: 1;
             align-items: center;
             text-align: center;
           }
-          .hero-h1 { font-size: clamp(2.8rem,12vw,4.5rem); }
+          .hero-h1 { font-size: clamp(2.4rem,10vw,4rem); white-space: normal; }
           .hero-desc { max-width: 100%; }
           .hero-ctas {
             justify-content: center;
