@@ -10,13 +10,13 @@ const coreServices = [
     title: "Applications",
     href: "/services/applications",
     desc: "Custom web and mobile apps engineered for performance, scalability, and exceptional user experiences.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/applications.png",
   },
   {
     title: "Web Development",
     href: "/services/web-development",
     desc: "Modern, lightning-fast websites and web applications built with the latest frameworks and best practices.",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/web-development.png",
   },
   {
     title: "Data and AI",
@@ -28,31 +28,31 @@ const coreServices = [
     title: "Cloud and DevOps",
     href: "/services/cloud-devops",
     desc: "Streamlined infrastructure and automated pipelines that accelerate delivery and reduce costs.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/cloud-devops.png",
   },
   {
     title: "Infrastructure",
     href: "/services/infrastructure",
     desc: "Rock-solid, secure infrastructure designed to grow with your business and handle any load.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/infrastructure.png",
   },
   {
     title: "Fiber Optics",
     href: "/services/fiber-optics",
     desc: "High-speed, reliable fiber optic solutions for telecommunications, data centers, and enterprise networks.",
-    image: "https://images.unsplash.com/photo-1629752187687-3b0d4deb9e44?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/fiber-optics.png",
   },
   {
     title: "Quantum Compute",
     href: "/services/quantum-compute",
     desc: "Cutting-edge quantum computing solutions for solving complex enterprise-scale problems.",
-    image: "https://images.unsplash.com/photo-1635070041078-c3adbfce6070?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/qunatum-computing.png",
   },
   {
     title: "AI Services",
     href: "/services/ai-services",
     desc: "AI agents, LLM integration, generative AI, and autonomous workflows — built and operated for enterprise at scale.",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/ai-services.png",
   },
 ];
 
