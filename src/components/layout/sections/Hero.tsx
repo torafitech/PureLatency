@@ -3,9 +3,48 @@
 import { motion, type Transition } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
+import type { QuadraticBezierCurve3, Mesh } from 'three'
 
-/* ─── 3D Scene ────────────────────────────────────────────── */
-function Scene3D() {
+interface ArcParticle {
+  curve: QuadraticBezierCurve3
+  mesh:  Mesh
+  t:     number
+  speed: number
+}
+
+/* ─── Lat/Lon → sphere XYZ ─────────────────────────────────── */
+function llToVec3(lat: number, lon: number, r: number, THREE: typeof import('three')) {
+  const phi   = (90 - lat) * (Math.PI / 180)
+  const theta = (lon + 180) * (Math.PI / 180)
+  return new THREE.Vector3(
+    -r * Math.sin(phi) * Math.cos(theta),
+     r * Math.cos(phi),
+     r * Math.sin(phi) * Math.sin(theta),
+  )
+}
+
+/* ─── City hub coordinates ──────────────────────────────────── */
+const HUBS = [
+  [17.4,  78.5],   // Hyderabad (home)
+  [40.7, -74.0],   // New York
+  [51.5,  -0.1],   // London
+  [ 1.3, 103.8],   // Singapore
+  [35.7, 139.7],   // Tokyo
+  [25.2,  55.3],   // Dubai
+  [-33.9, 151.2],  // Sydney
+  [37.8, -122.4],  // San Francisco
+  [48.9,   2.3],   // Paris
+  [55.8,  37.6],   // Moscow
+]
+
+/* Connection pairs (indices into HUBS) */
+const CONNECTIONS = [
+  [0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],  // Hyderabad → all
+  [1,2],[2,5],[3,4],[5,3],[7,1],[8,2],[9,2],  // cross links
+]
+
+/* ─── Globe + network scene ─────────────────────────────────── */
+function GlobeScene() {
   const mountRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -16,11 +55,10 @@ function Scene3D() {
 
     import('three').then((THREE) => {
       if (!mountRef.current) return
-
       const W = container.clientWidth
       const H = container.clientHeight
 
-      /* Renderer */
+      /* ── Renderer ── */
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
       renderer.setSize(W, H)
@@ -31,111 +69,167 @@ function Scene3D() {
       })
       container.appendChild(renderer.domElement)
 
-      /* Scene + camera */
-      const scene = new THREE.Scene()
+      const scene  = new THREE.Scene()
       const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100)
-      camera.position.set(0, 0, 5.2)
+      camera.position.set(0, 0, 4.8)
 
-      /* Lights */
-      scene.add(new THREE.AmbientLight(0xffffff, 0.18))
+      /* ── Lighting ── */
+      scene.add(new THREE.AmbientLight(0xffffff, 0.55))
 
-      const keyLight = new THREE.DirectionalLight(0xffffff, 1.4)
-      keyLight.position.set(-4, 5, 3)
-      scene.add(keyLight)
+      const sun = new THREE.DirectionalLight(0x88bbff, 2.2)
+      sun.position.set(-4, 3, 3)
+      scene.add(sun)
 
-      const fillLight = new THREE.DirectionalLight(0xd0f0ff, 0.5)
-      fillLight.position.set(4, -2, 2)
-      scene.add(fillLight)
+      const backLight = new THREE.DirectionalLight(0x00d4ff, 0.35)
+      backLight.position.set(3, -2, -2)
+      scene.add(backLight)
 
-      /* Pulsing cyan core glow */
-      const glow = new THREE.PointLight(0x00d4ff, 5.5, 5)
-      glow.position.set(0, 0, 0)
-      scene.add(glow)
-
-      /* Group — lets mouse parallax move mesh + wire together */
-      const group = new THREE.Group()
-      scene.add(group)
-
-      /* Main geometry — icosahedron detail=1 (80 faces, low-poly) */
-      const geo = new THREE.IcosahedronGeometry(1.55, 1)
-
-      const mat = new THREE.MeshPhongMaterial({
-        color: 0x06091a,
-        emissive: 0x001122,
-        specular: 0x00d4ff,
-        shininess: 55,
-        flatShading: true,
-        transparent: true,
-        opacity: 0.94,
-      })
-      const mesh = new THREE.Mesh(geo, mat)
-      group.add(mesh)
-
-      /* Cyan wireframe overlay */
-      const wireGeo = new THREE.WireframeGeometry(geo)
-      const wire = new THREE.LineSegments(
-        wireGeo,
-        new THREE.LineBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.28 })
+      /* ── Earth ── */
+      const loader = new THREE.TextureLoader()
+      const R = 1.55
+      const earthMesh = new THREE.Mesh(
+        new THREE.SphereGeometry(R, 80, 80),
+        new THREE.MeshStandardMaterial({
+          map:       loader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg'),
+          normalMap: loader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg'),
+          roughness: 0.78,
+          metalness: 0.12,
+        })
       )
-      group.add(wire)
+      scene.add(earthMesh)
 
-      /* Orbit rings */
-      const makeRing = (radius: number, rx: number, rz: number, opacity: number) => {
+      /* ── Atmosphere ── */
+      scene.add(new THREE.Mesh(
+        new THREE.SphereGeometry(R * 1.055, 48, 48),
+        new THREE.MeshStandardMaterial({
+          color: 0x0044cc, side: THREE.BackSide,
+          transparent: true, opacity: 0.055,
+        })
+      ))
+
+      /* ── Thin halo ring ── */
+      const haloMat = new THREE.SpriteMaterial({
+        map: (() => {
+          const size = 256
+          const c    = document.createElement('canvas')
+          c.width = c.height = size
+          const cx = c.getContext('2d')!
+          const g  = cx.createRadialGradient(size/2, size/2, size*0.45, size/2, size/2, size*0.5)
+          g.addColorStop(0,   'rgba(0,212,255,0.0)')
+          g.addColorStop(0.7, 'rgba(0,212,255,0.12)')
+          g.addColorStop(1,   'rgba(0,212,255,0.0)')
+          cx.fillStyle = g
+          cx.fillRect(0, 0, size, size)
+          return new THREE.CanvasTexture(c)
+        })(),
+        transparent: true,
+        depthWrite: false,
+      })
+      const halo = new THREE.Sprite(haloMat)
+      halo.scale.set(R * 2.5, R * 2.5, 1)
+      scene.add(halo)
+
+      /* ── City dots ── */
+      const dotGeo = new THREE.SphereGeometry(0.018, 10, 10)
+      const dotMat = new THREE.MeshBasicMaterial({ color: 0x00d4ff })
+      HUBS.forEach(([lat, lon]) => {
+        const dot = new THREE.Mesh(dotGeo, dotMat)
+        const p   = llToVec3(lat, lon, R + 0.01, THREE)
+        dot.position.copy(p)
+        scene.add(dot)
+      })
+
+      /* ── Connection arcs + animated particles ── */
+      const particles: ArcParticle[] = []
+
+      const lineMat = new THREE.LineBasicMaterial({ color: 0x00aaff, transparent: true, opacity: 0.22 })
+      const pMat    = new THREE.MeshBasicMaterial({ color: 0x00d4ff })
+      const pGeo    = new THREE.SphereGeometry(0.022, 8, 8)
+
+      CONNECTIONS.forEach(([a, b]) => {
+        const p1  = llToVec3(HUBS[a][0], HUBS[a][1], R + 0.01, THREE)
+        const p2  = llToVec3(HUBS[b][0], HUBS[b][1], R + 0.01, THREE)
+        const mid = p1.clone().add(p2).multiplyScalar(0.5)
+        const lift = mid.length()
+        mid.normalize().multiplyScalar(lift + 0.45 + Math.random() * 0.3)
+
+        const curve  = new THREE.QuadraticBezierCurve3(p1, mid, p2)
+        const pts    = curve.getPoints(60)
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(pts)
+        scene.add(new THREE.Line(lineGeo, lineMat))
+
+        const pmesh = new THREE.Mesh(pGeo, pMat.clone())
+        scene.add(pmesh)
+        particles.push({ curve, mesh: pmesh, t: Math.random(), speed: 0.003 + Math.random() * 0.003 })
+      })
+
+      /* ── Orbit ring ── */
+      const makeLine = (radius: number, rx: number, rz: number, op: number) => {
         const pts = Array.from({ length: 129 }, (_, i) => {
           const a = (i / 128) * Math.PI * 2
           return new THREE.Vector3(Math.cos(a) * radius, 0, Math.sin(a) * radius)
         })
-        const line = new THREE.Line(
+        const l = new THREE.Line(
           new THREE.BufferGeometry().setFromPoints(pts),
-          new THREE.LineBasicMaterial({ color: 0x00d4ff, transparent: true, opacity })
+          new THREE.LineBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: op })
         )
-        line.rotation.x = rx
-        line.rotation.z = rz
-        return line
+        l.rotation.x = rx; l.rotation.z = rz
+        return l
       }
-      const ring1 = makeRing(2.05, Math.PI * 0.38, 0.18, 0.18)
-      const ring2 = makeRing(2.42, -Math.PI * 0.22, -0.28, 0.09)
-      group.add(ring1, ring2)
+      const ring = makeLine(R * 1.3, Math.PI * 0.42, 0.2, 0.14)
+      scene.add(ring)
 
-      /* ResizeObserver */
+      /* ── ResizeObserver ── */
       const ro = new ResizeObserver(() => {
-        const w = container.clientWidth
-        const h = container.clientHeight
+        const w = container.clientWidth, h = container.clientHeight
         camera.aspect = w / h
         camera.updateProjectionMatrix()
         renderer.setSize(w, h)
       })
       ro.observe(container)
 
-      /* Mouse parallax */
-      let tx = 0, ty = 0   // target
-      let cx = 0, cy = 0   // current (lerped)
+      /* ── Mouse parallax ── */
+      let tx = 0, ty = 0, cx2 = 0, cy2 = 0
       const onMouse = (e: MouseEvent) => {
-        tx = (e.clientX / window.innerWidth  - 0.5) * 0.55
-        ty = (e.clientY / window.innerHeight - 0.5) * 0.35
+        tx = (e.clientX / window.innerWidth  - 0.5) * 0.4
+        ty = (e.clientY / window.innerHeight - 0.5) * 0.25
       }
       window.addEventListener('mousemove', onMouse)
 
-      /* Animation */
+      /* ── Animation ── */
       let t = 0
       const animate = () => {
         rafId = requestAnimationFrame(animate)
-        t += 0.006
+        t += 0.004
 
-        /* Lerp mouse parallax */
-        cx += (tx - cx) * 0.04
-        cy += (ty - cy) * 0.04
+        cx2 += (tx - cx2) * 0.035
+        cy2 += (ty - cy2) * 0.035
 
-        /* Rotate */
-        group.rotation.y  = t * 0.25 + cx * 0.3
-        group.rotation.x  = Math.sin(t * 0.35) * 0.12 - cy * 0.18
+        earthMesh.rotation.y = t * 0.12 + cx2 * 0.25
+        earthMesh.rotation.x = -cy2 * 0.15
 
-        /* Counter-rotate rings for orbital feel */
-        ring1.rotation.z -= 0.0018
-        ring2.rotation.z += 0.0012
+        /* Sync dots and arcs to earth */
+        scene.children.forEach(obj => {
+          if (obj instanceof THREE.Mesh && obj !== earthMesh) {
+            obj.rotation.y = earthMesh.rotation.y
+            obj.rotation.x = earthMesh.rotation.x
+          }
+          if (obj instanceof THREE.Line) {
+            obj.rotation.y = earthMesh.rotation.y
+            obj.rotation.x = earthMesh.rotation.x
+          }
+        })
 
-        /* Breathing glow */
-        glow.intensity = 5.5 + Math.sin(t * 1.8) * 1.2
+        particles.forEach(p => {
+          p.t = (p.t + p.speed) % 1
+          const pos = p.curve.getPoint(p.t)
+          /* Apply same rotation as earth */
+          pos.applyEuler(new THREE.Euler(earthMesh.rotation.x, earthMesh.rotation.y, 0))
+          p.mesh.position.copy(pos)
+        })
+
+        ring.rotation.y = t * 0.1
+        ring.rotation.z = t * 0.05
 
         renderer.render(scene, camera)
       }
@@ -156,7 +250,67 @@ function Scene3D() {
   return <div ref={mountRef} style={{ position: 'absolute', inset: 0 }} />
 }
 
-/* ─── Helpers ─────────────────────────────────────────────── */
+/* ─── Signal wave canvas ─────────────────────────────────────── */
+function WaveCanvas() {
+  const ref = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = ref.current!
+    const ctx    = canvas.getContext('2d')!
+    let rafId: number, t = 0
+
+    const resize = () => {
+      canvas.width  = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
+    }
+    resize()
+    const ro = new ResizeObserver(resize)
+    ro.observe(canvas)
+
+    const WAVES = [
+      { dy: 0,   amp: 22, freq: 0.009, op: 0.22, spd: 1.0 },
+      { dy: -38, amp: 16, freq: 0.012, op: 0.13, spd: 0.75 },
+      { dy:  38, amp: 16, freq: 0.008, op: 0.13, spd: 1.3  },
+      { dy: -70, amp: 10, freq: 0.015, op: 0.07, spd: 0.55 },
+      { dy:  70, amp: 10, freq: 0.007, op: 0.07, spd: 1.6  },
+    ]
+
+    const draw = () => {
+      rafId = requestAnimationFrame(draw)
+      t += 0.007
+      const w = canvas.width, h = canvas.height
+      ctx.clearRect(0, 0, w, h)
+      const cy = h * 0.5
+
+      WAVES.forEach(wv => {
+        ctx.beginPath()
+        ctx.lineWidth = 1.2
+        for (let x = 0; x <= w; x += 2) {
+          const y = cy + wv.dy + Math.sin(x * wv.freq + t * wv.spd) * wv.amp
+          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
+        }
+        ctx.strokeStyle = `rgba(0,180,220,${wv.op})`
+        ctx.stroke()
+      })
+    }
+    draw()
+
+    return () => { cancelAnimationFrame(rafId); ro.disconnect() }
+  }, [])
+
+  return (
+    <canvas
+      ref={ref}
+      style={{
+        position: 'absolute', inset: 0,
+        width: '100%', height: '100%',
+        pointerEvents: 'none', zIndex: 5,
+      }}
+    />
+  )
+}
+
+/* ─── Animation helpers ─────────────────────────────────────── */
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 18 },
   animate: { opacity: 1, y: 0 },
@@ -169,34 +323,30 @@ const STATS = [
   { value: '99.9%', label: 'Platform Uptime'     },
 ]
 
-/* ─── Hero ────────────────────────────────────────────────── */
+/* ─── Hero ──────────────────────────────────────────────────── */
 export default function Hero() {
   return (
     <>
       <style>{`
-        /* ════════════════════════════════════════
-           SECTION
-        ════════════════════════════════════════ */
+        /* ══ Layout ═══════════════════════════════════════════ */
         .hero {
           background: #ffffff;
           display: grid;
           grid-template-columns: 1fr 1fr;
           min-height: 100vh;
-          padding-top: 80px;   /* clear fixed navbar */
+          padding-top: 80px;
           overflow: hidden;
           position: relative;
         }
 
-        /* ════════════════════════════════════════
-           LEFT — TEXT
-        ════════════════════════════════════════ */
+        /* ══ Text column ══════════════════════════════════════ */
         .hero-text {
           display: flex;
           flex-direction: column;
           justify-content: center;
           padding: 4rem clamp(2rem, 4vw, 4rem) 4rem clamp(2.5rem, 7vw, 7rem);
           position: relative;
-          z-index: 2;
+          z-index: 10;
         }
 
         .hero-label {
@@ -215,7 +365,7 @@ export default function Hero() {
           width: 5px; height: 5px;
           border-radius: 50%;
           background: #00d4ff;
-          box-shadow: 0 0 7px rgba(0,212,255,0.85);
+          box-shadow: 0 0 8px rgba(0,212,255,0.9);
           flex-shrink: 0;
         }
 
@@ -279,7 +429,7 @@ export default function Hero() {
           padding: 0.76rem 1.75rem;
           border-radius: 9999px;
           background: #06091a;
-          color: #ffffff;
+          color: #fff;
           text-decoration: none;
           display: inline-flex;
           align-items: center;
@@ -321,6 +471,7 @@ export default function Hero() {
           flex-direction: column;
           position: relative;
         }
+        .hero-stat + .hero-stat { padding-left: 1.5rem; }
         .hero-stat + .hero-stat::before {
           content: '';
           position: absolute;
@@ -328,7 +479,6 @@ export default function Hero() {
           width: 1px;
           background: rgba(6,9,26,0.07);
         }
-        .hero-stat + .hero-stat { padding-left: 1.5rem; }
         .hero-stat-value {
           font-family: var(--font-syne), 'Syne', sans-serif;
           font-size: clamp(1.4rem, 2.2vw, 1.9rem);
@@ -345,46 +495,37 @@ export default function Hero() {
           text-transform: uppercase;
         }
 
-        /* ════════════════════════════════════════
-           RIGHT — 3D
-        ════════════════════════════════════════ */
+        /* ══ Scene column ═════════════════════════════════════ */
         .hero-scene {
           position: relative;
           overflow: hidden;
-          /* Very faint bg tint to separate from text column */
-          background: rgba(0,212,255,0.015);
+          background: rgba(0,212,255,0.02);
         }
-
-        /* Ambient glow behind mesh */
         .hero-scene::before {
           content: '';
           position: absolute;
           inset: 0;
-          background: radial-gradient(ellipse 55% 55% at 50% 50%,
-            rgba(0,212,255,0.07) 0%, transparent 68%);
+          background: radial-gradient(ellipse 60% 60% at 50% 50%,
+            rgba(0,212,255,0.06) 0%, transparent 70%);
           pointer-events: none;
-          z-index: 1;
+          z-index: 2;
         }
-
-        /* Subtle edge fade on left of scene to blend with text column */
+        /* Left-edge blend */
         .hero-scene::after {
           content: '';
           position: absolute;
-          left: 0; top: 0; bottom: 0;
-          width: 80px;
-          background: linear-gradient(to right, #ffffff, transparent);
+          left: 0; top: 0; bottom: 0; width: 80px;
+          background: linear-gradient(to right, #fff, transparent);
           pointer-events: none;
-          z-index: 3;
+          z-index: 6;
         }
 
-        /* ════════════════════════════════════════
-           RESPONSIVE
-        ════════════════════════════════════════ */
+        /* ══ Responsive ═══════════════════════════════════════ */
         @media (max-width: 1024px) {
           .hero-text {
-            padding: 3.5rem clamp(1.5rem, 3vw, 3rem) 3.5rem clamp(2rem, 5vw, 4rem);
+            padding: 3.5rem clamp(1.5rem,3vw,3rem) 3.5rem clamp(2rem,5vw,4rem);
           }
-          .hero-h1 { font-size: clamp(2.8rem, 5vw, 4.5rem); }
+          .hero-h1 { font-size: clamp(2.8rem,5vw,4.5rem); }
         }
 
         @media (max-width: 768px) {
@@ -399,24 +540,30 @@ export default function Hero() {
             align-items: center;
             text-align: center;
           }
-          .hero-h1 { font-size: clamp(2.8rem, 12vw, 4.5rem); }
+          .hero-h1 { font-size: clamp(2.8rem,12vw,4.5rem); }
           .hero-desc { max-width: 100%; }
-          .hero-ctas { justify-content: center; flex-direction: column; max-width: 300px; margin: 0 auto 3rem; }
-          .hero-btn-primary, .hero-btn-ghost { justify-content: center; width: 100%; }
-          .hero-stats { max-width: 100%; justify-content: center; }
-          .hero-stat + .hero-stat { padding-left: 1.25rem; }
-          .hero-scene {
-            order: 2;
-            max-height: 380px;
+          .hero-ctas {
+            justify-content: center;
+            flex-direction: column;
+            max-width: 300px;
+            margin: 0 auto 3rem;
           }
+          .hero-btn-primary, .hero-btn-ghost {
+            justify-content: center; width: 100%;
+          }
+          .hero-stats {
+            max-width: 100%; justify-content: center;
+          }
+          .hero-stat + .hero-stat { padding-left: 1.25rem; }
+          .hero-scene { order: 2; max-height: 380px; }
           .hero-scene::after { display: none; }
         }
 
         @media (max-width: 480px) {
-          .hero { grid-template-rows: auto 62vw; }
+          .hero { grid-template-rows: auto 60vw; }
           .hero-text { padding: 3rem 1.25rem 1.5rem; }
           .hero-label { font-size: 0.58rem; letter-spacing: 0.14em; margin-bottom: 1.5rem; }
-          .hero-h1 { font-size: clamp(2.4rem, 13vw, 3.6rem); }
+          .hero-h1 { font-size: clamp(2.4rem,13vw,3.6rem); }
           .hero-pillars { font-size: 0.58rem; }
           .hero-desc { font-size: 0.92rem; }
           .hero-stats { padding-top: 1.5rem; }
@@ -464,9 +611,10 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* ── RIGHT: 3D ── */}
+        {/* ── RIGHT: Globe + waves ── */}
         <div className="hero-scene">
-          <Scene3D />
+          <GlobeScene />
+          <WaveCanvas />
         </div>
 
       </section>
