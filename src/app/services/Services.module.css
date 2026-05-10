@@ -985,12 +985,19 @@
   opacity: 0.7;
 }
 
+/* Alternating: swap image ↔ content columns */
+.itemReverse .imageWrapper { order: 2; }
+.itemReverse .content      { order: 1; }
+
 /* Responsive */
 @media (max-width: 900px) {
   .item {
     grid-template-columns: 1fr;
     gap: 32px;
   }
+  /* Reset order on mobile — single column, natural flow */
+  .itemReverse .imageWrapper,
+  .itemReverse .content { order: unset; }
 
   .image {
     height: 300px;

@@ -401,41 +401,54 @@ export default function Hero() {
         }}
       />
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — prominent pill button */}
       <motion.div
-        className="absolute bottom-5 left-1/2 z-40"
+        className="absolute bottom-7 left-1/2 z-40"
         style={{ translateX: '-50%' }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.3 }}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 0.5 }}
       >
         <a
           href="#services"
-          className="flex flex-col items-center gap-1.5"
-          style={{ color: '#aeaeb2' }}
+          className="flex items-center gap-2.5"
+          style={{
+            fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif',
+            fontSize: '0.78rem',
+            fontWeight: 500,
+            letterSpacing: '0.04em',
+            color: '#1a202c',
+            padding: '0.55rem 1.25rem 0.55rem 1rem',
+            borderRadius: '9999px',
+            border: '1px solid rgba(0,0,0,0.14)',
+            background: 'rgba(255,255,255,0.85)',
+            backdropFilter: 'blur(8px)',
+            boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
+            textDecoration: 'none',
+            transition: 'box-shadow 0.2s, background 0.2s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = '0 4px 24px rgba(37,99,235,0.15)'
+            e.currentTarget.style.background = '#ffffff'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.08)'
+            e.currentTarget.style.background = 'rgba(255,255,255,0.85)'
+          }}
         >
-          <span
-            style={{
-              fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif',
-              fontSize: '0.6rem',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-            }}
-          >
-            Scroll
-          </span>
+          <span>View Our Services</span>
           <motion.svg
-            width="14"
-            height="14"
+            width="15"
+            height="15"
             viewBox="0 0 24 24"
             fill="none"
-            animate={{ y: [0, 5, 0] }}
-            transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
+            animate={{ y: [0, 4, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
           >
             <path
               d="M12 5v14M12 19l6-6M12 19l-6-6"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="1.8"
               strokeLinecap="round"
               strokeLinejoin="round"
             />

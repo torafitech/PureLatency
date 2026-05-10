@@ -59,9 +59,11 @@ const coreServices = [
         </p>
 
         <div className={styles.list}>
-          {coreServices.map((service) => (
-            <div key={service.title} className={styles.item}>
-              {/* Image */}
+          {coreServices.map((service, index) => (
+            <div
+              key={service.title}
+              className={`${styles.item} ${index % 2 === 0 ? styles.itemReverse : ''}`}
+            >
               <div className={styles.imageWrapper}>
                 <img
                   src={service.image}
@@ -70,7 +72,6 @@ const coreServices = [
                 />
               </div>
 
-              {/* Content */}
               <div className={styles.content}>
                 <Link href={service.href} className={styles.link}>
                   <h3 className={styles.itemTitle}>{service.title}</h3>
