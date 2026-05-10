@@ -4,8 +4,6 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 
-const BG = '#06091a'
-
 function GlobeScene() {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -25,8 +23,6 @@ function GlobeScene() {
       container.appendChild(renderer.domElement)
 
       const scene = new THREE.Scene()
-
-      // Camera: positioned so globe appears at ~65% viewport height
       const camera = new THREE.PerspectiveCamera(
         42,
         container.clientWidth / container.clientHeight,
@@ -36,24 +32,23 @@ function GlobeScene() {
       camera.position.set(0, 0, 4.5)
       camera.lookAt(0, 0.5, 0)
 
-      // Lighting for dark-theme
-      scene.add(new THREE.AmbientLight(0x0a1a3a, 1.5))
+      // Balanced lighting for white background
+      scene.add(new THREE.AmbientLight(0xffffff, 0.9))
 
-      const key = new THREE.DirectionalLight(0x2255ff, 3.5)
-      key.position.set(-3, 2, 2)
+      const key = new THREE.DirectionalLight(0x6699ff, 2.2)
+      key.position.set(-4, 3, 2)
       scene.add(key)
 
-      const rim = new THREE.DirectionalLight(0x00d4ff, 1.8)
-      rim.position.set(4, -1, -2)
-      scene.add(rim)
+      const fill = new THREE.DirectionalLight(0xffffff, 1.0)
+      fill.position.set(4, 0, 2)
+      scene.add(fill)
 
-      const top = new THREE.DirectionalLight(0x88bbff, 0.8)
-      top.position.set(0, 5, 1)
-      scene.add(top)
+      const rim = new THREE.DirectionalLight(0xaaccff, 0.5)
+      rim.position.set(0, -3, -2)
+      scene.add(rim)
 
       const loader = new THREE.TextureLoader()
 
-      // Earth mesh
       const earth = new THREE.Mesh(
         new THREE.SphereGeometry(1, 96, 96),
         new THREE.MeshStandardMaterial({
@@ -61,26 +56,26 @@ function GlobeScene() {
           normalMap: loader.load(
             'https://threejs.org/examples/textures/planets/earth_normal_2048.jpg'
           ),
-          roughness: 0.72,
-          metalness: 0.12,
+          roughness: 0.75,
+          metalness: 0.08,
         })
       )
       scene.add(earth)
 
-      // Atmosphere glow shell
+      // Very subtle atmosphere (barely visible on white)
       scene.add(
         new THREE.Mesh(
-          new THREE.SphereGeometry(1.09, 48, 48),
+          new THREE.SphereGeometry(1.08, 48, 48),
           new THREE.MeshStandardMaterial({
-            color: 0x0033cc,
+            color: 0x2255cc,
             transparent: true,
-            opacity: 0.07,
+            opacity: 0.04,
             side: THREE.BackSide,
           })
         )
       )
 
-      // Helper: create a thin orbit line
+      // Orbit rings — blue, low opacity for white bg
       const orbitLine = (radius: number, rx: number, rz: number, op: number) => {
         const pts = Array.from({ length: 129 }, (_, i) => {
           const a = (i / 128) * Math.PI * 2
@@ -88,16 +83,16 @@ function GlobeScene() {
         })
         const line = new THREE.Line(
           new THREE.BufferGeometry().setFromPoints(pts),
-          new THREE.LineBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: op })
+          new THREE.LineBasicMaterial({ color: 0x2563eb, transparent: true, opacity: op })
         )
         line.rotation.x = rx
         line.rotation.z = rz
         return line
       }
 
-      const r1 = orbitLine(1.38, Math.PI / 2, 0, 0.3)
-      const r2 = orbitLine(1.62, Math.PI / 2 + 0.38, 0.42, 0.18)
-      const r3 = orbitLine(1.88, Math.PI / 2 - 0.22, -0.55, 0.11)
+      const r1 = orbitLine(1.38, Math.PI / 2, 0, 0.22)
+      const r2 = orbitLine(1.62, Math.PI / 2 + 0.38, 0.42, 0.13)
+      const r3 = orbitLine(1.88, Math.PI / 2 - 0.22, -0.55, 0.08)
       scene.add(r1, r2, r3)
 
       const onResize = () => {
@@ -149,27 +144,28 @@ function WaveCanvas() {
     resize()
     window.addEventListener('resize', resize)
 
-    // Wave config — centered around globe equator
     type Wave = {
-      dy: number     // offset from globe center Y (px)
+      dy: number
       amp: number
       freq: number
-      color: string
       op: number
       speed: number
     }
 
+    // Blue waves on white — lower opacity, blue-600 color
     const WAVES: Wave[] = [
-      { dy:   0, amp: 20, freq: 0.010, color: '0,212,255',  op: 0.55, speed: 1.0 },
-      { dy: -28, amp: 16, freq: 0.012, color: '0,130,255',  op: 0.38, speed: 0.8 },
-      { dy:  28, amp: 16, freq: 0.009, color: '0,212,255',  op: 0.38, speed: 1.2 },
-      { dy: -56, amp: 14, freq: 0.014, color: '60,160,255', op: 0.25, speed: 0.65 },
-      { dy:  56, amp: 14, freq: 0.011, color: '0,180,255',  op: 0.25, speed: 1.35 },
-      { dy: -84, amp: 10, freq: 0.013, color: '0,212,255',  op: 0.15, speed: 0.55 },
-      { dy:  84, amp: 10, freq: 0.008, color: '0,100,255',  op: 0.15, speed: 1.45 },
-      { dy:-112, amp:  7, freq: 0.015, color: '0,212,255',  op: 0.09, speed: 0.45 },
-      { dy: 112, amp:  7, freq: 0.007, color: '0,150,255',  op: 0.09, speed: 1.55 },
+      { dy:   0, amp: 20, freq: 0.010, op: 0.38, speed: 1.0 },
+      { dy: -28, amp: 16, freq: 0.012, op: 0.26, speed: 0.8 },
+      { dy:  28, amp: 16, freq: 0.009, op: 0.26, speed: 1.2 },
+      { dy: -56, amp: 13, freq: 0.014, op: 0.17, speed: 0.65 },
+      { dy:  56, amp: 13, freq: 0.011, op: 0.17, speed: 1.35 },
+      { dy: -84, amp:  9, freq: 0.013, op: 0.10, speed: 0.55 },
+      { dy:  84, amp:  9, freq: 0.008, op: 0.10, speed: 1.45 },
+      { dy:-112, amp:  6, freq: 0.015, op: 0.06, speed: 0.45 },
+      { dy: 112, amp:  6, freq: 0.007, op: 0.06, speed: 1.55 },
     ]
+
+    const WAVE_COLOR = '37,99,235'  // blue-600
 
     const draw = () => {
       const w = canvas.width
@@ -178,10 +174,10 @@ function WaveCanvas() {
       t += 0.009
 
       const cx = w / 2
-      const cy = h * 0.655         // globe center Y estimate
-      const gr = Math.min(w, h) * 0.245  // globe radius estimate (screen px)
+      const cy = h * 0.655
+      const gr = Math.min(w, h) * 0.245
 
-      // Pass 1 — draw all waves at full opacity
+      // Pass 1 — waves at full opacity
       WAVES.forEach((wv) => {
         const baseY = cy + wv.dy
         ctx.beginPath()
@@ -192,19 +188,19 @@ function WaveCanvas() {
           first ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
           first = false
         }
-        ctx.strokeStyle = `rgba(${wv.color},${wv.op})`
+        ctx.strokeStyle = `rgba(${WAVE_COLOR},${wv.op})`
         ctx.stroke()
       })
 
-      // Pass 2 — darken globe interior (refraction/absorption effect)
+      // Pass 2 — white radial overlay to dim waves inside globe (on white bg)
       const overlay = ctx.createRadialGradient(cx, cy, 0, cx, cy, gr)
-      overlay.addColorStop(0,   `rgba(6,9,26,0.68)`)
-      overlay.addColorStop(0.65, `rgba(6,9,26,0.45)`)
-      overlay.addColorStop(1,    `rgba(6,9,26,0)`)
+      overlay.addColorStop(0,    'rgba(255,255,255,0.72)')
+      overlay.addColorStop(0.65, 'rgba(255,255,255,0.50)')
+      overlay.addColorStop(1,    'rgba(255,255,255,0)')
       ctx.fillStyle = overlay
       ctx.fillRect(0, 0, w, h)
 
-      // Pass 3 — redraw waves inside globe at low opacity (refracted look)
+      // Pass 3 — very faint waves inside globe (refracted)
       ctx.save()
       ctx.beginPath()
       ctx.arc(cx, cy, gr, 0, Math.PI * 2)
@@ -220,7 +216,7 @@ function WaveCanvas() {
           first ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
           first = false
         }
-        ctx.strokeStyle = `rgba(${wv.color},${wv.op * 0.28})`
+        ctx.strokeStyle = `rgba(${WAVE_COLOR},${wv.op * 0.22})`
         ctx.stroke()
       })
       ctx.restore()
@@ -247,25 +243,22 @@ function WaveCanvas() {
 
 export default function Hero() {
   return (
-    <section
-      className="relative h-screen overflow-hidden"
-      style={{ background: BG }}
-    >
-      {/* Ambient center glow */}
+    <section className="relative h-screen overflow-hidden bg-white">
+      {/* Very subtle radial tint at globe area */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 70% 55% at 50% 68%, rgba(0,80,220,0.13) 0%, transparent 70%)',
+            'radial-gradient(ellipse 60% 45% at 50% 68%, rgba(37,99,235,0.04) 0%, transparent 70%)',
         }}
       />
 
-      {/* Globe — full viewport canvas so we control camera */}
+      {/* Globe — full viewport */}
       <div className="absolute inset-0 z-10">
         <GlobeScene />
       </div>
 
-      {/* Animated signal waves */}
+      {/* Signal waves */}
       <WaveCanvas />
 
       {/* Text content */}
@@ -276,24 +269,23 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.1 }}
           className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border"
-          style={{ borderColor: 'rgba(0,212,255,0.22)', background: 'rgba(0,212,255,0.05)' }}
+          style={{
+            borderColor: 'rgba(37,99,235,0.2)',
+            background: 'rgba(37,99,235,0.05)',
+          }}
         >
           <span
             className="w-1.5 h-1.5 rounded-full"
-            style={{
-              background: '#00d4ff',
-              boxShadow: '0 0 6px #00d4ff',
-              animation: 'pulse 2s ease-in-out infinite',
-            }}
+            style={{ background: '#2563eb', boxShadow: '0 0 5px rgba(37,99,235,0.5)' }}
           />
           <span
             style={{
-              fontFamily: 'DM Sans, sans-serif',
-              fontSize: '0.7rem',
+              fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif',
+              fontSize: '0.68rem',
               fontWeight: 500,
-              letterSpacing: '0.14em',
+              letterSpacing: '0.13em',
               textTransform: 'uppercase',
-              color: '#00d4ff',
+              color: '#2563eb',
             }}
           >
             Next-Generation Technology Platform
@@ -306,12 +298,12 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.22 }}
           style={{
-            fontFamily: 'Syne, sans-serif',
+            fontFamily: 'var(--font-syne), Syne, sans-serif',
             fontSize: 'clamp(3.2rem, 9vw, 7.5rem)',
             fontWeight: 800,
             letterSpacing: '-0.035em',
             lineHeight: 0.95,
-            color: '#ffffff',
+            color: '#0a0f1e',
             marginBottom: '1.25rem',
           }}
         >
@@ -324,11 +316,11 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.38 }}
           style={{
-            fontFamily: 'DM Sans, sans-serif',
-            color: '#7a90b8',
-            fontSize: 'clamp(0.88rem, 2.2vw, 1.05rem)',
-            letterSpacing: '0.06em',
-            marginBottom: '0.5rem',
+            fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif',
+            color: '#6e6e73',
+            fontSize: 'clamp(0.85rem, 2.2vw, 1rem)',
+            letterSpacing: '0.08em',
+            marginBottom: '0.45rem',
           }}
         >
           AI &nbsp;·&nbsp; Infrastructure &nbsp;·&nbsp; Products
@@ -339,9 +331,9 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
           style={{
-            fontFamily: 'DM Sans, sans-serif',
-            color: '#4a5878',
-            fontSize: '0.82rem',
+            fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif',
+            color: '#aeaeb2',
+            fontSize: '0.8rem',
             marginBottom: '2.25rem',
           }}
         >
@@ -358,47 +350,41 @@ export default function Hero() {
           <Link
             href="/services"
             style={{
-              fontFamily: 'DM Sans, sans-serif',
+              fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif',
               fontWeight: 600,
               fontSize: '0.85rem',
-              padding: '0.6rem 1.75rem',
+              padding: '0.62rem 1.75rem',
               borderRadius: '9999px',
-              background: '#ffffff',
-              color: BG,
+              background: '#0a0f1e',
+              color: '#ffffff',
               letterSpacing: '0.01em',
-              transition: 'background 0.18s, box-shadow 0.18s',
+              transition: 'background 0.18s',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#e0f7ff'
-              e.currentTarget.style.boxShadow = '0 0 18px rgba(0,212,255,0.22)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#ffffff'
-              e.currentTarget.style.boxShadow = 'none'
-            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#1a2540')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = '#0a0f1e')}
           >
             Explore Services
           </Link>
           <Link
             href="/contact"
             style={{
-              fontFamily: 'DM Sans, sans-serif',
+              fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif',
               fontWeight: 400,
               fontSize: '0.85rem',
-              padding: '0.6rem 1.75rem',
+              padding: '0.62rem 1.75rem',
               borderRadius: '9999px',
-              border: '1px solid rgba(255,255,255,0.15)',
-              color: 'rgba(255,255,255,0.72)',
+              border: '1px solid rgba(0,0,0,0.15)',
+              color: '#374151',
               letterSpacing: '0.01em',
               transition: 'border-color 0.18s, color 0.18s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(0,212,255,0.45)'
-              e.currentTarget.style.color = '#ffffff'
+              e.currentTarget.style.borderColor = 'rgba(37,99,235,0.45)'
+              e.currentTarget.style.color = '#2563eb'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'
-              e.currentTarget.style.color = 'rgba(255,255,255,0.72)'
+              e.currentTarget.style.borderColor = 'rgba(0,0,0,0.15)'
+              e.currentTarget.style.color = '#374151'
             }}
           >
             Get a Demo
@@ -406,12 +392,12 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Bottom fade: dark → white (for Stats section transition) */}
+      {/* Bottom: seamless fade to white (no jarring edge) */}
       <div
         className="absolute inset-x-0 bottom-0 pointer-events-none z-20"
         style={{
-          height: '180px',
-          background: `linear-gradient(to bottom, transparent, ${BG} 55%, #ffffff)`,
+          height: '120px',
+          background: 'linear-gradient(to bottom, transparent, #ffffff)',
         }}
       />
 
@@ -426,11 +412,11 @@ export default function Hero() {
         <a
           href="#services"
           className="flex flex-col items-center gap-1.5"
-          style={{ color: 'rgba(255,255,255,0.25)' }}
+          style={{ color: '#aeaeb2' }}
         >
           <span
             style={{
-              fontFamily: 'DM Sans, sans-serif',
+              fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif',
               fontSize: '0.6rem',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
