@@ -48,6 +48,12 @@ const coreServices = [
     desc: "Cutting-edge quantum computing solutions for solving complex enterprise-scale problems.",
     image: "https://images.unsplash.com/photo-1635070041078-c3adbfce6070?auto=format&fit=crop&w=1200&q=80",
   },
+  {
+    title: "AI Services",
+    href: "/services/ai-services",
+    desc: "AI agents, LLM integration, generative AI, and autonomous workflows — built and operated for enterprise at scale.",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+  },
 ];
 
   return (

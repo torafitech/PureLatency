@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
       href: '/services',
       dropdown: [
         { label: 'Overview', href: '/services' },
-        // { label: 'Applications', href: '/services/applications' },
+        { label: 'AI Services', href: '/services/ai-services' },
         { label: 'Web Development', href: '/services/web-development' },
         { label: 'Data and AI', href: '/services/data-ai' },
         { label: 'Cloud and DevOps', href: '/services/cloud-devops' },
