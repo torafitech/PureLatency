@@ -602,14 +602,14 @@ export default function Hero() {
             <Link href="/contact" className="hero-btn-ghost">Get a Demo</Link>
           </motion.div>
 
-          <motion.div {...fadeUp(0.6)} className="hero-stats">
+          {/* <motion.div {...fadeUp(0.6)} className="hero-stats">
             {STATS.map(s => (
               <div key={s.label} className="hero-stat">
                 <span className="hero-stat-value">{s.value}</span>
                 <span className="hero-stat-label">{s.label}</span>
               </div>
             ))}
-          </motion.div>
+          </motion.div> */}
         </div>
 
         {/* ── RIGHT: Globe + waves ── */}
