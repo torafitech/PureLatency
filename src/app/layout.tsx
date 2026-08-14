@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Syne, DM_Sans } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import WhatsAppWidget from '@/components/WhatsAppWidget';
 
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       >
         {children}
         <WhatsAppWidget />
+        <Analytics />
       </body>
     </html>
   );

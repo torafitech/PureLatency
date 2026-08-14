@@ -2,313 +2,13 @@
 
 import { motion, type Transition } from 'framer-motion'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
-import type { QuadraticBezierCurve3, Mesh } from 'three'
+import dynamic from 'next/dynamic'
+import NetworkWaveCanvas from './NetworkWaveCanvas'
 
-interface ArcParticle {
-  curve: QuadraticBezierCurve3
-  mesh:  Mesh
-  t:     number
-  speed: number
-}
-
-/* ─── Lat/Lon → sphere XYZ ─────────────────────────────────── */
-function llToVec3(lat: number, lon: number, r: number, THREE: typeof import('three')) {
-  const phi   = (90 - lat) * (Math.PI / 180)
-  const theta = (lon + 180) * (Math.PI / 180)
-  return new THREE.Vector3(
-    -r * Math.sin(phi) * Math.cos(theta),
-     r * Math.cos(phi),
-     r * Math.sin(phi) * Math.sin(theta),
-  )
-}
-
-/* ─── City hub coordinates ──────────────────────────────────── */
-const HUBS = [
-  [17.4,  78.5],   // Hyderabad (home)
-  [40.7, -74.0],   // New York
-  [51.5,  -0.1],   // London
-  [ 1.3, 103.8],   // Singapore
-  [35.7, 139.7],   // Tokyo
-  [25.2,  55.3],   // Dubai
-  [-33.9, 151.2],  // Sydney
-  [37.8, -122.4],  // San Francisco
-  [48.9,   2.3],   // Paris
-  [55.8,  37.6],   // Moscow
-]
-
-/* Connection pairs (indices into HUBS) */
-const CONNECTIONS = [
-  [0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],  // Hyderabad → all
-  [1,2],[2,5],[3,4],[5,3],[7,1],[8,2],[9,2],  // cross links
-]
-
-/* ─── Globe + network scene ─────────────────────────────────── */
-function GlobeScene() {
-  const mountRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const container = mountRef.current
-    if (!container) return
-    let rafId: number
-    let cleanup = () => {}
-
-    import('three').then((THREE) => {
-      if (!mountRef.current) return
-      const W = container.clientWidth
-      const H = container.clientHeight
-
-      /* ── Renderer ── */
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-      renderer.setSize(W, H)
-      renderer.setClearColor(0x000000, 0)
-      Object.assign(renderer.domElement.style, {
-        position: 'absolute', top: '0', left: '0',
-        width: '100%', height: '100%',
-      })
-      container.appendChild(renderer.domElement)
-
-      const scene  = new THREE.Scene()
-      const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100)
-      camera.position.set(0, 0, 5.8)
-
-      /* ── Lighting ── */
-      scene.add(new THREE.AmbientLight(0xffffff, 0.55))
-
-      const sun = new THREE.DirectionalLight(0x88bbff, 2.2)
-      sun.position.set(-4, 3, 3)
-      scene.add(sun)
-
-      const backLight = new THREE.DirectionalLight(0x00d4ff, 0.35)
-      backLight.position.set(3, -2, -2)
-      scene.add(backLight)
-
-      /* ── Earth ── */
-      const loader = new THREE.TextureLoader()
-      const R = 1.55
-      const earthMesh = new THREE.Mesh(
-        new THREE.SphereGeometry(R, 80, 80),
-        new THREE.MeshStandardMaterial({
-          map:       loader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg'),
-          normalMap: loader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg'),
-          roughness: 0.78,
-          metalness: 0.12,
-        })
-      )
-      scene.add(earthMesh)
-
-      /* ── Atmosphere ── */
-      scene.add(new THREE.Mesh(
-        new THREE.SphereGeometry(R * 1.055, 48, 48),
-        new THREE.MeshStandardMaterial({
-          color: 0x0044cc, side: THREE.BackSide,
-          transparent: true, opacity: 0.055,
-        })
-      ))
-
-      /* ── Thin halo ring ── */
-      const haloMat = new THREE.SpriteMaterial({
-        map: (() => {
-          const size = 256
-          const c    = document.createElement('canvas')
-          c.width = c.height = size
-          const cx = c.getContext('2d')!
-          const g  = cx.createRadialGradient(size/2, size/2, size*0.45, size/2, size/2, size*0.5)
-          g.addColorStop(0,   'rgba(0,212,255,0.0)')
-          g.addColorStop(0.7, 'rgba(0,212,255,0.12)')
-          g.addColorStop(1,   'rgba(0,212,255,0.0)')
-          cx.fillStyle = g
-          cx.fillRect(0, 0, size, size)
-          return new THREE.CanvasTexture(c)
-        })(),
-        transparent: true,
-        depthWrite: false,
-      })
-      const halo = new THREE.Sprite(haloMat)
-      halo.scale.set(R * 2.5, R * 2.5, 1)
-      scene.add(halo)
-
-      /* ── City dots ── */
-      const dotGeo = new THREE.SphereGeometry(0.018, 10, 10)
-      const dotMat = new THREE.MeshBasicMaterial({ color: 0x00d4ff })
-      HUBS.forEach(([lat, lon]) => {
-        const dot = new THREE.Mesh(dotGeo, dotMat)
-        const p   = llToVec3(lat, lon, R + 0.01, THREE)
-        dot.position.copy(p)
-        scene.add(dot)
-      })
-
-      /* ── Connection arcs + animated particles ── */
-      const particles: ArcParticle[] = []
-
-      const lineMat = new THREE.LineBasicMaterial({ color: 0x00aaff, transparent: true, opacity: 0.22 })
-      const pMat    = new THREE.MeshBasicMaterial({ color: 0x00d4ff })
-      const pGeo    = new THREE.SphereGeometry(0.022, 8, 8)
-
-      CONNECTIONS.forEach(([a, b]) => {
-        const p1  = llToVec3(HUBS[a][0], HUBS[a][1], R + 0.01, THREE)
-        const p2  = llToVec3(HUBS[b][0], HUBS[b][1], R + 0.01, THREE)
-        const mid = p1.clone().add(p2).multiplyScalar(0.5)
-        const lift = mid.length()
-        mid.normalize().multiplyScalar(lift + 0.45 + Math.random() * 0.3)
-
-        const curve  = new THREE.QuadraticBezierCurve3(p1, mid, p2)
-        const pts    = curve.getPoints(60)
-        const lineGeo = new THREE.BufferGeometry().setFromPoints(pts)
-        scene.add(new THREE.Line(lineGeo, lineMat))
-
-        const pmesh = new THREE.Mesh(pGeo, pMat.clone())
-        scene.add(pmesh)
-        particles.push({ curve, mesh: pmesh, t: Math.random(), speed: 0.003 + Math.random() * 0.003 })
-      })
-
-      /* ── Orbit ring ── */
-      const makeLine = (radius: number, rx: number, rz: number, op: number) => {
-        const pts = Array.from({ length: 129 }, (_, i) => {
-          const a = (i / 128) * Math.PI * 2
-          return new THREE.Vector3(Math.cos(a) * radius, 0, Math.sin(a) * radius)
-        })
-        const l = new THREE.Line(
-          new THREE.BufferGeometry().setFromPoints(pts),
-          new THREE.LineBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: op })
-        )
-        l.rotation.x = rx; l.rotation.z = rz
-        return l
-      }
-      const ring = makeLine(R * 1.3, Math.PI * 0.42, 0.2, 0.14)
-      scene.add(ring)
-
-      /* ── ResizeObserver ── */
-      const ro = new ResizeObserver(() => {
-        const w = container.clientWidth, h = container.clientHeight
-        camera.aspect = w / h
-        camera.updateProjectionMatrix()
-        renderer.setSize(w, h)
-      })
-      ro.observe(container)
-
-      /* ── Mouse parallax ── */
-      let tx = 0, ty = 0, cx2 = 0, cy2 = 0
-      const onMouse = (e: MouseEvent) => {
-        tx = (e.clientX / window.innerWidth  - 0.5) * 0.4
-        ty = (e.clientY / window.innerHeight - 0.5) * 0.25
-      }
-      window.addEventListener('mousemove', onMouse)
-
-      /* ── Animation ── */
-      let t = 0
-      const animate = () => {
-        rafId = requestAnimationFrame(animate)
-        t += 0.004
-
-        cx2 += (tx - cx2) * 0.035
-        cy2 += (ty - cy2) * 0.035
-
-        earthMesh.rotation.y = t * 0.12 + cx2 * 0.25
-        earthMesh.rotation.x = -cy2 * 0.15
-
-        /* Sync dots and arcs to earth */
-        scene.children.forEach(obj => {
-          if (obj instanceof THREE.Mesh && obj !== earthMesh) {
-            obj.rotation.y = earthMesh.rotation.y
-            obj.rotation.x = earthMesh.rotation.x
-          }
-          if (obj instanceof THREE.Line) {
-            obj.rotation.y = earthMesh.rotation.y
-            obj.rotation.x = earthMesh.rotation.x
-          }
-        })
-
-        particles.forEach(p => {
-          p.t = (p.t + p.speed) % 1
-          const pos = p.curve.getPoint(p.t)
-          /* Apply same rotation as earth */
-          pos.applyEuler(new THREE.Euler(earthMesh.rotation.x, earthMesh.rotation.y, 0))
-          p.mesh.position.copy(pos)
-        })
-
-        ring.rotation.y = t * 0.1
-        ring.rotation.z = t * 0.05
-
-        renderer.render(scene, camera)
-      }
-      animate()
-
-      cleanup = () => {
-        cancelAnimationFrame(rafId)
-        ro.disconnect()
-        window.removeEventListener('mousemove', onMouse)
-        renderer.dispose()
-        if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement)
-      }
-    })
-
-    return () => cleanup()
-  }, [])
-
-  return <div ref={mountRef} style={{ position: 'absolute', inset: 0 }} />
-}
-
-/* ─── Signal wave canvas ─────────────────────────────────────── */
-function WaveCanvas() {
-  const ref = useRef<HTMLCanvasElement>(null)
-
-  useEffect(() => {
-    const canvas = ref.current!
-    const ctx    = canvas.getContext('2d')!
-    let rafId: number, t = 0
-
-    const resize = () => {
-      canvas.width  = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
-    }
-    resize()
-    const ro = new ResizeObserver(resize)
-    ro.observe(canvas)
-
-    const WAVES = [
-      { dy: 0,   amp: 22, freq: 0.009, op: 0.22, spd: 1.0 },
-      { dy: -38, amp: 16, freq: 0.012, op: 0.13, spd: 0.75 },
-      { dy:  38, amp: 16, freq: 0.008, op: 0.13, spd: 1.3  },
-      { dy: -70, amp: 10, freq: 0.015, op: 0.07, spd: 0.55 },
-      { dy:  70, amp: 10, freq: 0.007, op: 0.07, spd: 1.6  },
-    ]
-
-    const draw = () => {
-      rafId = requestAnimationFrame(draw)
-      t += 0.007
-      const w = canvas.width, h = canvas.height
-      ctx.clearRect(0, 0, w, h)
-      const cy = h * 0.5
-
-      WAVES.forEach(wv => {
-        ctx.beginPath()
-        ctx.lineWidth = 1.2
-        for (let x = 0; x <= w; x += 2) {
-          const y = cy + wv.dy + Math.sin(x * wv.freq + t * wv.spd) * wv.amp
-          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
-        }
-        ctx.strokeStyle = `rgba(0,180,220,${wv.op})`
-        ctx.stroke()
-      })
-    }
-    draw()
-
-    return () => { cancelAnimationFrame(rafId); ro.disconnect() }
-  }, [])
-
-  return (
-    <canvas
-      ref={ref}
-      style={{
-        position: 'absolute', inset: 0,
-        width: '100%', height: '100%',
-        pointerEvents: 'none', zIndex: 5,
-      }}
-    />
-  )
-}
+const HeroGlobe = dynamic(() => import('./HeroGlobe'), {
+  ssr: false,
+  loading: () => <div style={{ position: 'absolute', inset: 0 }} />,
+})
 
 /* ─── Animation helpers ─────────────────────────────────────── */
 const fadeUp = (delay: number) => ({
@@ -509,7 +209,7 @@ export default function Hero() {
           background: radial-gradient(ellipse 60% 60% at 50% 50%,
             rgba(0,212,255,0.06) 0%, transparent 70%);
           pointer-events: none;
-          z-index: 2;
+          z-index: 3;
         }
         /* Left-edge blend */
         .hero-scene::after {
@@ -602,20 +302,20 @@ export default function Hero() {
             <Link href="/contact" className="hero-btn-ghost">Get a Demo</Link>
           </motion.div>
 
-          {/* <motion.div {...fadeUp(0.6)} className="hero-stats">
+          <motion.div {...fadeUp(0.6)} className="hero-stats">
             {STATS.map(s => (
               <div key={s.label} className="hero-stat">
                 <span className="hero-stat-value">{s.value}</span>
                 <span className="hero-stat-label">{s.label}</span>
               </div>
             ))}
-          </motion.div> */}
+          </motion.div>
         </div>
 
-        {/* ── RIGHT: Globe + waves ── */}
+        {/* ── RIGHT: Globe ── */}
         <div className="hero-scene">
-          <GlobeScene />
-          <WaveCanvas />
+          <NetworkWaveCanvas />
+          <HeroGlobe />
         </div>
 
       </section>
