@@ -14,7 +14,7 @@ export default function ContactPage() {
     email: "",
     designation: "",
     enquiry: "Collaboration",
-    country: "United States",
+    country: "India",
     message: "",
   });
 
@@ -305,7 +305,7 @@ const docRef = await Promise.race([
                 <PhoneInput
                   value={phoneValue}
                   onChange={(value) => setPhoneValue(value || "")}
-                  defaultCountry="US"
+                  defaultCountry="IN"
                   onlyCountries={allowedCountryCodes} // ✅ corrected prop for v2
                   className={styles.phoneInput}
                   required

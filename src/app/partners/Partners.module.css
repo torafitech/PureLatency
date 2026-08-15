@@ -278,6 +278,13 @@
   color: #0066cc;
 }
 
+.heroCardSubtitle {
+  color: #86868b;
+  font-size: clamp(0.95rem, 2.5vw, 1rem);
+  line-height: 1.6;
+  text-align: center;
+}
+
 /* Stats Banner */
 .statsBanner {
   display: grid;

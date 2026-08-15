@@ -159,14 +159,11 @@ export default function IndustriesPage() {
     'AWS IoT', 'Azure IoT', 'Edge Computing', '5G'
   ];
 
-  const partners = [
-    { name: 'AWS', logo: 'AWS', type: 'Cloud Provider' },
-    { name: 'Microsoft', logo: 'MS', type: 'Technology Partner' },
-    { name: 'Google Cloud', logo: 'GCP', type: 'Cloud Provider' },
-    { name: 'Okta', logo: 'OK', type: 'Security Partner' },
-    { name: 'Datadog', logo: 'DD', type: 'Monitoring' },
-    { name: 'MongoDB', logo: 'MDB', type: 'Database' }
-  ];
+  // Deleted outright, not TODO-flagged — claimed AWS, Microsoft, Google
+  // Cloud, Okta, Datadog, and MongoDB as "Ecosystem Partners" with zero
+  // backing anywhere in this repo. Same treatment as every other
+  // fabricated real-company partnership claim removed in this pass
+  // (see src/app/partners/page.tsx, src/app/industries/telco-space/page.tsx).
 
   const socialMedia = [
     { 
@@ -232,7 +229,7 @@ export default function IndustriesPage() {
             <h1 className={styles.heroTitle}>
               Solutions tailored to<br />
               <span className={styles.heroTitleGradient}>
-                your industry's needs
+                your industry&apos;s needs
               </span>
             </h1>
             <p className={styles.heroText}>
@@ -425,20 +422,6 @@ export default function IndustriesPage() {
               <span key={tech} className={styles.techItem}>
                 {tech}
               </span>
-            ))}
-          </div>
-        </section>
-
-        {/* Trusted Partners */}
-        <section style={{ marginBottom: '6rem' }}>
-          <h2 className={styles.sectionTitle}>Our Ecosystem Partners</h2>
-          <div className={styles.partnersGrid}>
-            {partners.map(partner => (
-              <div key={partner.name} className={styles.partnerItem}>
-                <div className={styles.partnerLogo}>{partner.logo}</div>
-                <div className={styles.partnerName}>{partner.name}</div>
-                <div className={styles.partnerType}>{partner.type}</div>
-              </div>
             ))}
           </div>
         </section>

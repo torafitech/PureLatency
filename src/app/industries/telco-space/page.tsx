@@ -190,16 +190,13 @@ export default function TelcoSpacePage() {
     }
   ];
 
-  const partners = [
-    { name: 'SpaceX', logo: 'SX', type: 'Launch Partner' },
-    { name: 'OneWeb', logo: 'OW', type: 'Satellite Network' },
-    { name: 'Starlink', logo: 'SL', type: 'Constellation' },
-    { name: 'Ericsson', logo: 'ER', type: '5G Infrastructure' },
-    { name: 'Nokia', logo: 'NK', type: 'Network Partner' },
-    { name: 'Huawei', logo: 'HW', type: 'Telecom Equipment' },
-    { name: 'Thales', logo: 'TH', type: 'Space Systems' },
-    { name: 'Airbus', logo: 'AB', type: 'Aerospace' }
-  ];
+  // Deleted outright, not TODO-flagged — claimed SpaceX, OneWeb, Starlink,
+  // Ericsson, Nokia, Huawei, Thales, and Airbus as partners with zero
+  // backing anywhere in this repo (SpaceX specifically flagged as a
+  // "Launch Partner"). Was already unreachable in the UI (never
+  // rendered), but per instruction fabricated identity claims get deleted
+  // from source even when unreachable. This was the item that triggered
+  // this repo-wide cleanup pass.
 
   const faqs = [
     {

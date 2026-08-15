@@ -190,14 +190,12 @@ export default function EnterprisePage() {
     }
   ];
 
-  const partners = [
-    { name: 'AWS', logo: 'AWS', type: 'Cloud Provider' },
-    { name: 'Microsoft', logo: 'MS', type: 'Technology Partner' },
-    { name: 'Google Cloud', logo: 'GCP', type: 'Cloud Provider' },
-    { name: 'Salesforce', logo: 'SF', type: 'CRM Partner' },
-    { name: 'SAP', logo: 'SAP', type: 'ERP Partner' },
-    { name: 'Oracle', logo: 'OR', type: 'Database Partner' }
-  ];
+  // Deleted outright, not TODO-flagged — claimed AWS, Microsoft, Google
+  // Cloud, Salesforce, SAP, and Oracle as partners with zero backing
+  // anywhere in this repo. Was already unreachable in the UI (never
+  // rendered), but per instruction fabricated identity claims get deleted
+  // from source even when unreachable. Same treatment as the identical
+  // fabricated list removed from src/app/industries/page.tsx.
 
   const faqs = [
     {

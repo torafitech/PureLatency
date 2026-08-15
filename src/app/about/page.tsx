@@ -8,13 +8,6 @@ import Footer from '@/components/layout/Footer';
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState('story');
 
-  const stats = [
-    { value: '2026', label: 'Founded', icon: '📅' },
-    { value: '5', label: 'Founders', icon: '👥' },
-    { value: '50+', label: 'Team Members', icon: '👨‍💻' },
-    { value: '3', label: 'Global Offices', icon: '🌍' }
-  ];
-
   const values = [
     {
       title: 'Quality First',
@@ -54,11 +47,17 @@ export default function AboutPage() {
     }
   ];
 
+  // Corrected to match verified facts already stated elsewhere on this page
+  // (hero: "founded in 2026", hero card: "2 passionate founders"). The San
+  // Francisco founding story and the Singapore/London "Global Expansion"
+  // entry were fabricated and contradicted those facts — removed, not
+  // TODO-flagged, per instruction that contradicted verified facts get
+  // corrected outright.
   const timeline = [
     {
       year: '2026',
       title: 'Company Founded',
-      desc: 'PureLatency was founded in San Francisco by a team of engineers and designers.',
+      desc: 'Pure Latency was founded in 2026 in Hyderabad, India, by two co-founders.',
       icon: '🚀',
       color: '#0066cc'
     },
@@ -68,75 +67,33 @@ export default function AboutPage() {
       desc: 'Starling Post, our intelligent communication platform, launched to early access.',
       icon: '📱',
       color: '#10B981'
-    },
-    {
-      year: '2026',
-      title: 'First Enterprise Client',
-      desc: 'Signed our first Fortune 500 client for digital transformation services.',
-      icon: '🏢',
-      color: '#F59E0B'
-    },
-    {
-      year: '2027',
-      title: 'Global Expansion',
-      desc: 'Opening offices in Singapore and London to serve clients worldwide.',
-      icon: '🌍',
-      color: '#7C3AED'
     }
+    // TODO: unverifiable claim removed — confirm with business before
+    // re-adding a "first enterprise client" milestone. Original text
+    // named an unspecified "Fortune 500 client for digital transformation
+    // services" with no company named or verified anywhere in this repo.
   ];
 
-  const leadership = [
-    {
-      name: 'Alex Rivera',
-      role: 'CEO & Co-Founder',
-      bio: 'Former engineering leader with 15 years in enterprise software.',
-      image: 'AR',
-      color: '#0066cc'
-    },
-    {
-      name: 'Jamie Chen',
-      role: 'CTO & Co-Founder',
-      bio: 'Cloud architecture expert, previously at major tech companies.',
-      image: 'JC',
-      color: '#10B981'
-    },
-    {
-      name: 'Sam Taylor',
-      role: 'Design Lead & Co-Founder',
-      bio: 'Award-winning designer focused on human-centered design.',
-      image: 'ST',
-      color: '#F59E0B'
-    },
-    {
-      name: 'Jordan Lee',
-      role: 'Engineering Lead & Co-Founder',
-      bio: 'Full-stack developer with passion for clean code and architecture.',
-      image: 'JL',
-      color: '#7C3AED'
-    },
-    {
-      name: 'Casey Morgan',
-      role: 'Strategy Lead & Co-Founder',
-      bio: 'Business strategist helping companies transform digitally.',
-      image: 'CM',
-      color: '#EC4899'
-    }
-  ];
+  // Leadership/team bios (Alex Rivera, Jamie Chen, Sam Taylor, Jordan Lee,
+  // Casey Morgan) deleted outright — fabricated named individuals with
+  // fabricated bios, not real people. This array was already unreachable
+  // in the UI (the tab switcher below only lists 'story' and 'values'),
+  // but per instruction, fabricated identities get deleted from source
+  // even when unreachable, not left in place. If real founder names/bios
+  // exist, they should be added back deliberately with verified content —
+  // ask the business rather than reintroducing placeholder people.
 
-  const offices = [
-    { city: 'San Francisco', country: 'USA', icon: '🌉', address: '548 Market St, San Francisco, CA 94104' },
-    { city: 'Singapore', country: 'Singapore', icon: '🏝️', address: 'Marina Bay Financial Centre, Singapore' },
-    { city: 'London', country: 'UK', icon: '🇬🇧', address: 'Tech City, London, UK' }
-  ];
+  // Offices array deleted outright — three fabricated addresses (San
+  // Francisco, Singapore, London) for offices that do not exist. Pure
+  // Latency has one verified location: Hyderabad, India (see CLAUDE.md /
+  // context.md). No replacement array needed for a single location already
+  // covered by the Organization JSON-LD address.
 
-  const clients = [
-    { name: 'TechVision', logo: 'TV', industry: 'SaaS' },
-    { name: 'GlobalBank', logo: 'GB', industry: 'Finance' },
-    { name: 'MediCore', logo: 'MC', industry: 'Healthcare' },
-    { name: 'EduSmart', logo: 'ES', industry: 'Education' },
-    { name: 'GreenEnergy', logo: 'GE', industry: 'Energy' },
-    { name: 'SpaceX', logo: 'SX', industry: 'Aerospace' }
-  ];
+  // Clients array deleted outright — named six companies as clients,
+  // including SpaceX, with zero backing anywhere in this repo. Same
+  // treatment as the fabricated testimonials removed from
+  // /services/overview in a prior pass: fabricated identity claims get
+  // deleted, not flagged or commented out.
 
   const socialMedia = [
     { 
@@ -302,35 +259,6 @@ export default function AboutPage() {
               ))}
             </div>
           </section>
-        )}
-
-        {activeTab === 'team' && (
-          <>
-            {/* Leadership */}
-            <section style={{ marginBottom: '6rem' }}>
-              <h2 className={styles.sectionTitle}>Meet Our Leadership</h2>
-              <p className={styles.sectionSubtitle}>
-                The passionate founders building PureLatency
-              </p>
-              <div className={styles.leadershipGrid}>
-                {leadership.map(leader => (
-                  <div key={leader.name} className={styles.leaderCard}>
-                    <div 
-                      className={styles.leaderAvatar}
-                      style={{ background: `linear-gradient(135deg, ${leader.color} 0%, #7C3AED 100%)` }}
-                    >
-                      {leader.image}
-                    </div>
-                    <h3 className={styles.leaderName}>{leader.name}</h3>
-                    <p className={styles.leaderRole} style={{ color: leader.color }}>
-                      {leader.role}
-                    </p>
-                    <p className={styles.leaderBio}>{leader.bio}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </>
         )}
 
         {/* CTA Section */}

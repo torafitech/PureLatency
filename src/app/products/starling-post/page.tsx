@@ -150,18 +150,11 @@ export default function StarlingPostPage() {
     'TensorFlow', 'OpenAI', 'AWS', 'Kubernetes'
   ];
 
-  const testimonials = [
-    {
-      quote: "Starling Post has transformed how our remote team communicates. The AI assistant alone saves us hours each week.",
-      author: "Sarah Chen",
-      role: "Product Lead, InnovateTech"
-    },
-    {
-      quote: "The task management integration is brilliant. We've reduced our tool stack from 5 apps to just Starling Post.",
-      author: "Michael Rodriguez",
-      role: "CTO, FinScale"
-    }
-  ];
+  // Testimonials array deleted outright — fabricated named individuals
+  // ("Sarah Chen, Product Lead, InnovateTech"; "Michael Rodriguez, CTO,
+  // FinScale") with zero backing anywhere in this repo. Same treatment as
+  // the fabricated testimonials removed from /services/overview and
+  // /about/page.tsx in prior passes.
 
   const socialMedia = [
     {
@@ -363,7 +356,7 @@ export default function StarlingPostPage() {
           <section style={{ marginBottom: '6rem' }}>
             <h2 className={styles.sectionTitle}>Simple, Transparent Pricing</h2>
             <p className={styles.sectionSubtitle}>
-              Choose the plan that's right for your team
+              Choose the plan that&apos;s right for your team
             </p>
             <div className={styles.pricingGrid}>
               {pricing.map(plan => (
@@ -445,23 +438,6 @@ export default function StarlingPostPage() {
               <span key={tech} className={styles.techItem}>
                 {tech}
               </span>
-            ))}
-          </div>
-        </section>
-
-        {/* Testimonials */}
-        <section style={{ marginBottom: '6rem' }}>
-          <h2 className={styles.sectionTitle}>Loved by Teams Everywhere</h2>
-          <div className={styles.testimonialsGrid}>
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className={styles.testimonialCard}>
-                <span className={styles.testimonialQuote}>"</span>
-                <p className={styles.testimonialText}>{testimonial.quote}</p>
-                <div>
-                  <strong className={styles.testimonialAuthor}>{testimonial.author}</strong>
-                  <p className={styles.testimonialRole}>{testimonial.role}</p>
-                </div>
-              </div>
             ))}
           </div>
         </section>

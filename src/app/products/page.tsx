@@ -126,22 +126,14 @@ export default function ProductsPage() {
     'Elasticsearch',
   ];
 
-  const testimonials = [
-    {
-      quote:
-        'Starling Post has transformed how our remote team communicates. The AI assistant alone saves us hours each week.',
-      author: 'Sarah Chen',
-      role: 'Product Lead, InnovateTech',
-      product: 'Starling Post',
-    },
-    {
-      quote:
-        "The workflow automation capabilities are incredible. We've reduced manual work by 60% since implementing Nexus Flow.",
-      author: 'Michael Rodriguez',
-      role: 'CTO, FinScale',
-      product: 'Nexus Flow',
-    },
-  ];
+  // Testimonials array deleted outright — fabricated named individuals
+  // ("Sarah Chen, Product Lead, InnovateTech"; "Michael Rodriguez, CTO,
+  // FinScale") with zero backing anywhere in this repo, one of them
+  // claiming live usage of "Nexus Flow" despite that product's own roadmap
+  // entry above marking it "Coming Soon" / Q3 2026. Same treatment as the
+  // fabricated testimonials removed from /services/overview and
+  // /about/page.tsx in prior passes: fabricated identity claims get
+  // deleted, not flagged or commented out.
 
   const socialMedia = [
     {
@@ -398,25 +390,6 @@ export default function ProductsPage() {
               <span key={tech} className={styles.techItem}>
                 {tech}
               </span>
-            ))}
-          </div>
-        </section>
-
-        {/* Testimonials */}
-        <section style={{ marginBottom: '5rem' }}>
-          <h2 className={styles.sectionTitle}>What Our Users Say</h2>
-          <div className={styles.testimonialsGrid}>
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className={styles.testimonialCard}>
-                <span className={styles.testimonialQuote}>"</span>
-                <p className={styles.testimonialText}>{testimonial.quote}</p>
-                <div>
-                  <strong className={styles.testimonialAuthor}>{testimonial.author}</strong>
-                  <p className={styles.testimonialMeta}>
-                    {testimonial.role} · {testimonial.product}
-                  </p>
-                </div>
-              </div>
             ))}
           </div>
         </section>

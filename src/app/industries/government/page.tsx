@@ -190,16 +190,16 @@ export default function GovernmentPage() {
     }
   ];
 
-  const compliance = [
-    { name: 'FedRAMP', logo: 'FR', type: 'Federal' },
-    { name: 'FISMA', logo: 'FM', type: 'Federal' },
-    { name: 'CJIS', logo: 'CJ', type: 'Criminal Justice' },
-    { name: 'HIPAA', logo: 'HP', type: 'Healthcare' },
-    { name: 'SOC 2', logo: 'S2', type: 'Security' },
-    { name: 'ISO 27001', logo: 'IS', type: 'Security' },
-    { name: 'WCAG', logo: 'WA', type: 'Accessibility' },
-    { name: 'Section 508', logo: '508', type: 'Accessibility' }
-  ];
+  // Deleted outright, not TODO-flagged — this claimed certified compliance
+  // with FedRAMP, FISMA, CJIS, HIPAA, SOC 2, ISO 27001, WCAG, and Section
+  // 508 under the heading "We meet the strictest government requirements."
+  // These are real, specific, audited certification programs; none of
+  // them are documented anywhere else in this repo, and falsely claiming
+  // federal compliance certification on a government-facing sales page is
+  // the most serious misrepresentation found in this pass. If any of
+  // these certifications are real, they should be re-added individually
+  // with verification (audit date, certifying body) — not as a blanket
+  // claimed list.
 
   const faqs = [
     {
@@ -531,23 +531,6 @@ export default function GovernmentPage() {
             </div>
           </section>
         )}
-
-        {/* Compliance Standards */}
-        <section style={{ marginBottom: '6rem' }}>
-          <h2 className={styles.sectionTitle}>Compliance & Security Standards</h2>
-          <p className={styles.sectionSubtitle}>
-            We meet the strictest government requirements
-          </p>
-          <div className={styles.complianceGrid}>
-            {compliance.map(standard => (
-              <div key={standard.name} className={styles.complianceItem}>
-                <div className={styles.complianceLogo}>{standard.logo}</div>
-                <div className={styles.complianceName}>{standard.name}</div>
-                <div className={styles.complianceType}>{standard.type}</div>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* Technology Stack */}
         <section style={{ marginBottom: '6rem' }}>
