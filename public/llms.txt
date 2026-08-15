@@ -1,0 +1,23 @@
+# Pure Latency
+
+> Pure Latency is a technology company based in Hyderabad, India, providing AI, IT, and infrastructure services, and building its own proprietary products, for enterprises, telcos, government, and space-tech clients.
+
+## Services
+
+- [Applications](https://purelatency.com/services/applications): Custom web and mobile application development, from discovery through launch and support.
+- [Web Development](https://purelatency.com/services/web-development): Websites and web applications built with modern frameworks (React, Next.js) and cloud deployment.
+- [Data and AI](https://purelatency.com/services/data-ai): Data pipelines, machine learning, and AI system development, including generative AI and conversational AI integration.
+- [Cloud and DevOps](https://purelatency.com/services/cloud-devops): Cloud infrastructure automation, containerization, CI/CD pipelines, and observability tooling.
+- [Infrastructure](https://purelatency.com/services/infrastructure): IT infrastructure design, deployment, and management for enterprise environments.
+- [Quantum Compute](https://purelatency.com/services/quantum-compute): Early-stage / by inquiry — quantum computing consulting and algorithm exploration, not yet an established production practice.
+- [Fiber Optics](https://purelatency.com/services/fiber-optics): Early-stage / by inquiry — fiber optic network installation and testing services, offered on a project-inquiry basis.
+
+## Products
+
+- [Starling Post](https://purelatency.com/products/starling-post): Pure Latency's proprietary product.
+
+## About
+
+- [About Pure Latency](https://purelatency.com/about): Company overview, purpose, and beliefs.
+- [Industries](https://purelatency.com/industries): Enterprise, telco & space, and government sectors served.
+- [Contact](https://purelatency.com/contact): Contact form and inquiry channel.

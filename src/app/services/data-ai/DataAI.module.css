@@ -684,6 +684,68 @@
   }
 }
 
+/* What We Build (body copy) */
+.bodySection {
+  max-width: 800px;
+  margin: 0 auto 6rem;
+}
+
+@media (max-width: 768px) {
+  .bodySection {
+    margin-bottom: 3rem;
+  }
+}
+
+.bodyText {
+  color: #4a4a4d;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+.inlineLink {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+/* FAQ */
+.faqSection {
+  max-width: 800px;
+  margin: 0 auto 6rem;
+}
+
+@media (max-width: 768px) {
+  .faqSection {
+    margin-bottom: 3rem;
+  }
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.faqItem {
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: #fafafa;
+  border: 1px solid #e6e6e9;
+}
+
+.faqQuestion {
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  color: #1d1d1f;
+  margin-bottom: 0.5rem;
+}
+
+.faqAnswer {
+  color: #4a4a4d;
+  font-size: clamp(0.9rem, 2.5vw, 0.95rem);
+  line-height: 1.7;
+}
+
 /* CTA Section */
 .ctaSection {
   margin-top: 3rem;

@@ -10,8 +10,13 @@ const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300','400','500','600'], 
 
 export const metadata: Metadata = {
   title: 'Pure Latency',
-  description: 'Leading digital and technology services company in Hyderabad, India.',
-  icons: { icon: '/favicon.png', shortcut: '/favicon.png', apple: '/favicon.png' },
+  description:
+    'Pure Latency provides applications, web development, data and AI, cloud and DevOps, and infrastructure services for enterprises, telcos, and government, based in Hyderabad, India.',
+  // TODO: /public/favicon.png referenced by the previous config does not
+  // exist in the repo. Pointing at the existing logo asset as a working
+  // fallback — replace with a dedicated favicon (ideally a small square
+  // PNG/ICO, not the full logo) when one is available.
+  icons: { icon: '/images/logo.png', shortcut: '/images/logo.png', apple: '/images/logo.png' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

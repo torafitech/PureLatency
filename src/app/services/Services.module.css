@@ -280,6 +280,13 @@
   color: #0066cc;
 }
 
+.heroCardSubtitle {
+  color: #86868b;
+  font-size: clamp(0.95rem, 2.5vw, 1rem);
+  line-height: 1.6;
+  text-align: center;
+}
+
 /* Stats Banner */
 .statsBanner {
   display: grid;
@@ -1006,4 +1013,46 @@
   .content {
     max-width: 100%;
   }
+}
+
+/* Factual body copy + FAQ (SEO/GEO content sections) */
+.bodySection {
+  max-width: 800px;
+  margin: 0 auto 6rem;
+  padding: 0 1rem;
+}
+
+.bodySection p {
+  color: #424245;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+.bodySection a {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+.faqSection {
+  max-width: 800px;
+  margin: 0 auto 6rem;
+  padding: 0 1rem;
+}
+
+.faqItem {
+  border-bottom: 1px solid #e6e6e9;
+  padding: 1.5rem 0;
+}
+
+.faqQuestion {
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  color: #1d1d1f;
+  margin-bottom: 0.5rem;
+}
+
+.faqAnswer {
+  color: #86868b;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  line-height: 1.6;
 }

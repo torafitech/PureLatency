@@ -22,7 +22,7 @@ const coreServices = [
     title: "Data and AI",
     href: "/services/data-ai",
     desc: "Intelligent systems that transform raw data into actionable insights and competitive advantage.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/data-ai.svg",
   },
   {
     title: "Cloud and DevOps",

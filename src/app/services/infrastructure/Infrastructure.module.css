@@ -87,9 +87,12 @@
 }
 
 /* Hero Section */
+/* grid-template-columns changed from "1fr 1fr" to "1fr" — the right-column
+   heroCard (fabricated uptime/latency/compliance checklist) was removed
+   entirely per content policy, see InfrastructureContent.tsx */
 .heroGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 4rem;
   margin-bottom: 6rem;
   align-items: center;
@@ -681,6 +684,69 @@
   .techItem {
     padding: 0.4rem 0.8rem;
     font-size: 0.8rem;
+  }
+}
+
+/* Infrastructure Overview (factual body copy) */
+.bodySection {
+  max-width: 800px;
+  margin: 0 auto 6rem;
+  padding: 0 1rem;
+}
+
+.bodySection h2 {
+  font-size: clamp(2rem, 6vw, 2.5rem);
+  font-weight: 300;
+  color: #1d1d1f;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.bodySection p {
+  color: #444;
+  font-size: clamp(1rem, 2.5vw, 1.05rem);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+.bodySection a {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .bodySection {
+    margin-bottom: 3rem;
+  }
+}
+
+/* FAQ */
+.faqSection {
+  max-width: 800px;
+  margin: 0 auto 6rem;
+  padding: 0 1rem;
+}
+
+.faqItem {
+  margin-bottom: 2rem;
+}
+
+.faqItem h3 {
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-weight: 500;
+  color: #1d1d1f;
+  margin-bottom: 0.5rem;
+}
+
+.faqItem p {
+  color: #86868b;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .faqSection {
+    margin-bottom: 3rem;
   }
 }
 

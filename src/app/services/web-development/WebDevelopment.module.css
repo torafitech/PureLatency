@@ -440,6 +440,54 @@
   font-size: clamp(0.8rem, 2.5vw, 0.9rem);
 }
 
+/* Body Copy Section */
+.bodySection {
+  margin-bottom: 4rem;
+}
+
+.bodyText {
+  color: #4b4b50;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
+}
+
+.bodyText:last-child {
+  margin-bottom: 0;
+}
+
+.bodyLink {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+/* FAQ Section */
+.faqSection {
+  margin-bottom: 4rem;
+}
+
+.faqItem {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #e6e6e9;
+}
+
+.faqItem:last-child {
+  border-bottom: none;
+}
+
+.faqQuestion {
+  font-size: clamp(1rem, 3vw, 1.15rem);
+  color: #1d1d1f;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.faqAnswer {
+  color: #86868b;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  line-height: 1.7;
+}
+
 /* CTA Section */
 .ctaSection {
   margin-top: 3rem;
