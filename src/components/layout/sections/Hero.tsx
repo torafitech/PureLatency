@@ -292,7 +292,8 @@ export default function Hero() {
 
           <motion.p {...fadeUp(0.34)} className="hero-desc">
             We design, build, and operate AI-native systems and infrastructure —
-            engineered for the next generation of enterprise.
+            engineered for the next generation of enterprise. Based in Hyderabad,
+            we work with clients across time zones as a remote-first team.
           </motion.p>
 
           <motion.div {...fadeUp(0.46)} className="hero-ctas">

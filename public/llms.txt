@@ -2,6 +2,8 @@
 
 > Pure Latency is a technology company based in Hyderabad, India, providing AI, IT, and infrastructure services, and building its own proprietary products, for enterprises, telcos, government, and space-tech clients.
 
+Pure Latency is based in Hyderabad, India, and works with clients internationally via remote engagement.
+
 ## Services
 
 - [Applications](https://purelatency.com/services/applications): Custom web and mobile application development, from discovery through launch and support.

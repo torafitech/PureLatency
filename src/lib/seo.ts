@@ -21,6 +21,10 @@ export function organizationJsonLd() {
       addressRegion: 'Telangana',
       addressCountry: 'IN',
     },
+    // Physical location stays Hyderabad (true); areaServed is a service-
+    // radius claim, not a presence claim — defensible for a remote
+    // engineering/services company without implying local offices elsewhere.
+    areaServed: 'Worldwide',
     sameAs: ORG_SAME_AS,
   };
 }

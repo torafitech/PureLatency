@@ -200,7 +200,7 @@ export default function AboutPage() {
               👋 Meet PureLatency
             </div>
             <h1 className={styles.heroTitle}>
-              We're on a mission to<br />
+              We&apos;re on a mission to<br />
               <span className={styles.heroTitleGradient}>
                 build exceptional software
               </span>
@@ -267,8 +267,9 @@ export default function AboutPage() {
                 <h2 className={styles.missionTitle}>Our Mission</h2>
                 <p className={styles.missionText}>
                   To build reliable and scalable digital systems that help businesses
-                  move faster and innovate with confidence. We believe technology should 
-                  solve real problems and create lasting value.
+                  move faster and innovate with confidence. We believe technology should
+                  solve real problems and create lasting value. Based in Hyderabad, we
+                  work with clients across time zones as a remote-first team.
                 </p>
               </div>
               <div className={styles.missionCard}>

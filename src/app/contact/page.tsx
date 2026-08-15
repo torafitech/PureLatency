@@ -248,6 +248,11 @@ const docRef = await Promise.race([
             the request purpose for our follow-up.
           </p>
 
+          <p className={styles.description}>
+            Our team is based in Hyderabad (IST) and available to coordinate
+            around US, EU, and GCC business hours.
+          </p>
+
           {submitStatus.type && (
             <div
               className={`${styles.statusMessage} ${
