@@ -1,7 +1,8 @@
 # PureLatency — Project Context
 
 ## Company
-**Pure Latency** is a next-generation technology company based in Hyderabad, India.
+**Pure Latency** is a next-generation technology company based in Bangalore, India.
+Registered entity: **PURE LATENCY (OPC) PRIVATE LIMITED** — D No 102, Flat No 302, SLC Cresta, 4th Cross, Electronics City, Bangalore South, Bangalore 560100, Karnataka. Single source in code: `ORG_ADDRESS` in `src/lib/seo.ts`.
 It provides AI, IT, and infrastructure services, and also ships its own proprietary products.
 
 ### Positioning

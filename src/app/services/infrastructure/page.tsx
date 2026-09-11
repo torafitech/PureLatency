@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { SITE_URL, organizationJsonLd, serviceJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import InfrastructureContent from './InfrastructureContent';
 
-const title = 'Infrastructure | Pure Latency — Hyderabad';
+const title = 'Infrastructure | Pure Latency — Bangalore';
 const description =
-  'Pure Latency builds network architecture, cloud infrastructure, security, and database systems for enterprises, telcos, and government, based in Hyderabad.';
+  'Pure Latency builds network architecture, cloud infrastructure, security, and database systems for enterprises, telcos, and government, based in Bangalore.';
 
 export const metadata: Metadata = {
   title,

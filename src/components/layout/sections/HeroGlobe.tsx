@@ -15,7 +15,7 @@ interface Arc {
 }
 
 const CITIES = {
-  hyderabad: { lat: 17.4, lng: 78.5 },
+  bangalore: { lat: 13.0, lng: 77.6 },
   singapore: { lat: 1.3, lng: 103.8 },
   london: { lat: 51.5, lng: -0.1 },
   newYork: { lat: 40.7, lng: -74.0 },
@@ -26,11 +26,11 @@ const CITIES = {
 }
 
 const ARCS: Arc[] = [
-  { startLat: CITIES.hyderabad.lat, startLng: CITIES.hyderabad.lng, endLat: CITIES.singapore.lat, endLng: CITIES.singapore.lng, dashTime: 2600 },
-  { startLat: CITIES.hyderabad.lat, startLng: CITIES.hyderabad.lng, endLat: CITIES.london.lat, endLng: CITIES.london.lng, dashTime: 4200 },
-  { startLat: CITIES.hyderabad.lat, startLng: CITIES.hyderabad.lng, endLat: CITIES.dubai.lat, endLng: CITIES.dubai.lng, dashTime: 2000 },
-  { startLat: CITIES.hyderabad.lat, startLng: CITIES.hyderabad.lng, endLat: CITIES.tokyo.lat, endLng: CITIES.tokyo.lng, dashTime: 3000 },
-  { startLat: CITIES.hyderabad.lat, startLng: CITIES.hyderabad.lng, endLat: CITIES.sydney.lat, endLng: CITIES.sydney.lng, dashTime: 4800 },
+  { startLat: CITIES.bangalore.lat, startLng: CITIES.bangalore.lng, endLat: CITIES.singapore.lat, endLng: CITIES.singapore.lng, dashTime: 2600 },
+  { startLat: CITIES.bangalore.lat, startLng: CITIES.bangalore.lng, endLat: CITIES.london.lat, endLng: CITIES.london.lng, dashTime: 4200 },
+  { startLat: CITIES.bangalore.lat, startLng: CITIES.bangalore.lng, endLat: CITIES.dubai.lat, endLng: CITIES.dubai.lng, dashTime: 2000 },
+  { startLat: CITIES.bangalore.lat, startLng: CITIES.bangalore.lng, endLat: CITIES.tokyo.lat, endLng: CITIES.tokyo.lng, dashTime: 3000 },
+  { startLat: CITIES.bangalore.lat, startLng: CITIES.bangalore.lng, endLat: CITIES.sydney.lat, endLng: CITIES.sydney.lng, dashTime: 4800 },
   { startLat: CITIES.london.lat, startLng: CITIES.london.lng, endLat: CITIES.newYork.lat, endLng: CITIES.newYork.lng, dashTime: 2400 },
   { startLat: CITIES.newYork.lat, startLng: CITIES.newYork.lng, endLat: CITIES.sanFrancisco.lat, endLng: CITIES.sanFrancisco.lng, dashTime: 2200 },
   { startLat: CITIES.dubai.lat, startLng: CITIES.dubai.lng, endLat: CITIES.singapore.lat, endLng: CITIES.singapore.lng, dashTime: 3400 },

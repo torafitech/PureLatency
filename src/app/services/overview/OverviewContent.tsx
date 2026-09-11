@@ -331,7 +331,7 @@ export default function Overview() {
         <section className={styles.bodySection}>
           <h2 className={styles.sectionTitle}>What This Page Covers</h2>
           <p>
-            This is a services overview for Pure Latency, a Hyderabad, India-based technology
+            This is a services overview for Pure Latency, a Bangalore, India-based technology
             company. Full details on each service — including the specific tools and
             technologies used, FAQs, and industry fit — live on the{' '}
             <Link href="/services">main Services page</Link> and on each individual service

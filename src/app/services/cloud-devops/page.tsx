@@ -5,7 +5,7 @@ import CloudDevOpsContent from './CloudDevOpsContent';
 const description =
   "Pure Latency's Cloud and DevOps services cover Infrastructure as Code, Kubernetes orchestration, CI/CD pipelines, and monitoring for enterprise clients.";
 
-const title = 'Cloud and DevOps | Pure Latency — Hyderabad';
+const title = 'Cloud and DevOps | Pure Latency — Bangalore';
 
 export const metadata: Metadata = {
   title,

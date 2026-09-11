@@ -11,7 +11,7 @@ const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300','400','500','600'], 
 export const metadata: Metadata = {
   title: 'Pure Latency',
   description:
-    'Pure Latency provides applications, web development, data and AI, cloud and DevOps, and infrastructure services for enterprises, telcos, and government, based in Hyderabad, India.',
+    'Pure Latency provides applications, web development, data and AI, cloud and DevOps, and infrastructure services for enterprises, telcos, and government, based in Bangalore, India.',
   // TODO: /public/favicon.png referenced by the previous config does not
   // exist in the repo. Pointing at the existing logo asset as a working
   // fallback — replace with a dedicated favicon (ideally a small square

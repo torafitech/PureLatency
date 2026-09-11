@@ -6,7 +6,7 @@ const description =
   'Quantum computing consulting from Pure Latency — algorithm exploration and hardware-access guidance for enterprises evaluating quantum use cases, offered by inquiry.';
 
 export const metadata: Metadata = {
-  title: 'Quantum Compute | Pure Latency — Hyderabad',
+  title: 'Quantum Compute | Pure Latency — Bangalore',
   description,
   alternates: { canonical: `${SITE_URL}/services/quantum-compute` },
   openGraph: {

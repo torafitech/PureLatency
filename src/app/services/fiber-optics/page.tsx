@@ -6,7 +6,7 @@ const description =
   'Fiber optic network installation, testing, and maintenance from Pure Latency, offered by inquiry for telecommunications, data center, and enterprise network projects.';
 
 export const metadata: Metadata = {
-  title: 'Fiber Optics | Pure Latency — Hyderabad',
+  title: 'Fiber Optics | Pure Latency — Bangalore',
   description,
   alternates: { canonical: `${SITE_URL}/services/fiber-optics` },
   openGraph: {

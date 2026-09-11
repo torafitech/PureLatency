@@ -12,20 +12,20 @@ const description =
   'Pure Latency builds custom web, mobile, and enterprise applications with React, Next.js, React Native, Flutter, and Node.js for enterprise and telecom clients.';
 
 export const metadata: Metadata = {
-  title: 'Applications | Pure Latency — Hyderabad',
+  title: 'Applications | Pure Latency — Bangalore',
   description,
   alternates: {
     canonical: `${SITE_URL}/services/applications`,
   },
   openGraph: {
-    title: 'Applications | Pure Latency — Hyderabad',
+    title: 'Applications | Pure Latency — Bangalore',
     description,
     url: `${SITE_URL}/services/applications`,
     images: [{ url: `${SITE_URL}/images/applications.png` }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Applications | Pure Latency — Hyderabad',
+    title: 'Applications | Pure Latency — Bangalore',
     description,
     images: [`${SITE_URL}/images/applications.png`],
   },

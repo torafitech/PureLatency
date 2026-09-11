@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { SITE_URL, organizationJsonLd, breadcrumbJsonLd, itemListJsonLd, faqJsonLd } from '@/lib/seo';
 import ServicesContent from './ServicesContent';
 
-const title = 'Services | Pure Latency — Hyderabad';
+const title = 'Services | Pure Latency — Bangalore';
 const description =
-  'Pure Latency offers applications, web development, data and AI, cloud and DevOps, infrastructure, fiber optics, and quantum compute services from Hyderabad, India.';
+  'Pure Latency offers applications, web development, data and AI, cloud and DevOps, infrastructure, fiber optics, and quantum compute services from Bangalore, India.';
 
 export const metadata: Metadata = {
   title,
@@ -43,7 +43,7 @@ const faqItems = [
   {
     question: 'Where is Pure Latency based?',
     answer:
-      'Pure Latency is based in Hyderabad, India. Engagements are not limited to clients in India — the technology stack and delivery process are the same regardless of client location.',
+      'Pure Latency is based in Bangalore, India. Engagements are not limited to clients in India — the technology stack and delivery process are the same regardless of client location.',
   },
   {
     question: 'What kind of clients does Pure Latency work with?',

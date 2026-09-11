@@ -14,18 +14,18 @@ const description =
 const ogImage = `${SITE_URL}/images/ai-services.png`;
 
 export const metadata: Metadata = {
-  title: 'Data and AI | Pure Latency — Hyderabad',
+  title: 'Data and AI | Pure Latency — Bangalore',
   description,
   alternates: { canonical: `${SITE_URL}/services/data-ai` },
   openGraph: {
-    title: 'Data and AI | Pure Latency — Hyderabad',
+    title: 'Data and AI | Pure Latency — Bangalore',
     description,
     url: `${SITE_URL}/services/data-ai`,
     images: [{ url: ogImage }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Data and AI | Pure Latency — Hyderabad',
+    title: 'Data and AI | Pure Latency — Bangalore',
     description,
     images: [ogImage],
   },

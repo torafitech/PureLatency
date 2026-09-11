@@ -43,7 +43,7 @@ export default function OverviewPage() {
 
   // originStory deleted outright — built entirely around the same
   // fabricated San Francisco founding story that contradicted verified
-  // facts elsewhere in this repo (Hyderabad, 2026, two founders), plus
+  // facts elsewhere in this repo (Bangalore, 2026, two founders), plus
   // fictional embellishment (a leaky office ceiling, a founding "napkin
   // sketch") with no factual basis. Same correction as the timeline fix
   // in about/page.tsx, applied here by deletion since there's no
@@ -86,7 +86,7 @@ export default function OverviewPage() {
 
   // theSpace deleted outright — fabricated San Francisco / Singapore /
   // London office descriptions. Same treatment as the offices array
-  // deleted from about/page.tsx: one verified location, Hyderabad,
+  // deleted from about/page.tsx: one verified location, Bangalore,
   // already covered by the Organization JSON-LD address.
 
   // theUnexpected deleted outright — fictional workplace details (a named

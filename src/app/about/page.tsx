@@ -4,6 +4,7 @@ import Navbar from '@/components/layout/Navbar';
 import { useState } from 'react';
 import styles from './About.module.css'; // adjust path as needed
 import Footer from '@/components/layout/Footer';
+import { ORG_ADDRESS, ORG_LEGAL_NAME } from '@/lib/seo';
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState('story');
@@ -57,7 +58,7 @@ export default function AboutPage() {
     {
       year: '2026',
       title: 'Company Founded',
-      desc: 'Pure Latency was founded in 2026 in Hyderabad, India, by two co-founders.',
+      desc: 'Pure Latency was founded in 2026 in Bangalore, India, by two co-founders.',
       icon: '🚀',
       color: '#0066cc'
     },
@@ -85,9 +86,9 @@ export default function AboutPage() {
 
   // Offices array deleted outright — three fabricated addresses (San
   // Francisco, Singapore, London) for offices that do not exist. Pure
-  // Latency has one verified location: Hyderabad, India (see CLAUDE.md /
-  // context.md). No replacement array needed for a single location already
-  // covered by the Organization JSON-LD address.
+  // Latency has one verified location: the Bangalore registered office,
+  // rendered below from ORG_ADDRESS (lib/seo.ts) so it can't drift from the
+  // Organization JSON-LD.
 
   // Clients array deleted outright — named six companies as clients,
   // including SpaceX, with zero backing anywhere in this repo. Same
@@ -225,7 +226,7 @@ export default function AboutPage() {
                 <p className={styles.missionText}>
                   To build reliable and scalable digital systems that help businesses
                   move faster and innovate with confidence. We believe technology should
-                  solve real problems and create lasting value. Based in Hyderabad, we
+                  solve real problems and create lasting value. Based in Bangalore, we
                   work with clients across time zones as a remote-first team.
                 </p>
               </div>
@@ -260,6 +261,19 @@ export default function AboutPage() {
             </div>
           </section>
         )}
+
+        <section className={styles.addressSection}>
+          <h2 className={styles.sectionTitle}>Registered Office</h2>
+          <address className={styles.addressCard}>
+            <strong className={styles.addressName}>{ORG_LEGAL_NAME}</strong>
+            {ORG_ADDRESS.street.map(line => (
+              <span key={line}>{line}</span>
+            ))}
+            <span>
+              {ORG_ADDRESS.locality} {ORG_ADDRESS.postalCode}, {ORG_ADDRESS.region}, {ORG_ADDRESS.country}
+            </span>
+          </address>
+        </section>
 
         {/* CTA Section */}
         <section className={styles.ctaSection}>

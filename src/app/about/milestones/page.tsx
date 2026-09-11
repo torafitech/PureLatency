@@ -12,7 +12,7 @@ export default function MilestonesPage() {
   // Sofia — the same fake-founder personas removed from about/page.tsx and
   // about/overview/page.tsx), a fabricated industry award, a fabricated
   // company retreat in Tahoe, and an "Incorporation Day" claim that
-  // conflicts with the verified founding story (2026, Hyderabad, two
+  // conflicts with the verified founding story (2026, Bangalore, two
   // founders) already corrected on about/page.tsx. This is a full
   // fictional company history presented as fact, not a stat to flag —
   // deleted, not corrected, since there's no verified equivalent to

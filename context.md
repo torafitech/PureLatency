@@ -1,7 +1,7 @@
 # context.md — Pure Latency (business/product context)
 
 ## Company
-Pure Latency (purelatency.com) — AI + IT services company, Hyderabad, India.
+Pure Latency (purelatency.com) — AI + IT services company, Bangalore, India.
 Positioning: next-gen enterprise technology platform. Pillars: AI · Infrastructure · Products.
 Targets: enterprises, telcos, government, space-tech.
 
@@ -65,7 +65,7 @@ Instagram, Facebook, Twitter: @purelatency
   hand-rolled raw-Three.js `GlobeScene`/`WaveCanvas` (previously inline in `Hero.tsx`) with
   `src/components/layout/sections/HeroGlobe.tsx` — client component, dynamically imported
   (`ssr: false`) from `Hero.tsx`. Flat dark globe (`#06091a`, real site hex), white low-opacity
-  atmosphere, 10 hardcoded arcs between global hub cities (Hyderabad-centric), slow auto-rotate,
+  atmosphere, 10 hardcoded arcs between global hub cities (Bangalore-centric), slow auto-rotate,
   zoom/pan disabled, camera POV set to `{lat:20, lng:60}` so arcs stay visible against default
   rotation. Sizes responsively via `ResizeObserver` to fill `.hero-scene`'s existing footprint —
   scope stayed strictly inside that div, `.hero-text` untouched. Country border outlines added

@@ -249,7 +249,7 @@ const docRef = await Promise.race([
           </p>
 
           <p className={styles.description}>
-            Our team is based in Hyderabad (IST) and available to coordinate
+            Our team is based in Bangalore (IST) and available to coordinate
             around US, EU, and GCC business hours.
           </p>
 

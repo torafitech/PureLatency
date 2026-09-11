@@ -10,7 +10,7 @@ import OverviewContent from './OverviewContent';
 // search engines consolidate ranking signal there instead of splitting it
 // across two near-identical URLs. It's kept live (not noindexed/deleted)
 // since it may still be linked externally or bookmarked.
-const title = 'Services Overview | Pure Latency — Hyderabad';
+const title = 'Services Overview | Pure Latency — Bangalore';
 const description =
   'Overview of Pure Latency’s technology services: applications, web development, data and AI, cloud and DevOps, infrastructure, fiber optics, and quantum compute.';
 

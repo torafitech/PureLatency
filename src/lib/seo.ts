@@ -1,5 +1,15 @@
 export const SITE_URL = 'https://purelatency.com';
 export const ORG_NAME = 'Pure Latency';
+export const ORG_LEGAL_NAME = 'Pure Latency (OPC) Private Limited';
+
+export const ORG_ADDRESS = {
+  street: ['D No 102, Flat No 302, SLC Cresta, 4th Cross', 'Electronics City, Bangalore South'],
+  locality: 'Bangalore',
+  region: 'Karnataka',
+  postalCode: '560100',
+  country: 'India',
+  countryCode: 'IN',
+};
 
 export const ORG_SAME_AS = [
   'https://instagram.com/purelatency',
@@ -13,15 +23,18 @@ export function organizationJsonLd() {
     '@type': 'Organization',
     '@id': `${SITE_URL}/#organization`,
     name: ORG_NAME,
+    legalName: ORG_LEGAL_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/images/logo.png`,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Hyderabad',
-      addressRegion: 'Telangana',
-      addressCountry: 'IN',
+      streetAddress: ORG_ADDRESS.street.join(', '),
+      addressLocality: ORG_ADDRESS.locality,
+      addressRegion: ORG_ADDRESS.region,
+      postalCode: ORG_ADDRESS.postalCode,
+      addressCountry: ORG_ADDRESS.countryCode,
     },
-    // Physical location stays Hyderabad (true); areaServed is a service-
+    // Physical location stays the Bangalore registered office; areaServed is a service-
     // radius claim, not a presence claim — defensible for a remote
     // engineering/services company without implying local offices elsewhere.
     areaServed: 'Worldwide',

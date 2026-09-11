@@ -3,21 +3,21 @@ import { SITE_URL, organizationJsonLd, serviceJsonLd, breadcrumbJsonLd, faqJsonL
 import WebDevelopmentContent from './WebDevelopmentContent';
 
 const description =
-  'Web development services from Pure Latency: React, Next.js, and Node.js applications, APIs, and platforms for enterprises, telcos, and government in Hyderabad.';
+  'Web development services from Pure Latency: React, Next.js, and Node.js applications, APIs, and platforms for enterprises, telcos, and government in Bangalore.';
 
 export const metadata: Metadata = {
-  title: 'Web Development | Pure Latency — Hyderabad',
+  title: 'Web Development | Pure Latency — Bangalore',
   description,
   alternates: { canonical: `${SITE_URL}/services/web-development` },
   openGraph: {
-    title: 'Web Development | Pure Latency — Hyderabad',
+    title: 'Web Development | Pure Latency — Bangalore',
     description,
     url: `${SITE_URL}/services/web-development`,
     images: [{ url: `${SITE_URL}/images/web-development.png` }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Web Development | Pure Latency — Hyderabad',
+    title: 'Web Development | Pure Latency — Bangalore',
     description,
     images: [`${SITE_URL}/images/web-development.png`],
   },

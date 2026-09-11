@@ -331,9 +331,9 @@ export default function ServicesContent({ faqItems }: { faqItems: FaqItem[] }) {
 
         {/* Services Overview (factual body copy) */}
         <section className={styles.bodySection}>
-          <h2 className={styles.sectionTitle}>Technology Services From Hyderabad</h2>
+          <h2 className={styles.sectionTitle}>Technology Services From Bangalore</h2>
           <p>
-            Pure Latency is a technology company based in Hyderabad, India, organized around
+            Pure Latency is a technology company based in Bangalore, India, organized around
             seven service lines: application development, web development, data and AI, cloud
             and DevOps, infrastructure, fiber optics, and quantum computing. The first five are
             active engineering practices built on an open technology stack — React, Next.js,
