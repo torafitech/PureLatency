@@ -17,7 +17,7 @@ const WhatsAppWidget = () => {
   const handleSend = () => {
     if (!message.trim()) return;
     // Your WhatsApp number (country code + number, NO spaces, NO +)
-    const phoneNumber = '919676191370'; // 91 + 96761 91370
+    const phoneNumber = '919606389755'; // 91 + 96063 89755
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
     setMessage('');
